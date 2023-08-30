@@ -3,9 +3,15 @@
 	import '../styles/styles.scss';
 
 	const currentYear = new Date().getFullYear()
+	const mastodonLink = "https://meow.social/@senex"
 </script>
 
+<svelte:head>
+	<link rel="me" href="{mastodonLink}">
+</svelte:head>
+
 <div class="app">
+
 	<Header />
 
 	<main>
@@ -44,10 +50,6 @@
 		justify-content: center;
 		align-items: center;
 		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
 	}
 
 	@include breakpoint('xs') {

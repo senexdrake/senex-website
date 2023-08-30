@@ -10,7 +10,7 @@
 
 <section id="home">
 	<picture id="profile-pic">
-		<img src={senexProfile} alt="Senex profile picture" />
+		<img src={senexProfile} alt="Senex profile" />
 	</picture>
 
 	<div id="about-me" class="text-center">
