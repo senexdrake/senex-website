@@ -1,0 +1,5 @@
+@mixin whenDark($dark: true) {
+  @media (prefers-color-scheme: if($dark, dark, light)) {
+    @content
+  }
+}
