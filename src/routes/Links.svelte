@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {LinkItem} from "@/types";
+    import type {LinkItem} from "$lib/model/types";
     import '@styles/styles.scss';
 
     const links: LinkItem[] = [
