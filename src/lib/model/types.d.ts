@@ -1,7 +1,11 @@
+import type {LinkType} from "$lib/model/LinkType";
+
 export interface LinkItem {
     target: string,
     name: string,
-    icon?: string
+    order: number
+    icon?: string,
+    linkType?: LinkType
 }
 
 export interface Image {

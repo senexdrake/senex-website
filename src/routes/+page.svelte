@@ -14,19 +14,26 @@
 		<source srcset="{senexProfile}" type="image/webp">
 		<img src={senexProfileFallback} alt="Senex profile" />
 	</picture>
-
+	<hr class="default">
 	<div id="about-me" class="text-center">
-		Hey, I'm Senex, also known as ArisenDrake. <br>
-		This is a small overview page for me and my fursona, a pretty big (and massive) dragon.
+		<p>Hey, I'm <span class="font-weight-bold">Senex</span>, also known as ArisenDrake in my... eh... non-furry related activities!</p>
+		<p>This is a small overview page for me and my fursona, a pretty big (and massive) dragon.</p>
+		<p>
+			Don't have much to say here, except that I <span class="font-italic">LOVE</span> big fellas, especially dragons.
+			Also, please expect NSFW content on my art galleries.
+		</p>
 	</div>
-
+	<hr class="default">
 	<Links />
 </section>
 
 <style lang="scss">
 	@import "@styles/breakpoints";
+	@import "@styles/style-settings";
+
 	#home {
-		padding: 2rem 2rem 1rem 2rem;
+		flex: 1;
+		padding: 0 0;
 		display: flex;
 		width: 100%;
 		flex-direction: column;
@@ -35,8 +42,7 @@
 	}
 
 	#about-me {
-		margin-top: 2rem;
-		margin-bottom: 1rem;
+		margin: -$hrMargin 0;
 	}
 
 	#profile-pic {

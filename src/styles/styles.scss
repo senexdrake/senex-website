@@ -1,5 +1,6 @@
 @import "breakpoints";
 @import "darkmode";
+@import "style-settings";
 
 :root {
 	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
@@ -14,6 +15,8 @@
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
 	--bg-image: url('@img/bg-light.svg');
+	--color-btn-1: rgb(51, 130, 94);
+	--color-btn-2: rgba(33, 37, 137, 0.77);
 
 	@include whenDark() {
 		--color-bg-card: rgba(44, 44, 51, 0.85);
@@ -50,12 +53,6 @@ pre {
 	color: var(--color-text);
 }
 
-a {
-	:hover {
-		color: var(--color-theme-1);
-	}
-}
-
 .text-column {
 	display: flex;
 	max-width: 48rem;
@@ -78,3 +75,20 @@ button:focus:not(:focus-visible) {
 .text-center {
 	text-align: center;
 }
+
+.font-weight-bold {
+	font-weight: bold;
+}
+
+.font-italic {
+	font-style: italic;
+}
+
+hr {
+	width: 100%;
+}
+
+hr.default {
+	margin: $hrMargin 0;
+}
+

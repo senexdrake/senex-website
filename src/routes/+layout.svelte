@@ -19,7 +19,10 @@
 	</main>
 
 	<footer>
-		© {currentYear.toString()} Senex / ArisenDrake
+		<div class="text-center">
+			© {currentYear.toString()} Senex / ArisenDrake -
+			made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>!
+		</div>
 	</footer>
 </div>
 
@@ -51,12 +54,19 @@
 	}
 
 	footer {
+		--footer-text-color: #fff;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		padding: 12px;
-		color: #fff;
+		color: var(--footer-text-color);
+
+		a {
+			display: inline;
+			text-decoration: none;
+			color: var(--footer-text-color);
+		}
 	}
 
 	@include breakpoint('xs') {
