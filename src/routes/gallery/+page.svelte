@@ -1,6 +1,6 @@
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+	<title>Senex's Gallery - Coming Soon!</title>
+	<meta name="description" content="Coming Soon" />
 </svelte:head>
 
 <div class="text-column">

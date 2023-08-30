@@ -5,8 +5,8 @@
 </script>
 
 <svelte:head>
-	<title>Senex the Dragon</title>
-	<meta name="description" content="Senex the Dragon" />
+	<title>Senex, the big Dragon</title>
+	<meta name="description" content="Senex, the big Dragon" />
 </svelte:head>
 
 <section id="home">
@@ -17,7 +17,7 @@
 
 	<div id="about-me" class="text-center">
 		Hey, I'm Senex, also known as ArisenDrake. <br>
-		This is a small overview page for me and my fursona, a pretty big dragon.
+		This is a small overview page for me and my fursona, a pretty big (and massive) dragon.
 	</div>
 
 	<Links />
