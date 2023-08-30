@@ -25,6 +25,7 @@
 
 <style lang="scss">
 	@import "@styles/breakpoints";
+	@import "@styles/darkmode";
 
 	.app {
 		display: flex;
@@ -37,11 +38,15 @@
 		flex-direction: column;
 		width: 100%;
 		max-width: 50rem;
-		margin: 0 auto;
+		margin: 1.5rem auto 0;
 		justify-content: center;
 		align-items: center;
 		padding: 2rem;
 		box-sizing: border-box;
+		box-shadow: 0 0 25px 2px #000;
+		border-radius: 20px;
+
+		background-color: var(--color-bg-card);
 	}
 
 	footer {
@@ -50,6 +55,7 @@
 		justify-content: center;
 		align-items: center;
 		padding: 12px;
+		color: #fff;
 	}
 
 	@include breakpoint('xs') {

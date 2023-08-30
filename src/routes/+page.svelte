@@ -30,7 +30,6 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		box-shadow: 0 0 25px 0 #000;
 	}
 
 	#about-me {
