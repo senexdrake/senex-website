@@ -1,5 +1,6 @@
 <script>
-	import senexProfile from '$lib/images/senex-profile.png';
+	import senexProfile from '$lib/images/senex-profile.webp';
+	import senexProfileFallback from '$lib/images/senex-profile.png';
 	import Links from "./Links.svelte";
 </script>
 
@@ -10,7 +11,8 @@
 
 <section id="home">
 	<picture id="profile-pic">
-		<img src={senexProfile} alt="Senex profile" />
+		<source srcset="{senexProfile}" type="image/webp">
+		<img src={senexProfileFallback} alt="Senex profile" />
 	</picture>
 
 	<div id="about-me" class="text-center">
