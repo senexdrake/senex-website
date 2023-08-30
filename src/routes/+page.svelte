@@ -4,11 +4,6 @@
 	import Links from "./Links.svelte";
 </script>
 
-<svelte:head>
-	<title>Senex, the big Dragon</title>
-	<meta name="description" content="Senex, the big Dragon" />
-</svelte:head>
-
 <section id="home">
 	<picture id="profile-pic">
 		<source srcset="{senexProfile}" type="image/webp">

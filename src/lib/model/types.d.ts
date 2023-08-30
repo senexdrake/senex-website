@@ -19,3 +19,20 @@ export interface ImageCategory {
     description: string,
     images: Image[]
 }
+
+export interface Metadata {
+    title?: string,
+    description?: string,
+    creator?: string,
+    image?: MetadataImage,
+    images?: MetadataImage[],
+    cardType?: string
+}
+
+export interface MetadataImage {
+    url: string,
+    width: number,
+    height: number,
+    type: string,
+    alt: string
+}
