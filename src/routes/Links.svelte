@@ -85,7 +85,6 @@
         line-height: 3rem;
         padding: 0 1rem;
         vertical-align: middle;
-        font-family: 'Sora', sans-serif;
         font-size: 1.125em;
         flex-direction: row-reverse;
         justify-content: center;
