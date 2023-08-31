@@ -49,8 +49,7 @@
 
 <style lang="scss">
     @import "@styles/variables";
-    @import "@styles/breakpoints";
-    @import "@styles/darkmode";
+    @import "@styles/mixins";
 
     section {
       width: 100%;
@@ -116,7 +115,7 @@
         display: grid;
 
         grid-template-columns: 1fr;
-        @include breakpoint('sm') {
+        @include breakpoint(540) {
             grid-template-columns: 1fr 1fr;
         }
         grid-auto-flow: dense;

@@ -43,10 +43,9 @@
     <title>{title}</title>
     <link rel="me" href={mastodonLink}>
     <link rel="canonical" href={url}>
+    <meta name="description" content={description} />
 
     <meta property="og:url" content={url} />
-
-    <meta name="description" content={description} />
     <meta property="og:site_name" content={title} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="profile" />

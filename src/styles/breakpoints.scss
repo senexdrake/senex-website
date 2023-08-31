@@ -1,21 +1,20 @@
 @import "variables";
 
 @mixin breakpoint($breakpoint,$direction: $media-direction) {
-
-  // Es wird gecheckt ob der Wert in der Sass Map vorhanden ist
+  // Check if breakpoint identifier is in the breakpoints map
   @if map-has-key($breakpoints, $breakpoint) {
-
-    // Ausgabe
+    // Apply breakpoint value
     @media (#{$direction}-width: #{map-get($breakpoints, $breakpoint)}) {
       @content;
     }
   }
 
-    // Wenn ihr oben einen Wert eingetragen habt wird hier gecheckt ob ihr einen Einheit angehängt habt. Falls nicht wird px genutzt.
-  @else if unitless($breakpoint) {
-    $breakpoint: $breakpoint + 0px;
+  @else {
+    // If the breakpoint value is unitless, assume it's px
+    @if unitless($breakpoint) {
+      $breakpoint: $breakpoint + 0px;
+    }
 
-    // Ausgabe
     @media (#{$direction}-width: $breakpoint) {
       @content;
     }

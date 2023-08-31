@@ -24,7 +24,7 @@
 
 <style lang="scss">
 	@import "@styles/variables";
-	@import "@styles/breakpoints";
+	@import "@styles/mixins";
 
 	#home {
 		flex: 1;

@@ -1,6 +1,5 @@
 @import "variables";
-@import "breakpoints";
-@import "darkmode";
+@import "mixins";
 
 :root {
 	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,

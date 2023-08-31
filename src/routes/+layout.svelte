@@ -23,8 +23,7 @@
 </div>
 
 <style lang="scss">
-	@import "@styles/breakpoints";
-	@import "@styles/darkmode";
+	@import "@styles/mixins";
 
 	.app {
 		display: flex;
