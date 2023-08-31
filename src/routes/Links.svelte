@@ -91,13 +91,13 @@
       background-color: #30D98B !important;
     }
 
-    #small-links {
-        display: flex;
-        flex-direction: row;
-        a {
-            border-radius: 50%;
-        }
-    }
+    //#small-links {
+    //    display: flex;
+    //    flex-direction: row;
+    //    a {
+    //        border-radius: 50%;
+    //    }
+    //}
 
 
     #big-links {
