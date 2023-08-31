@@ -3,3 +3,9 @@
     @content
   }
 }
+
+@mixin whenLight($light: true) {
+  @include whenDark(not $light) {
+    @content
+  }
+}
