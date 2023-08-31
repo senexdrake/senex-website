@@ -40,12 +40,15 @@
 		margin: 1.5rem auto 0;
 		justify-content: center;
 		align-items: center;
-		padding: 2rem;
 		box-sizing: border-box;
 		box-shadow: 0 0 25px 2px #000;
 		border-radius: 20px;
-
 		background-color: var(--color-bg-card);
+
+		padding: 1rem 1rem;
+		@include breakpoint($big-links-breakpoint) {
+			padding: 1rem 2rem;
+		}
 	}
 
 	footer {

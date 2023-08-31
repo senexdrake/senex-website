@@ -114,7 +114,7 @@
         display: grid;
 
         grid-template-columns: 1fr;
-        @include breakpoint(540) {
+        @include breakpoint($big-links-breakpoint) {
             grid-template-columns: 1fr 1fr;
         }
         grid-auto-flow: dense;
