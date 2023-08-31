@@ -1,31 +1,31 @@
+@import "variables";
 @import "breakpoints";
 @import "darkmode";
-@import "style-settings";
 
 :root {
 	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
 		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-mono: 'Fira Mono', monospace;
-	--color-bg-card: rgba(224, 245, 255, 0.85);
-	--color-bg-0: rgb(202, 227, 239);
-	--color-bg-1: hsl(0, 0%, 100%);
-	--color-bg-2: hsl(224, 44%, 95%);
-	--color-theme-1: #74b3ff;
-	--color-text: rgba(0, 0, 0, 1);
-	--column-width: 42rem;
-	--column-margin-top: 4rem;
-	--bg-image: url('@img/bg-light.svg');
-	--color-btn-1: rgb(51, 130, 94);
-	--color-btn-2: rgba(33, 37, 137, 0.77);
+	--color-bg-card: #{$color-bg-card};
+	--color-bg-0: #{$color-bg-0};
+	--color-bg-1: #{$color-bg-1};
+	--color-bg-2: #{$color-bg-2};
+	--color-theme-1: #{$color-theme-1};
+	--color-text: #{$color-text};
+	--color-btn-1: #{$color-btn-1};
+	--color-btn-2: #{$color-btn-2};
+	--bg-image: #{$bg-image};
 
 	@include whenDark() {
-		--color-bg-card: rgba(44, 44, 51, 0.85);
-		--color-text: rgba(255, 255, 255, 1);
-		--color-bg-0: #424242;
-		--color-bg-2: #676767;
-		--color-bg-1: #252525;
-		--color-theme-1: #4075a6;
-		--bg-image: url('@img/bg-dark.svg');
+		--color-bg-card: #{$color-bg-card-dark};
+		--color-bg-0: #{$color-bg-0-dark};
+		--color-bg-1: #{$color-bg-1-dark};
+		--color-bg-2: #{$color-bg-2-dark};
+		--color-theme-1: #{$color-theme-1-dark};
+		--color-text: #{$color-text-dark};
+		--color-btn-1: #{$color-btn-1-dark};
+		--color-btn-2: #{$color-btn-2-dark};
+		--bg-image: #{$bg-image-dark};
 	}
 
 	font-family: var(--font-body);
@@ -89,6 +89,6 @@ hr {
 }
 
 hr.default {
-	margin: $hrMargin 0;
+	margin: $hr-margin 0;
 }
 

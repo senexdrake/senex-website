@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../styles/styles.scss';
+	import '@styles/styles.scss';
 	import Header from './Header.svelte';
 	import MetaData from "./MetaData.svelte";
 
@@ -50,7 +50,7 @@
 	}
 
 	footer {
-		--footer-text-color: #fff;
+		--footer-text-color: #e8e8e8;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -62,6 +62,10 @@
 			display: inline;
 			text-decoration: none;
 			color: var(--footer-text-color);
+		}
+
+		@include whenDark() {
+			--footer-text-color: #9d9d9d;
 		}
 	}
 

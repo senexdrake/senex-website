@@ -23,8 +23,8 @@
 </section>
 
 <style lang="scss">
+	@import "@styles/variables";
 	@import "@styles/breakpoints";
-	@import "@styles/style-settings";
 
 	#home {
 		flex: 1;
@@ -37,7 +37,7 @@
 	}
 
 	#about-me {
-		margin: -$hrMargin 0;
+		margin: -$hr-margin 0;
 	}
 
 	#profile-pic {

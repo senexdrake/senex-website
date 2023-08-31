@@ -42,12 +42,15 @@
 <!--        {/each}-->
 <!--    </div>-->
     <div class="text-center" id="discord">
-        Or contact me on Discord: <span class="font-weight-bold" id="discord-name">{discordName}</span>
+        Or contact me on Discord: <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
+        (please, Discord, give us a linkable URL...)
     </div>
 </section>
 
 <style lang="scss">
+    @import "@styles/variables";
     @import "@styles/breakpoints";
+    @import "@styles/darkmode";
 
     section {
       width: 100%;
@@ -70,25 +73,32 @@
     .button {
         box-sizing: border-box;
         background-color: var(--color-btn-1);
-        color: rgb(232, 230, 227);
-        background-image: linear-gradient(45deg, var(--color-btn-2) 0%, rgba(51, 130, 94, 0.01) 75%);
+        color: #fff;
+
+        @include whenDark() {
+            color: $color-text-dark;
+        }
+
+        background-image: linear-gradient(45deg, var(--color-btn-2) 0%, var(--color-btn-1) 75%);
         text-decoration: none;
         display: inline-flex;
-        height: 3.75rem;
-        line-height: 3.75rem;
-        padding: 0 1.875rem;
+        height: 3rem;
+        line-height: 3rem;
+        padding: 0 1rem;
         vertical-align: middle;
         font-family: 'Sora', sans-serif;
         font-size: 1.125em;
-        font-weight: 300;
         flex-direction: row-reverse;
-        justify-content: flex-end;
-        border-radius: 2rem;
+        justify-content: center;
+        border-radius: 1rem;
         transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
-    }
 
-    .button:hover {
-      background-color: #30D98B !important;
+        &:hover {
+            background-color: $color-btn-hover;
+            @include whenDark() {
+              background-color: $color-btn-hover-dark;
+            }
+        }
     }
 
     //#small-links {

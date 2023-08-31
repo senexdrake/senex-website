@@ -1,0 +1,39 @@
+$hr-margin: 1rem;
+
+$color-text: rgba(0, 0, 0, 1);
+$color-text-dark: rgba(210, 210, 210, 1);
+$color-bg-card: rgba(240, 248, 255, 0.85);
+$color-bg-0: rgb(202, 227, 239);
+$color-bg-1: hsl(0, 0%, 100%);
+$color-bg-2: hsl(224, 44%, 95%);
+$color-theme-1: #74b3ff;
+$color-btn-1: rgba(53, 160, 192, 0.77);
+$color-btn-2: rgb(47, 84, 152);
+$color-btn-hover: rgb(16, 66, 46);
+$bg-image: url('@img/bg-light.svg');
+
+$color-text-dark: rgb(224, 224, 224);
+$color-bg-card-dark: rgba(44, 44, 51, 0.85);
+$color-bg-0-dark: #424242;
+$color-bg-1-dark: #252525;
+$color-bg-2-dark: #676767;
+$color-theme-1-dark: #4075a6;
+$color-btn-1-dark: rgba(35, 103, 124, 0.77);
+$color-btn-2-dark: rgb(30, 52, 94);
+$color-btn-hover-dark: rgba(48, 217, 139, 1);
+$bg-image-dark: url('@img/bg-dark.svg');
+
+// min or max
+$media-direction:       min;  // min / max — default is min (mobile first)
+
+// Breakpoints
+// A Sass Map for all Breakpoints you need. But keep it simple! Just add Sizes that you need several times.
+// Here are my basic set. I change the values a bit from project to project
+$breakpoints: (
+        'default':            '',
+        'xs':                 480px,
+        'sm':                 667px,
+        'md':                 1024px,
+        'lg':                 1280px,
+        'xl':                 1680px,
+);
