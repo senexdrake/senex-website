@@ -1,4 +1,4 @@
-@import "@fontsource/open-sans/400.css";
-@import "@fontsource/open-sans/700.css";
+@use "@fontsource/open-sans/400.css" as font-normal;
+@use "@fontsource/open-sans/700.css" as font-bold;
 
 $font-body: 'Open Sans', 'Segoe UI', Roboto, Arial, sans-serif;

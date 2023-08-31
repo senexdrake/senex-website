@@ -47,8 +47,8 @@
 </section>
 
 <style lang="scss">
-    @import "$styles/variables";
-    @import "$styles/mixins";
+    @use "$styles/variables" as *;
+    @use "$styles/mixins";
 
     section {
       width: 100%;
@@ -73,7 +73,7 @@
         background-color: var(--color-btn-1);
         color: #fff;
 
-        @include whenDark() {
+        @include mixins.whenDark() {
             color: $color-text-dark;
         }
 
@@ -92,7 +92,7 @@
 
         &:hover {
             background-color: $color-btn-hover;
-            @include whenDark() {
+            @include mixins.whenDark() {
               background-color: $color-btn-hover-dark;
             }
         }
@@ -113,7 +113,7 @@
         display: grid;
 
         grid-template-columns: 1fr;
-        @include breakpoint($big-links-breakpoint) {
+        @include mixins.breakpoint($big-links-breakpoint) {
             grid-template-columns: 1fr 1fr;
         }
         grid-auto-flow: dense;

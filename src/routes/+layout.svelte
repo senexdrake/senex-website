@@ -23,7 +23,8 @@
 </div>
 
 <style lang="scss">
-	@import "$styles/mixins";
+	@use "$styles/variables" as *;
+	@use "$styles/mixins";
 
 	.app {
 		display: flex;
@@ -46,7 +47,7 @@
 		background-color: var(--color-bg-card);
 
 		padding: 1rem 1rem;
-		@include breakpoint($big-links-breakpoint) {
+		@include mixins.breakpoint($big-links-breakpoint) {
 			padding: 1rem 2rem;
 		}
 	}
@@ -66,12 +67,12 @@
 			color: var(--footer-text-color);
 		}
 
-		@include whenDark() {
+		@include mixins.whenDark() {
 			--footer-text-color: #9d9d9d;
 		}
 	}
 
-	@include breakpoint('xs') {
+	@include mixins.breakpoint('xs') {
 		footer {
 			padding: 12px 0;
 		}

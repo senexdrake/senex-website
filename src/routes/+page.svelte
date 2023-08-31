@@ -23,8 +23,7 @@
 </section>
 
 <style lang="scss">
-	@import "$styles/variables";
-	@import "$styles/mixins";
+	@use "$styles/variables" as *;
 
 	#home {
 		flex: 1;

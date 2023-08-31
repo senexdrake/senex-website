@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as *;
 
 @mixin breakpoint($breakpoint,$direction: $media-direction) {
   // Check if breakpoint identifier is in the breakpoints map

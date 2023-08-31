@@ -1,9 +1,9 @@
-@import "variables";
-@import "font";
-@import "mixins";
+@use "variables" as *;
+@use "font";
+@use "mixins";
 
 :root {
-	--font-body: #{$font-body};
+	--font-body: #{font.$font-body};
 	--font-mono: 'Fira Mono', monospace;
 	--color-bg-card: #{$color-bg-card};
 	--color-bg-0: #{$color-bg-0};
@@ -15,7 +15,7 @@
 	--color-btn-2: #{$color-btn-2};
 	--bg-image: #{$bg-image};
 
-	@include whenDark() {
+	@include mixins.whenDark() {
 		--color-bg-card: #{$color-bg-card-dark};
 		--color-bg-0: #{$color-bg-0-dark};
 		--color-bg-1: #{$color-bg-1-dark};
