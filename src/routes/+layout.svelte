@@ -5,13 +5,13 @@
 	import type {Metadata, MetadataImage} from "$lib/model/types";
 	import senexProfile from '$lib/images/senex-profile.webp';
 	import senexProfileFallback from '$lib/images/senex-profile.png';
+	import {PUBLIC_BASE_PATH} from "$env/static/public";
 
 	$: pageData = $page.data as Metadata|undefined
 
 	const currentYear = new Date().getFullYear()
 	const mastodonLink = "https://meow.social/@senex"
-	const domain = "me.senex.link"
-	const basePath = `https://${domain}`
+	const basePath = PUBLIC_BASE_PATH ?? "https://example.com"
 	const url = basePath + $page.url.pathname
 
 	let title: string
@@ -76,7 +76,6 @@
 	<meta name="twitter:site" content={creator} />
 	<meta name="twitter:creator" content={creator} />
 	<meta name="twitter:card" content={cardType} />
-	<meta name="twitter:domain" content={domain} />
 	<meta name="twitter:url" content={url} />
 </svelte:head>
 
