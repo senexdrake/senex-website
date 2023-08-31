@@ -1,6 +1,6 @@
 <script>
-	import senexProfile from '$lib/images/senex-profile.webp';
-	import senexProfileFallback from '$lib/images/senex-profile.png';
+	import senexProfile from '$img/senex-profile.webp';
+	import senexProfileFallback from '$img/senex-profile.png';
 	import Links from "./Links.svelte";
 </script>
 
@@ -23,8 +23,8 @@
 </section>
 
 <style lang="scss">
-	@import "@styles/variables";
-	@import "@styles/mixins";
+	@import "$styles/variables";
+	@import "$styles/mixins";
 
 	#home {
 		flex: 1;

@@ -1,7 +1,5 @@
 $hr-margin: 1rem;
 
-$font-body: 'Open Sans', 'Segoe UI', Roboto, Arial, sans-serif;
-
 $color-text: rgba(0, 0, 0, 1);
 $color-text-dark: rgba(210, 210, 210, 1);
 $color-bg-card: rgba(240, 248, 255, 0.85);
@@ -12,7 +10,7 @@ $color-theme-1: #74b3ff;
 $color-btn-1: rgba(53, 160, 192, 0.77);
 $color-btn-2: rgb(47, 84, 152);
 $color-btn-hover: rgb(16, 66, 46);
-$bg-image: url('@img/bg-light.svg');
+$bg-image: url('$img/bg-light.svg');
 
 $color-text-dark: rgb(224, 224, 224);
 $color-bg-card-dark: rgba(44, 44, 51, 0.85);
@@ -23,7 +21,7 @@ $color-theme-1-dark: #4075a6;
 $color-btn-1-dark: rgba(35, 103, 124, 0.77);
 $color-btn-2-dark: rgb(30, 52, 94);
 $color-btn-hover-dark: rgba(48, 217, 139, 1);
-$bg-image-dark: url('@img/bg-dark.svg');
+$bg-image-dark: url('$img/bg-dark.svg');
 
 $big-links-breakpoint: 540px;
 

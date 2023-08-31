@@ -1,4 +1,4 @@
-import type {Metadata} from "$lib/model/types";
+import type {Metadata} from "$model/types";
 
 // Unlike the main page, the gallery requires client side rendering
 export const csr = true;

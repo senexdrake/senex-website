@@ -1,4 +1,4 @@
-import type {Metadata} from "$lib/model/types";
+import type {Metadata} from "$model/types";
 
 export function load() {
     return <Metadata>{}

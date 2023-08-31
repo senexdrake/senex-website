@@ -1,4 +1,4 @@
-import type {LinkType} from "$lib/model/LinkType";
+import type {LinkType} from "$model/LinkType";
 
 export interface LinkItem {
     target: string,

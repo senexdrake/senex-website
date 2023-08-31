@@ -1,6 +1,5 @@
 <script lang="ts">
-    import type {LinkItem} from "$lib/model/types";
-    import '@styles/styles.scss';
+    import type {LinkItem} from "$model/types";
 
     const bigLinks: LinkItem[] = [
         { name: 'Twitter', target: 'https://senex.link/tw-fur', order: 1 },
@@ -48,8 +47,8 @@
 </section>
 
 <style lang="scss">
-    @import "@styles/variables";
-    @import "@styles/mixins";
+    @import "$styles/variables";
+    @import "$styles/mixins";
 
     section {
       width: 100%;

@@ -1,7 +1,6 @@
 @import "variables";
+@import "font";
 @import "mixins";
-@import "@fontsource/open-sans/400.css";
-@import "@fontsource/open-sans/700.css";
 
 :root {
 	--font-body: #{$font-body};

@@ -8,7 +8,6 @@ const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
-
 	kit: {
 		adapter: adapter({
 			pages: 'dist',
@@ -16,7 +15,14 @@ const config = {
 			fallback: undefined,
 			precompress: false,
 			strict: true
-		})
+		}),
+		alias: {
+			$: "src/",
+			$model: "src/lib/model",
+			$icons: "src/lib/icons",
+			$styles: "src/lib/styles",
+			$img: "src/lib/images"
+		}
 	}
 };
 

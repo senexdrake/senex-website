@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '@styles/styles.scss';
+	import '$styles/styles.scss';
 	import Header from './Header.svelte';
 	import MetaData from "./MetaData.svelte";
 
@@ -23,7 +23,7 @@
 </div>
 
 <style lang="scss">
-	@import "@styles/mixins";
+	@import "$styles/mixins";
 
 	.app {
 		display: flex;
