@@ -1,7 +1,7 @@
 <script lang="ts">
 	import refsheetSfwSrcSet from "$remoteAssets/refsheet-sfw.png?w=1000;2000&format=webp&remote&as=srcset"
-	import refsheetNsfwSrcSet from "$remoteAssets/refsheet-naked.png?w=1000;1000&format=webp&remote&as=srcset"
-	import refsheetBulgeSrcSet from "$remoteAssets/refsheet-bulge.png?w=1000;1000&format=webp&remote&as=srcset"
+	import refsheetNsfwSrcSet from "$remoteAssets/refsheet-naked.png?w=1000;2000&format=webp&remote&as=srcset"
+	import refsheetBulgeSrcSet from "$remoteAssets/refsheet-bulge.png?w=1000;2000&format=webp&remote&as=srcset"
 
 	import refsheetSfwLarge from '$remoteAssets/refsheet-sfw.png?w=4000&format=webp&remote'
 	import refsheetNsfwLarge from '$remoteAssets/refsheet-naked.png?w=4000&format=webp&remote'
