@@ -9,6 +9,7 @@ export interface LinkItem {
 }
 
 export interface Image {
+    srcset: string,
     src: string,
     title: string,
     description: string,

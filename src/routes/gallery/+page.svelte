@@ -1,7 +1,11 @@
 <script lang="ts">
-	import refsheetSfw from "$remoteAssets/refsheet-sfw.png?w=1200;2400&format=webp&remote&as=srcset"
-	import refsheetNsfw from "$remoteAssets/refsheet-naked.png?w=1200;2400&format=webp&remote&as=srcset"
-	import refsheetBulge from "$remoteAssets/refsheet-bulge.png?w=1200;2400&format=webp&remote&as=srcset"
+	import refsheetSfwSrcSet from "$remoteAssets/refsheet-sfw.png?w=1000;2000&format=webp&remote&as=srcset"
+	import refsheetNsfwSrcSet from "$remoteAssets/refsheet-naked.png?w=1000;1000&format=webp&remote&as=srcset"
+	import refsheetBulgeSrcSet from "$remoteAssets/refsheet-bulge.png?w=1000;1000&format=webp&remote&as=srcset"
+
+	import refsheetSfwLarge from '$remoteAssets/refsheet-sfw.png?w=4000&format=webp&remote'
+	import refsheetNsfwLarge from '$remoteAssets/refsheet-naked.png?w=4000&format=webp&remote'
+	import refsheetBulgeLarge from '$remoteAssets/refsheet-bulge.png?w=4000&format=webp&remote'
 
 	import { page } from "$app/stores";
 	import type {ImageCategory, Images} from "$model/types";
@@ -14,9 +18,20 @@
 		title: "",
 		description: "",
 		images: [
-			{ title: "Refsheet SFW", description: "SFW Refsheet for Senex, based on a 3D model", src: refsheetSfw },
-			{ title: "Refsheet NSFW (Bulge)", description: "NSFW Refsheet for Senex, based on a 3D model, featuring a hyper bulge", src: refsheetBulge, nsfw: true },
-			{ title: "Refsheet NSFW (Naked)", description: "NSFW Refsheet for Senex, based on a 3D model, naked", src: refsheetNsfw, nsfw: true }
+			{ title: "Refsheet SFW", description: "SFW Refsheet for Senex, based on a 3D model",
+				srcset: refsheetSfwSrcSet,
+				src: refsheetSfwLarge,
+			},
+			{ title: "Refsheet NSFW (Bulge)", description: "NSFW Refsheet for Senex, based on a 3D model, featuring a hyper bulge",
+				srcset: refsheetBulgeSrcSet,
+				src: refsheetBulgeLarge,
+				nsfw: true
+			},
+			{ title: "Refsheet NSFW (Naked)", description: "NSFW Refsheet for Senex, based on a 3D model, naked",
+				srcset: refsheetNsfwSrcSet,
+				src: refsheetNsfwLarge,
+				nsfw: true
+			}
 		]
 	}
 
@@ -40,10 +55,12 @@
 
 	<div class="text-center">
 		{#each references.images as image}
-			<picture class={isBlurred(image.nsfw ?? false) ? 'blur' : ''}>
-				<source srcset={image.src}>
-				<img src={singleSrc(image.src)} alt={image.title}>
-			</picture>
+			<a href={image.src} target="_blank">
+				<picture class={isBlurred(image.nsfw ?? false) ? 'blur' : ''}>
+					<source srcset={image.srcset}>
+					<img src={image.src} alt={image.title}>
+				</picture>
+			</a>
 			<h3>{image.title}</h3>
 			<p>{image.description}</p>
 			<hr class="default">
