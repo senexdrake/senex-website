@@ -1,6 +1,6 @@
 <script>
-	import senexProfile from '$img/senex-profile.webp?w=400;600&quality=50&format=webp&as=srcset';
-	import senexProfileFallback from '$img/senex-profile.webp?format=png';
+	import senexProfile from '$remoteAssets/senex-profile.webp?w=400;600&quality=50&format=webp&remote&as=srcset';
+	import senexProfileFallback from '$remoteAssets/senex-profile.webp?format=png&remote';
 	import Links from "./Links.svelte";
 </script>
 

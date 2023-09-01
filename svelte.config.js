@@ -21,7 +21,8 @@ const config = {
 			$model: "src/lib/model",
 			$icons: "src/lib/icons",
 			$styles: "src/lib/styles",
-			$img: "src/lib/images"
+			$img: "src/lib/images",
+			$remoteAssets: "src/lib/remote-assets"
 		}
 	}
 };
