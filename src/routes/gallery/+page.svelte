@@ -10,10 +10,6 @@
 	import { page } from "$app/stores";
 	import type {ImageCategory, Images} from "$model/types";
 
-	const cdnPath = "https://pics.senex.link"
-	const maxWidth = "600"
-	const previewQuality = 50
-
 	const references: ImageCategory = {
 		title: "",
 		description: "",
@@ -37,33 +33,29 @@
 
 	let showNsfw = false
 
-	const toggleNsfw = () => {
-		if (!showNsfw) {
-			showNsfw = confirm('Are you sure you want to enable NSFW content?')
-		} else {
-			showNsfw = false
-		}
-	}
-	$: isBlurred = (isNsfw: boolean) => isNsfw && !showNsfw
-	const singleSrc = (srcset: string) => srcset.substring(0, srcset.indexOf(' '))
+	const toggleNsfw = () => showNsfw = (showNsfw ? false : confirm('Do you want to enable NSFW content?'))
+
+	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 </script>
 
 
 <section class="text-column">
 
-	<button on:click={toggleNsfw} id="nsfw-toggle">Toggle NSFW</button>
+	<button on:click={toggleNsfw} id="nsfw-toggle">{showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}</button>
 
 	<div class="text-center">
 		{#each references.images as image}
-			<a href={image.src} target="_blank">
-				<picture class={isBlurred(image.nsfw ?? false) ? 'blur' : ''}>
-					<source srcset={image.srcset}>
-					<img src={image.src} alt={image.title}>
-				</picture>
-			</a>
-			<h3>{image.title}</h3>
-			<p>{image.description}</p>
-			<hr class="default">
+			{#if showImage(image.nsfw ?? false)}
+				<a href={image.src} target="_blank">
+					<picture>
+						<source srcset={image.srcset}>
+						<img src={image.src} alt={image.title}>
+					</picture>
+				</a>
+				<h3>{image.title}</h3>
+				<p>{image.description}</p>
+				<hr class="default">
+			{/if}
 		{/each}
 	</div>
 
@@ -74,10 +66,6 @@
 <style lang="scss">
 	#nsfw-toggle {
 		margin-bottom: 2rem;
-	}
-
-	.blur img {
-		filter: brightness(0);
 	}
 
 	section {

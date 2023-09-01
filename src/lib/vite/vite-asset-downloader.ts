@@ -2,6 +2,7 @@ import type {Plugin, ResolvedConfig} from "vite";
 import axios from "axios";
 import {stat, access, mkdir} from "fs/promises";
 import {createWriteStream, statSync, accessSync} from "fs";
+import {remoteAssetsDir} from "../../config"
 
 export function assetDownloader() : Plugin {
 
@@ -20,7 +21,7 @@ export function assetDownloader() : Plugin {
             viteConfig = cfg
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            basePath = addTrailingSlash(cfg.define['__REMOTE_ASSETS_DIR__'])
+            basePath = addTrailingSlash(remoteAssetsDir)
 
 
             try {
@@ -31,7 +32,7 @@ export function assetDownloader() : Plugin {
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            baseUrl = addTrailingSlash(cfg.define['__REMOTE_ASSETS_BASE_URL__'])
+            baseUrl = addTrailingSlash(process.env.REMOTE_ASSETS_BASE_URL ?? "https://pics.arisendrake.de")
         },
         load(id) {
             if (id.indexOf('&remote') === -1) return
