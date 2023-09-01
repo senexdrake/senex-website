@@ -1,11 +1,16 @@
 <script lang="ts">
+    import faviconsImport from '$remoteAssets/senex-profile.webp?w=16;32;48;180;192;167&format=png&remote&as=meta'
     import senexProfile from '$remoteAssets/senex-profile.webp?quality=50&format=webp&remote';
     import senexProfileFallback from '$remoteAssets/senex-profile.webp?format=png&remote';
     import {page} from "$app/stores";
-    import type {Metadata, MetadataImage} from "$model/types";
+    import type {ImageOutputMetadata, Metadata, MetadataImage} from "$model/types";
     import {PUBLIC_BASE_PATH} from "$env/static/public";
 
     $: pageData = $page.data as Metadata|undefined
+
+
+    $: normalFavIcons = faviconsImport.filter((icon: ImageOutputMetadata) => [16, 32, 48, 192].includes(icon.width))
+    $: appleFavIcon = faviconsImport.filter((icon: ImageOutputMetadata) => [167, 180].includes(icon.width))
 
     const mastodonLink = "https://meow.social/@senex"
     const basePath = PUBLIC_BASE_PATH ?? "https://example.com"
@@ -41,6 +46,12 @@
 
 <svelte:head>
     <title>{title}</title>
+    {#each normalFavIcons as icon}
+        <link rel="icon" href={icon.src} sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+    {/each}
+    {#each appleFavIcon as icon}
+        <link rel="apple-touch-icon" href={icon.src} sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+    {/each}
     <link rel="me" href={mastodonLink}>
     <link rel="canonical" href={url}>
     <meta name="description" content={description} />
