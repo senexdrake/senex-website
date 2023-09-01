@@ -8,6 +8,7 @@
 	import refsheetBulgeLarge from '$remoteAssets/refsheet-bulge.png?w=4000&format=webp&remote'
 
 	import { page } from "$app/stores";
+	import { userSettings } from "$lib/stores/userSettings"
 	import type {ImageCategory, Images} from "$model/types";
 
 	const references: ImageCategory = {
@@ -31,19 +32,21 @@
 		]
 	}
 
-	let showNsfw = false
-	let nsfwAccepted = false
+	$: showNsfw = $userSettings.showNsfw
+	$: allowNsfw = $userSettings.allowNsfw
 
 	const toggleNsfw = () => {
 		if (showNsfw) {
-			showNsfw = !showNsfw
+			$userSettings.showNsfw = !showNsfw
 		} else {
-			showNsfw = nsfwAccepted ? true : confirm('Do you want to enable NSFW content?')
-			nsfwAccepted = showNsfw
+			const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
+			$userSettings.showNsfw = nsfwResponse
+			$userSettings.allowNsfw = nsfwResponse
 		}
 	}
 
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
+
 </script>
 
 
