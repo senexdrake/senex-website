@@ -15,7 +15,9 @@ export function assetDownloader() : Plugin {
         enforce: 'pre',
         async configResolved(cfg) {
             viteConfig = cfg
-            basePath = "src/lib/remote-assets"
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            basePath = cfg.define['__REMOTE_ASSETS_DIR__']
             try {
                 await access(basePath)
             } catch (e: any) {

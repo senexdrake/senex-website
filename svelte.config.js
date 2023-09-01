@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
+import {remoteAssetsDir} from "./src/config.js";
 
 const dev = true
 
@@ -22,7 +23,7 @@ const config = {
 			$icons: "src/lib/icons",
 			$styles: "src/lib/styles",
 			$img: "src/lib/images",
-			$remoteAssets: "src/lib/remote-assets"
+			$remoteAssets: remoteAssetsDir
 		}
 	}
 };
