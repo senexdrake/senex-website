@@ -1,6 +1,6 @@
 <script lang="ts">
-    import senexProfile from '$img/senex-profile.webp';
-    import senexProfileFallback from '$img/senex-profile.png';
+    import senexProfile from '$img/senex-profile.webp?quality=50&format=webp';
+    import senexProfileFallback from '$img/senex-profile.webp?format=png';
     import {page} from "$app/stores";
     import type {Metadata, MetadataImage} from "$model/types";
     import {PUBLIC_BASE_PATH} from "$env/static/public";
