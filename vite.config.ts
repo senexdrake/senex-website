@@ -18,6 +18,7 @@ export default defineConfig({
 		}),
 	],
 	define: {
-		__REMOTE_ASSETS_DIR__: remoteAssetsDir
+		__REMOTE_ASSETS_DIR__: remoteAssetsDir,
+		__REMOTE_ASSETS_BASE_URL__: process.env.REMOTE_ASSETS_BASE_URL ?? "https://pics.arisendrake.de"
 	}
 });

@@ -9,6 +9,9 @@ export function assetDownloader() : Plugin {
 
     let viteConfig: ResolvedConfig
     let basePath: string
+    let baseUrl: string
+
+    const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
 
     return {
         name: 'asset-downloader',
@@ -17,16 +20,22 @@ export function assetDownloader() : Plugin {
             viteConfig = cfg
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            basePath = cfg.define['__REMOTE_ASSETS_DIR__']
+            basePath = addTrailingSlash(cfg.define['__REMOTE_ASSETS_DIR__'])
+
+
             try {
                 await access(basePath)
             } catch (e: any) {
                 await mkdir(basePath)
             }
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            baseUrl = addTrailingSlash(cfg.define['__REMOTE_ASSETS_BASE_URL__'])
         },
         load(id) {
             if (id.indexOf('&remote') === -1) return
-            const assetName = id.substring(id.lastIndexOf('/'), id.indexOf('?'))
+            const assetName = id.substring(id.lastIndexOf('/') + 1, id.indexOf('?'))
             if (resolvingAssets.has(assetName)) return resolvingAssets.get(assetName)
             const promise = new Promise<void>((resolve, reject) => {
                 const assetTargetPath = basePath + assetName
@@ -34,19 +43,17 @@ export function assetDownloader() : Plugin {
                     accessSync(assetTargetPath)
                     const fileStats = statSync(assetTargetPath)
                     if (fileStats.size > 100) {
-                        console.debug("File exists and is not empty, skipping fetch")
+                        console.debug(`File "${assetTargetPath}" exists and is not empty, skipping fetch`)
                         return resolve()
                     }
                 } catch (e) {
                     // Target does not exist
                 }
 
-                const baseUrl = viteConfig.env.PUBLIC_ASSETS_BASE_URL ?? "https://pics.arisendrake.de"
-
                 const writer = createWriteStream(assetTargetPath)
                 const url = baseUrl + assetName
 
-                console.log("Trying to resolve asset from", url)
+                console.log(`Trying to resolve asset "${assetTargetPath}" from "${url}"`)
 
                 axios({
                     method: 'GET',
