@@ -32,8 +32,16 @@
 	}
 
 	let showNsfw = false
+	let nsfwAccepted = false
 
-	const toggleNsfw = () => showNsfw = (showNsfw ? false : confirm('Do you want to enable NSFW content?'))
+	const toggleNsfw = () => {
+		if (showNsfw) {
+			showNsfw = !showNsfw
+		} else {
+			showNsfw = nsfwAccepted ? true : confirm('Do you want to enable NSFW content?')
+			nsfwAccepted = showNsfw
+		}
+	}
 
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 </script>
