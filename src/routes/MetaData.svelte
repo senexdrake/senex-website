@@ -1,7 +1,7 @@
 <script lang="ts">
-    import faviconsImport from '$remoteAssets/senex-profile.webp?w=16;32;48;180;192;167&format=png&remote&as=meta'
+    import faviconsImport from '$remoteAssets/senex-profile.webp?w=16;32;48;180;192;167&quality=50&format=png&remote&as=meta'
     import senexProfile from '$remoteAssets/senex-profile.webp?quality=50&format=webp&remote';
-    import senexProfileFallback from '$remoteAssets/senex-profile.webp?format=png&remote';
+    import senexProfileFallback from '$remoteAssets/senex-profile.webp?quality=50&format=png&remote';
     import {page} from "$app/stores";
     import type {ImageOutputMetadata, Metadata, MetadataImage} from "$model/types";
     import {PUBLIC_BASE_PATH} from "$env/static/public";
