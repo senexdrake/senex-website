@@ -1,44 +1,22 @@
 <script lang="ts">
-	import refsheetSfwSrcSet from "$remoteAssets/refsheet-sfw.png?w=1000;2000&format=webp&remote&as=srcset"
-	import refsheetNsfwSrcSet from "$remoteAssets/refsheet-naked.png?w=1000;2000&format=webp&remote&as=srcset"
-	import refsheetBulgeSrcSet from "$remoteAssets/refsheet-bulge.png?w=1000;2000&format=webp&remote&as=srcset"
-
-	import refsheetSfwLarge from '$remoteAssets/refsheet-sfw.png?w=4000&format=webp&quality=90&remote'
-	import refsheetNsfwLarge from '$remoteAssets/refsheet-naked.png?w=4000&format=webp&quality=90&remote'
-	import refsheetBulgeLarge from '$remoteAssets/refsheet-bulge.png?w=4000&format=webp&quality=90&remote'
+	// import refsheetSfwSrcSet from "$remoteAssets/refsheet-sfw.png?w=1000;2000&format=webp&remote&as=srcset"
+	// import refsheetNsfwSrcSet from "$remoteAssets/refsheet-naked.png?w=1000;2000&format=webp&remote&as=srcset"
+	// import refsheetBulgeSrcSet from "$remoteAssets/refsheet-bulge.png?w=1000;2000&format=webp&remote&as=srcset"
+	//
+	// import refsheetSfwLarge from '$remoteAssets/refsheet-sfw.png?w=4000&format=webp&quality=90&remote'
+	// import refsheetNsfwLarge from '$remoteAssets/refsheet-naked.png?w=4000&format=webp&quality=90&remote'
+	// import refsheetBulgeLarge from '$remoteAssets/refsheet-bulge.png?w=4000&format=webp&quality=90&remote'
 
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
-	import type {ImageAuthor, ImageCategory, Images} from "$model/types";
+	import type {Image, ImageAuthor, ImageCategory, ImageOutputMetadata, Images} from "$model/types";
 
 	const refsheetAuthor: ImageAuthor = {
 		name: "Wolke",
 		url: "https://wolke.carrd.co/"
 	}
 
-	const references: ImageCategory = {
-		title: "",
-		description: "",
-		images: [
-			{ title: "Refsheet SFW", description: "SFW Refsheet for Senex. Refsheet is made by me, based on a 3D model",
-				author: refsheetAuthor,
-				srcset: refsheetSfwSrcSet,
-				src: refsheetSfwLarge,
-			},
-			{ title: "Refsheet NSFW (Bulge)", description: "NSFW Refsheet for Senex (clothed with hyper bulge). Refsheet is made by me, based on a 3D model",
-				author: refsheetAuthor,
-				srcset: refsheetBulgeSrcSet,
-				src: refsheetBulgeLarge,
-				nsfw: true
-			},
-			{ title: "Refsheet NSFW (Naked)", description: "NSFW Refsheet for Senex (naked with hyper genitals). Refsheet is made by me, based on a 3D model",
-				author: refsheetAuthor,
-				srcset: refsheetNsfwSrcSet,
-				src: refsheetNsfwLarge,
-				nsfw: true
-			}
-		]
-	}
+	const references = $page.data.categories[0]
 
 	$: showNsfw = $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
@@ -55,6 +33,21 @@
 
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 
+	$: sourceSet = (meta: ImageOutputMetadata[]) => {
+		let sourceSet = ""
+		meta.forEach(metaObject => {
+			if (sourceSet.length !== 0) sourceSet += ', '
+			sourceSet += `${metaObject.src} ${metaObject.width}w`
+		})
+		return sourceSet
+	}
+
+	$: largestVariant = (meta: ImageOutputMetadata[]) : ImageOutputMetadata|undefined => {
+		// Largest variant is always the last one
+		if (meta.length === 0) return undefined
+		return meta[meta.length - 1]
+	}
+
 </script>
 
 
@@ -66,10 +59,10 @@
 		{#each references.images as image}
 			<div hidden={!showImage(image.nsfw ?? false)}>
 				<div class="img-container">
-					<a href={image.src} target="_blank">
+					<a href={largestVariant(image.src)?.src} target="_blank">
 						<picture>
-							<source srcset={image.srcset}>
-							<img src={image.src} alt={image.title}>
+							<source srcset={sourceSet(image.src)}>
+							<img src={largestVariant(image.src)?.src} alt={image.title}>
 						</picture>
 						<div class="img-overlay text-center">
 							Open full picture

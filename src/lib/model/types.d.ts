@@ -9,8 +9,7 @@ export interface LinkItem {
 }
 
 export interface Image {
-    srcset: string,
-    src: string,
+    src: ImageOutputMetadata,
     title: string,
     description: string,
     nsfw?: boolean,
@@ -26,6 +25,11 @@ export interface ImageCategory {
     title: string,
     description: string,
     images: Image[]
+}
+
+
+export interface ImageCategories {
+    categories: ImageCategory[]
 }
 
 export interface Metadata {
