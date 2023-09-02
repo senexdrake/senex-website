@@ -2,7 +2,6 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import {imagetools} from "vite-imagetools";
 import {assetDownloader} from "./src/lib/vite/vite-asset-downloader";
-import {remoteAssetsDir} from "./src/config";
 
 export default defineConfig({
 	plugins: [

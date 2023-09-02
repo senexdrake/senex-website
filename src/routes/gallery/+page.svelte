@@ -78,7 +78,7 @@
 	@use "$styles/variables" as *;
 
 	hr {
-		margin-bottom: 2rem;
+		margin-bottom: 2rem !important;
 	}
 
 	button {

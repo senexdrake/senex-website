@@ -1,7 +1,7 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import axios from "axios";
 import {stat, access, mkdir} from "fs/promises";
-import {createWriteStream, statSync, accessSync} from "fs";
+import {createWriteStream, statSync, accessSync, WriteStream} from "fs";
 import {remoteAssetsDir} from "../../config"
 
 export function assetDownloader() : Plugin {
@@ -51,7 +51,7 @@ export function assetDownloader() : Plugin {
                     // Target does not exist
                 }
 
-                const writer = createWriteStream(assetTargetPath)
+                const writer: WriteStream = createWriteStream(assetTargetPath)
                 const url = baseUrl + assetName
 
                 console.log(`Trying to resolve asset "${assetTargetPath}" from "${url}"`)
