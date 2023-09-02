@@ -44,7 +44,6 @@
 			//border-radius: 50%;
 			//background: black;
 			//border: 2px solid black;
-			max-width: 100%;
 			max-height: 15rem;
 		}
 	}

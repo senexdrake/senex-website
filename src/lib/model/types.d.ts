@@ -13,7 +13,13 @@ export interface Image {
     src: string,
     title: string,
     description: string,
-    nsfw?: boolean
+    nsfw?: boolean,
+    author?: ImageAuthor
+}
+
+export interface ImageAuthor {
+    name: string,
+    url: string
 }
 
 export interface ImageCategory {

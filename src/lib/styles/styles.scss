@@ -91,6 +91,11 @@ hr.default {
 	margin: $hr-margin 0;
 }
 
+img {
+	display: block;
+	width: 100%;
+}
+
 .button {
 	box-sizing: border-box;
 	background-color: var(--color-btn-1);

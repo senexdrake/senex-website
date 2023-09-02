@@ -9,22 +9,30 @@
 
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
-	import type {ImageCategory, Images} from "$model/types";
+	import type {ImageAuthor, ImageCategory, Images} from "$model/types";
+
+	const refsheetAuthor: ImageAuthor = {
+		name: "Wolke",
+		url: "https://wolke.carrd.co/"
+	}
 
 	const references: ImageCategory = {
 		title: "",
 		description: "",
 		images: [
-			{ title: "Refsheet SFW", description: "SFW Refsheet for Senex, based on a 3D model",
+			{ title: "Refsheet SFW", description: "SFW Refsheet for Senex. Refsheet is made by me, based on a 3D model",
+				author: refsheetAuthor,
 				srcset: refsheetSfwSrcSet,
 				src: refsheetSfwLarge,
 			},
-			{ title: "Refsheet NSFW (Bulge)", description: "NSFW Refsheet for Senex, based on a 3D model, featuring a hyper bulge",
+			{ title: "Refsheet NSFW (Bulge)", description: "NSFW Refsheet for Senex (clothed with hyper bulge). Refsheet is made by me, based on a 3D model",
+				author: refsheetAuthor,
 				srcset: refsheetBulgeSrcSet,
 				src: refsheetBulgeLarge,
 				nsfw: true
 			},
-			{ title: "Refsheet NSFW (Naked)", description: "NSFW Refsheet for Senex, based on a 3D model, naked",
+			{ title: "Refsheet NSFW (Naked)", description: "NSFW Refsheet for Senex (naked with hyper genitals). Refsheet is made by me, based on a 3D model",
+				author: refsheetAuthor,
 				srcset: refsheetNsfwSrcSet,
 				src: refsheetNsfwLarge,
 				nsfw: true
@@ -56,17 +64,25 @@
 
 	<div class="text-center">
 		{#each references.images as image}
-			{#if showImage(image.nsfw ?? false)}
-				<a href={image.src} target="_blank">
-					<picture>
-						<source srcset={image.srcset}>
-						<img src={image.src} alt={image.title}>
-					</picture>
-				</a>
+			<div hidden={!showImage(image.nsfw ?? false)}>
+				<div class="img-container">
+					<a href={image.src} target="_blank">
+						<picture>
+							<source srcset={image.srcset}>
+							<img src={image.src} alt={image.title}>
+						</picture>
+						<div class="img-overlay text-center">
+							Open full picture
+						</div>
+					</a>
+				</div>
 				<h3>{image.title}</h3>
 				<p>{image.description}</p>
+				{#if image.author}
+					<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
+				{/if}
 				<hr class="default">
-			{/if}
+			</div>
 		{/each}
 	</div>
 
@@ -76,6 +92,10 @@
 
 <style lang="scss">
 	@use "$styles/variables" as *;
+
+	$img-blur-speed: .2s;
+	$img-transition: $img-blur-speed ease all;
+
 
 	hr {
 		margin-bottom: 2rem !important;
@@ -93,9 +113,47 @@
 		margin: 1rem 0;
 	}
 
-	img {
+	.img-container {
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
 		border-radius: $img-border-radius;
 		box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
-		width: 100%;
+
+		&:hover {
+			.img-overlay {
+				opacity: 1;
+			}
+
+			img {
+				filter: blur(4px);
+				transform: scale(1.05);
+			}
+		}
+
+		img {
+			transition: $img-transition;
+		}
+
+		.img-overlay {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			font-size: 2em;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			text-align: center;
+			background: rgba(0, 0, 0, 0.5);
+			color: $color-text-dark;
+			opacity: 0;
+			transition: $img-transition;
+		}
+	}
+
+	.author-link {
+		color: var(--color-text)
 	}
 </style>
