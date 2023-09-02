@@ -3,9 +3,9 @@
 	import refsheetNsfwSrcSet from "$remoteAssets/refsheet-naked.png?w=1000;2000&format=webp&remote&as=srcset"
 	import refsheetBulgeSrcSet from "$remoteAssets/refsheet-bulge.png?w=1000;2000&format=webp&remote&as=srcset"
 
-	import refsheetSfwLarge from '$remoteAssets/refsheet-sfw.png?w=4000&format=webp&remote'
-	import refsheetNsfwLarge from '$remoteAssets/refsheet-naked.png?w=4000&format=webp&remote'
-	import refsheetBulgeLarge from '$remoteAssets/refsheet-bulge.png?w=4000&format=webp&remote'
+	import refsheetSfwLarge from '$remoteAssets/refsheet-sfw.png?w=4000&format=webp&quality=90&remote'
+	import refsheetNsfwLarge from '$remoteAssets/refsheet-naked.png?w=4000&format=webp&quality=90&remote'
+	import refsheetBulgeLarge from '$remoteAssets/refsheet-bulge.png?w=4000&format=webp&quality=90&remote'
 
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
