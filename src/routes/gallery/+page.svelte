@@ -50,9 +50,9 @@
 </script>
 
 
-<section class="text-column">
+<section>
 
-	<button on:click={toggleNsfw} id="nsfw-toggle">{showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}</button>
+	<button class="button" on:click={toggleNsfw} id="nsfw-toggle">{showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}</button>
 
 	<div class="text-center">
 		{#each references.images as image}
@@ -70,20 +70,32 @@
 		{/each}
 	</div>
 
-	<h1>Coming Soon!</h1>
-	<div>... hopefully. FurAffinity hasn't been as reliable as I wanted it to be over the last years...</div>
+	<h1>More coming Soon!</h1>
+	<div>Now that I've figured out the asset management, I now have to figure out how to structure this page...</div>
 </section>
 
 <style lang="scss">
+	@use "$styles/variables" as *;
+
+	hr {
+		margin-bottom: 2rem;
+	}
+
+	button {
+		border-style: none;
+	}
+
 	#nsfw-toggle {
 		margin-bottom: 2rem;
 	}
 
 	section {
-		margin-top: 1rem;
+		margin: 1rem 0;
 	}
 
 	img {
+		border-radius: $img-border-radius;
+		box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
 		width: 100%;
 	}
 </style>

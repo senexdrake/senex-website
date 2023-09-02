@@ -68,36 +68,6 @@
         line-height: 2em;
     }
 
-    .button {
-        box-sizing: border-box;
-        background-color: var(--color-btn-1);
-        color: #fff;
-
-        @include mixins.whenDark() {
-            color: $color-text-dark;
-        }
-
-        background-image: linear-gradient(45deg, var(--color-btn-2) 0%, var(--color-btn-1) 75%);
-        text-decoration: none;
-        display: inline-flex;
-        height: 3rem;
-        line-height: 3rem;
-        padding: 0 1rem;
-        vertical-align: middle;
-        font-size: 1.125em;
-        flex-direction: row-reverse;
-        justify-content: center;
-        border-radius: 1rem;
-        transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
-
-        &:hover {
-            background-color: $color-btn-hover;
-            @include mixins.whenDark() {
-              background-color: $color-btn-hover-dark;
-            }
-        }
-    }
-
     //#small-links {
     //    display: flex;
     //    flex-direction: row;
