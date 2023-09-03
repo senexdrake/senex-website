@@ -26,11 +26,13 @@
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 
 	$: sourceSet = (meta: ImageOutputMetadata[]) => {
+		const lastValidIndex = meta.length - 2
 		let sourceSet = ""
-		meta.forEach(metaObject => {
+		if (lastValidIndex < 0) return sourceSet
+		for (let i = 0; i <= lastValidIndex; i++) {
 			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${metaObject.src} ${metaObject.width}w`
-		})
+			sourceSet += `${meta[i].src} ${meta[i].width}w`
+		}
 		return sourceSet
 	}
 
