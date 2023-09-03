@@ -1,9 +1,9 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/bunkerbuster.png?galleryWidth"
-import large from "$remoteAssets/bunkerbuster.png?fullsize"
-import setCock from "$remoteAssets/bunkerbuster-cock.png?galleryWidth"
-import largeCock from "$remoteAssets/bunkerbuster-cock.png?fullsize"
+import set from "+gi/bunkerbuster.png/gw"
+import large from "+gi/bunkerbuster.png/full"
+import setCock from "+gi/bunkerbuster-cock.png/gw"
+import largeCock from "+gi/bunkerbuster-cock.png/full"
 import {blueblaster as author} from "../authors";
 
 export const bunkerbusterBulge: Image = {

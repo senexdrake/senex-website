@@ -1,7 +1,7 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/senexmirror.webp?galleryWidth"
-import large from "$remoteAssets/senexmirror.webp?fullsize"
+import set from "+gi/senexmirror.webp/gw"
+import large from "+gi/senexmirror.webp/full"
 import {aFurreak as author} from "../authors";
 
 export default <Image>{

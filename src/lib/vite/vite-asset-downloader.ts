@@ -59,7 +59,7 @@ export function downloadAsset(assetName: string) : Promise<string> {
 
 export function assetDownloader() : Plugin {
 
-    const acceptedParams = [
+    const acceptedRemoteParams = [
         '&remote',
         '?remote',
         '&gallery',
@@ -72,6 +72,12 @@ export function assetDownloader() : Plugin {
         '?fullsize'
     ]
 
+    const acceptedGalleryImagePrefixes = [
+        '+i/',
+        '+images/',
+        '+gi/'
+    ]
+
     const resolvingAssets = new Map<string, Promise<void>>()
 
     return {
@@ -80,8 +86,26 @@ export function assetDownloader() : Plugin {
         async configResolved(cfg) {
             await ensureRemoteAssetsPathExists()
         },
+        resolveId(source: string, importer: string|undefined, options: { assertions: Record<string, string> }) {
+            if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null
+            console.log(options)
+            const pathParts = source.split('/')
+            const assetName = pathParts[1]
+            if (!assetName) return null
+            const type = (() => {
+                switch (pathParts[2]) {
+                    case 'fullsize':
+                    case 'full':
+                    case 'f':
+                        return 'fullsize'
+                    case 'gh': return 'galleryHeight'
+                    default: return 'galleryWidth'
+                }
+            })()
+            return process.cwd() + remoteAssetsDir + '/' + assetName + '?' + type
+        },
         load(id) {
-            if (!acceptedParams.some(param => id.indexOf(param) !== -1)) return
+            if (!acceptedRemoteParams.some(param => id.indexOf(param) !== -1)) return
             const assetName = id.substring(id.lastIndexOf('/') + 1, id.indexOf('?'))
             if (resolvingAssets.has(assetName)) return resolvingAssets.get(assetName)
             const promise = new Promise<void>((resolve, reject) => {

@@ -1,7 +1,7 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/phone-bg-deadanthro.png?galleryHeight"
-import large from "$remoteAssets/phone-bg-deadanthro.png?fullsize"
+import set from "+gi/phone-bg-deadanthro.png/gh"
+import large from "+gi/phone-bg-deadanthro.png/full"
 import {deadAnthro as author} from "../authors";
 
 export default <Image>{

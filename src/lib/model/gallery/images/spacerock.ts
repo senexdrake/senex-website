@@ -1,9 +1,9 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/not-today-spacerock-trousers.webp?galleryWidth"
-import large from "$remoteAssets/not-today-spacerock-trousers.webp?fullsize"
-import setCock from "$remoteAssets/not-today-spacerock-speedos.webp?galleryWidth"
-import largeCock from "$remoteAssets/not-today-spacerock-speedos.webp?fullsize"
+import set from "+gi/not-today-spacerock-trousers.webp/gw"
+import large from "+gi/not-today-spacerock-trousers.webp/full"
+import setCock from "+gi/not-today-spacerock-speedos.webp/gw"
+import largeCock from "+gi/not-today-spacerock-speedos.webp/full"
 import {kittykage as author} from "../authors";
 
 export const spacerockTrousers: Image = {

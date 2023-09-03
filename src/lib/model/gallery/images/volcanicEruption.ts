@@ -1,7 +1,7 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/castlevolcano.webp?galleryHeight"
-import large from "$remoteAssets/castlevolcano.webp?fullsize"
+import set from "+gi/castlevolcano.webp/gh"
+import large from "+gi/castlevolcano.webp/full"
 import {elkaart as author} from "../authors";
 
 export default <Image>{
