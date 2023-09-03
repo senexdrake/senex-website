@@ -1,7 +1,7 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/refsheet-naked.png?gallery"
-import large from "$remoteAssets/refsheet-naked.png?fullsize"
+import set from "$remoteAssets/refsheet-naked.webp?gallery"
+import large from "$remoteAssets/refsheet-naked.webp?fullsize"
 import {wolke as author} from "../authors";
 
 export default <Image>{
