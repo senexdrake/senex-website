@@ -13,7 +13,7 @@ export default defineConfig({
 					return new URLSearchParams('w=1200;2400&h=1200;2400&withoutEnlargement&fit=inside&format=webp&quality=50&as=meta')
 				}
 				if (url.searchParams.has('fullsize')) {
-					return new URLSearchParams('w=4000&withoutEnlargement&format=webp&quality=90&as=meta')
+					return new URLSearchParams('w=4000&withoutEnlargement&format=webp&quality=95&as=meta')
 				}
 				return new URLSearchParams()
 			}
