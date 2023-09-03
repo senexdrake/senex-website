@@ -1,6 +1,6 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/halloweenshop-mishaps.png?gallery"
+import set from "$remoteAssets/halloweenshop-mishaps.png?galleryWidth"
 import large from "$remoteAssets/halloweenshop-mishaps.png?fullsize"
 import {deadAnthro as author} from "../authors";
 

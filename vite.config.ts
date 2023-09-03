@@ -12,6 +12,12 @@ export default defineConfig({
 				if (url.searchParams.has('gallery')) {
 					return new URLSearchParams('w=1200;2400&h=1200;2400&withoutEnlargement&fit=inside&format=webp&quality=50&as=meta')
 				}
+				if (url.searchParams.has('galleryWidth')) {
+					return new URLSearchParams('w=1200;2400&withoutEnlargement&fit=inside&format=webp&quality=50&as=meta')
+				}
+				if (url.searchParams.has('galleryHeight')) {
+					return new URLSearchParams('h=1200;2400&withoutEnlargement&fit=inside&format=webp&quality=50&as=meta')
+				}
 				if (url.searchParams.has('fullsize')) {
 					return new URLSearchParams('w=4000&h=4000&withoutEnlargement&fit=inside&format=webp&quality=90&as=meta')
 				}

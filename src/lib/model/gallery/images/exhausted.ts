@@ -1,6 +1,6 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/commission1430.png?gallery"
+import set from "$remoteAssets/commission1430.png?galleryWidth"
 import large from "$remoteAssets/commission1430.png?fullsize"
 import {schwarzfox as author} from "../authors";
 

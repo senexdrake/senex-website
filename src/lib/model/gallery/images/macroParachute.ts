@@ -1,6 +1,6 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/macro-parachute.webp?gallery"
+import set from "$remoteAssets/macro-parachute.webp?galleryWidth"
 import large from "$remoteAssets/macro-parachute.webp?fullsize"
 import {syc as author} from "../authors";
 

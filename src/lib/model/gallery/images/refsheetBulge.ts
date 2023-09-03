@@ -1,6 +1,6 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/refsheet-bulge.webp?gallery"
+import set from "$remoteAssets/refsheet-bulge.webp?galleryWidth"
 import large from "$remoteAssets/refsheet-bulge.webp?fullsize"
 import {wolke as author} from "../authors";
 

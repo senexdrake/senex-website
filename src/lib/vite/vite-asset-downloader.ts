@@ -64,6 +64,10 @@ export function assetDownloader() : Plugin {
         '?remote',
         '&gallery',
         '?gallery',
+        '&galleryWidth',
+        '?galleryWidth',
+        '&galleryHeight',
+        '?galleryHeight',
         '&fullsize',
         '?fullsize'
     ]

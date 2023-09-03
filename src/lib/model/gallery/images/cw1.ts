@@ -1,6 +1,6 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/ArisenDrake_BV1.png?gallery"
+import set from "$remoteAssets/ArisenDrake_BV1.png?galleryWidth"
 import large from "$remoteAssets/ArisenDrake_BV1.png?fullsize"
 import {cringeworthington as author} from "../authors";
 

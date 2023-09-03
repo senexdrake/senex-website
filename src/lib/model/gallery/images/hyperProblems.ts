@@ -1,6 +1,6 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/hyper-problems.png?gallery"
+import set from "$remoteAssets/hyper-problems.png?galleryHeight"
 import large from "$remoteAssets/hyper-problems.png?fullsize"
 import {klotzzilla as author} from "../authors";
 

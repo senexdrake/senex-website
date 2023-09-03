@@ -1,8 +1,8 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/not-today-spacerock-trousers.webp?gallery"
+import set from "$remoteAssets/not-today-spacerock-trousers.webp?galleryWidth"
 import large from "$remoteAssets/not-today-spacerock-trousers.webp?fullsize"
-import setCock from "$remoteAssets/not-today-spacerock-speedos.webp?gallery"
+import setCock from "$remoteAssets/not-today-spacerock-speedos.webp?galleryWidth"
 import largeCock from "$remoteAssets/not-today-spacerock-speedos.webp?fullsize"
 import {kittykage as author} from "../authors";
 

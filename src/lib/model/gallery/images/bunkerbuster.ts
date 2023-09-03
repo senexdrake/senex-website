@@ -1,8 +1,8 @@
 import type {Image} from "$lib/model/types";
 
-import set from "$remoteAssets/bunkerbuster.png?gallery"
+import set from "$remoteAssets/bunkerbuster.png?galleryWidth"
 import large from "$remoteAssets/bunkerbuster.png?fullsize"
-import setCock from "$remoteAssets/bunkerbuster-cock.png?gallery"
+import setCock from "$remoteAssets/bunkerbuster-cock.png?galleryWidth"
 import largeCock from "$remoteAssets/bunkerbuster-cock.png?fullsize"
 import {blueblaster as author} from "../authors";
 
