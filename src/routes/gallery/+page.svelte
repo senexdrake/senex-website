@@ -57,7 +57,7 @@
 
 	<div class="text-center">
 		{#each references.images as image}
-			<div hidden={!showImage(image.nsfw ?? false)}>
+			{#if showImage(image.nsfw ?? false)}
 				<div class="img-container">
 					<a href={largestVariant(image.src)?.src} target="_blank">
 						<picture>
@@ -75,7 +75,7 @@
 					<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
 				{/if}
 				<hr class="default">
-			</div>
+			{/if}
 		{/each}
 	</div>
 
