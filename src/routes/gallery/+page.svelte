@@ -88,6 +88,7 @@
 
 	$img-blur-speed: .2s;
 	$img-transition: $img-blur-speed ease all;
+	$img-max-height: 65vh;
 
 
 	hr {
@@ -110,6 +111,9 @@
 		cursor: pointer;
 		position: relative;
 		overflow: hidden;
+		width: fit-content;
+		margin-left: auto;
+		margin-right: auto;
 		border-radius: $img-border-radius;
 		box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
 
@@ -125,6 +129,7 @@
 		}
 
 		img {
+			max-height: $img-max-height;
 			transition: $img-transition;
 		}
 
