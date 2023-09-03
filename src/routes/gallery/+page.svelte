@@ -150,8 +150,4 @@
 			transition: $img-transition;
 		}
 	}
-
-	.author-link {
-		color: var(--color-text)
-	}
 </style>

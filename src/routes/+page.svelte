@@ -12,7 +12,10 @@
 	<hr class="default">
 	<div id="about-me" class="text-center">
 		<p>Hey, I'm <span class="font-weight-bold">Senex</span>, also known as ArisenDrake in my... eh... non-furry related activities!</p>
-		<p>This is a small overview page for me and my fursona, a pretty big (and massive) dragon.</p>
+		<p>
+			This is a small overview page for me and my fursona, a pretty big (and massive) dragon. There's also a small
+			<a href="/gallery">Gallery</a> featuring some of my favorite artworks that I've commissioned over the years.
+		</p>
 		<p>
 			Don't have much to say here, except that I <span class="font-italic">LOVE</span> big fellas, especially dragons.
 			Also, please expect NSFW content on my art galleries.
