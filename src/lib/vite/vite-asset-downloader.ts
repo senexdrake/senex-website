@@ -59,6 +59,15 @@ export function downloadAsset(assetName: string) : Promise<string> {
 
 export function assetDownloader() : Plugin {
 
+    const acceptedParams = [
+        '&remote',
+        '?remote',
+        '&gallery',
+        '?gallery',
+        '&fullsize',
+        '?fullsize'
+    ]
+
     const resolvingAssets = new Map<string, Promise<void>>()
 
     return {
@@ -68,7 +77,7 @@ export function assetDownloader() : Plugin {
             await ensureRemoteAssetsPathExists()
         },
         load(id) {
-            if (id.indexOf('&remote') === -1) return
+            if (!acceptedParams.some(param => id.indexOf(param) !== -1)) return
             const assetName = id.substring(id.lastIndexOf('/') + 1, id.indexOf('?'))
             if (resolvingAssets.has(assetName)) return resolvingAssets.get(assetName)
             const promise = new Promise<void>((resolve, reject) => {

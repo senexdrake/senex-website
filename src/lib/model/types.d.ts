@@ -9,7 +9,7 @@ export interface LinkItem {
 }
 
 export interface Image {
-    src: ImageOutputMetadata,
+    src: ImageOutputMetadata[],
     title: string,
     description: string,
     nsfw?: boolean,

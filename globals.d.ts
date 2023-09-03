@@ -14,9 +14,3 @@ declare module '*=srcset' {
     const images: string
     export default images
 }
-
-declare module '*gallery-content.yml' {
-    import type {ImageCategory} from "$model/types";
-    const images: ImageCategory[]
-    export default images
-}
