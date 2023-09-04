@@ -1,31 +1,29 @@
 <script lang="ts">
 	import Links from "./Links.svelte";
-	import {iconCatalogue} from "$model";
-	import type {IconExport} from "$model/types.d";
+	import {profileBanner} from "$model/gallery";
+	import type {ImageExport} from "$model/types.d";
 	import {PUBLIC_IMAGE_BASE_PATH} from "$env/static/public"
 
-	const profileIconName = "senex-profile"
-	const preferredFormat = "webp"
-	const fallbackFormat = "png"
-
-	function iconToSourceSet(icons: IconExport[]): string {
+	function iconToSourceSet(image: ImageExport): string {
 		let sourceSet = ""
-		for (const icon of icons) {
+		for (const src of image.src) {
 			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${PUBLIC_IMAGE_BASE_PATH}/${icon.name} ${icon.width}w`
+			sourceSet += `${PUBLIC_IMAGE_BASE_PATH}/${src.src} ${src.width}w`
 		}
 		return sourceSet
 	}
 
-	const senexProfileFallback = iconCatalogue.sort((a, b) => b.width - a.width).find(icon => icon.format == fallbackFormat)
-	const senexProfileIcons = iconCatalogue.filter(icon => icon.name.startsWith(profileIconName) && icon.format == preferredFormat)
+	const senexProfileFallback = profileBanner.src.sort((a, b) => b.width - a.width)[0]
+	const senexProfileIcons = profileBanner
 </script>
 
 <section id="home">
-	<picture id="profile-pic">
-		<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
-		<img src="{PUBLIC_IMAGE_BASE_PATH}/{senexProfileFallback.name}" alt="Senex profile" />
-	</picture>
+	<div class="img-format">
+		<picture id="profile-pic">
+			<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
+			<img src="{PUBLIC_IMAGE_BASE_PATH}/{senexProfileFallback.src}" alt="Senex profile" />
+		</picture>
+	</div>
 	<hr class="default">
 	<div id="about-me" class="text-center">
 		<p>Hey, I'm <span class="font-weight-bold">Senex</span>, also known as ArisenDrake in my... eh... non-furry related activities!</p>
@@ -47,7 +45,7 @@
 
 	#home {
 		flex: 1;
-		padding: 0 0;
+		padding-top: 1rem;
 		display: flex;
 		width: 100%;
 		flex-direction: column;
@@ -61,10 +59,11 @@
 
 	#profile-pic {
 		img {
+			border-radius: $img-border-radius;
 			//border-radius: 50%;
 			//background: black;
 			//border: 2px solid black;
-			max-height: 15rem;
+			max-height: 25rem;
 		}
 	}
 

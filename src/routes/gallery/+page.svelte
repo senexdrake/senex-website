@@ -59,7 +59,7 @@
 	<div class="text-center">
 		{#each images as image}
 			{#if showImage(image.nsfw ?? false)}
-				<div class="img-container">
+				<div class="img-container img-format">
 					<a href="{imageBaseUrl}/{largestVariant(image)}" target="_blank">
 						<picture>
 							<source srcset={sourceSet(image.src)}>
@@ -110,13 +110,6 @@
 
 	.img-container {
 		cursor: pointer;
-		position: relative;
-		overflow: hidden;
-		width: fit-content;
-		margin-left: auto;
-		margin-right: auto;
-		border-radius: $img-border-radius;
-		box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
 
 		&:hover {
 			.img-overlay {
