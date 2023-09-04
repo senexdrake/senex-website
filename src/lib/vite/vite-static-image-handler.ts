@@ -36,18 +36,22 @@ export function staticImageHandler() : Plugin {
         }
     }
 
-    async function fetchCatalogue(catalogueName: string) {
-        const targetPath = path.resolve(dataDir, catalogueName)
+    async function fetchRemoteAsset(assetPath: string, logMessage: string, targetBasePath = dataDir) {
+        const targetPath = path.resolve(targetBasePath, assetPath)
         const writer = createWriteStream(targetPath)
         await axios({
             method: 'GET',
-            url: baseUrl + catalogueName,
+            url: baseUrl + assetPath,
             responseType: 'stream'
         }).then(async (response) => {
             response.data.pipe(writer)
             await finished(writer)
-            console.log('Wrote catalogue to', targetPath)
+            console.log(logMessage, targetPath)
         })
+    }
+
+    async function fetchCatalogue(catalogueName: string) {
+        await fetchRemoteAsset(catalogueName, 'Wrote catalogue to')
     }
 
     async function fetchImageCatalogue() {
@@ -56,6 +60,11 @@ export function staticImageHandler() : Plugin {
 
     async function fetchIconCatalogue() {
         await fetchCatalogue("icons.json")
+    }
+
+    async function fetchDefaultFavicons() {
+        await fetchRemoteAsset("favicon.ico", 'Wrote favicon to', './static')
+        await fetchRemoteAsset("favicon.png", 'Wrote favicon to', './static')
     }
 
     const acceptedGalleryImagePrefixes = [
@@ -75,6 +84,7 @@ export function staticImageHandler() : Plugin {
             await ensureDataDirectoryExits()
             await fetchImageCatalogue()
             await fetchIconCatalogue()
+            await fetchDefaultFavicons()
         },
         resolveId(source: string) {
             if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null
