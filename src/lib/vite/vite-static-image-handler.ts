@@ -13,7 +13,7 @@ const finished = promisify(stream.finished)
 
 const staticAssetPath = '_assets/'
 const imagePath = staticAssetPath + 'gallery/'
-const baseUrl = addTrailingSlash(process.env.PICTURES_BASE_PATH ?? "https://pics.senex.link")
+const baseUrl = addTrailingSlash(process.env.PUBLIC_IMAGE_BASE_PATH ?? "https://pics.senex.link")
 
 export async function ensureStaticGalleryPathExists(basePath: string) : Promise<void> {
     await ensurePathExists(path.resolve(basePath, imagePath))
@@ -36,6 +36,28 @@ export function staticImageHandler() : Plugin {
         }
     }
 
+    async function fetchCatalogue(catalogueName: string) {
+        const targetPath = path.resolve(dataDir, catalogueName)
+        const writer = createWriteStream(targetPath)
+        await axios({
+            method: 'GET',
+            url: baseUrl + catalogueName,
+            responseType: 'stream'
+        }).then(async (response) => {
+            response.data.pipe(writer)
+            await finished(writer)
+            console.log('Wrote catalogue to', targetPath)
+        })
+    }
+
+    async function fetchImageCatalogue() {
+        await fetchCatalogue("images.json")
+    }
+
+    async function fetchIconCatalogue() {
+        await fetchCatalogue("icons.json")
+    }
+
     const acceptedGalleryImagePrefixes = [
         '+i/',
         '+images/',
@@ -51,18 +73,8 @@ export function staticImageHandler() : Plugin {
         },
         async buildStart() {
             await ensureDataDirectoryExits()
-            const imageCatalogueName = "images.json"
-            const targetPath = path.resolve(dataDir, imageCatalogueName)
-            const writer = createWriteStream(targetPath)
-            await axios({
-                method: 'GET',
-                url: baseUrl + imageCatalogueName,
-                responseType: 'stream'
-            }).then(async (response) => {
-                response.data.pipe(writer)
-                await finished(writer)
-                console.log('Wrote image catalogue to', targetPath)
-            })
+            await fetchImageCatalogue()
+            await fetchIconCatalogue()
         },
         resolveId(source: string) {
             if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null

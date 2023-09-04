@@ -73,6 +73,13 @@ export interface ImageExport {
     original: ImageSrc
 }
 
+export interface IconExport {
+    name: string,
+    width: number,
+    height: number,
+    format: string
+}
+
 export interface ImageOutputMetadata {
     src: string // URL of the generated image
     width: number // Width of the image

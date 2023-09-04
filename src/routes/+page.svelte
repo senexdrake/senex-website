@@ -1,13 +1,30 @@
-<script>
-	import senexProfile from '$remoteAssets/senex-profile.webp?w=400;600&quality=50&format=webp&remote&as=srcset';
-	import senexProfileFallback from '$remoteAssets/senex-profile.webp?format=png&remote';
+<script lang="ts">
 	import Links from "./Links.svelte";
+	import {iconCatalogue} from "$model";
+	import type {IconExport} from "$model/types.d";
+	import {PUBLIC_IMAGE_BASE_PATH} from "$env/static/public"
+
+	const profileIconName = "senex-profile"
+	const preferredFormat = "webp"
+	const fallbackFormat = "png"
+
+	function iconToSourceSet(icons: IconExport[]): string {
+		let sourceSet = ""
+		for (const icon of icons) {
+			if (sourceSet.length !== 0) sourceSet += ', '
+			sourceSet += `${PUBLIC_IMAGE_BASE_PATH}/${icon.name} ${icon.width}w`
+		}
+		return sourceSet
+	}
+
+	const senexProfileFallback = iconCatalogue.sort((a, b) => b.width - a.width).find(icon => icon.format == fallbackFormat)
+	const senexProfileIcons = iconCatalogue.filter(icon => icon.name.startsWith(profileIconName) && icon.format == preferredFormat)
 </script>
 
 <section id="home">
 	<picture id="profile-pic">
-		<source srcset="{senexProfile}" type="image/webp">
-		<img src={senexProfileFallback} alt="Senex profile" />
+		<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
+		<img src="{PUBLIC_IMAGE_BASE_PATH}/{senexProfileFallback.name}" alt="Senex profile" />
 	</picture>
 	<hr class="default">
 	<div id="about-me" class="text-center">

@@ -1,20 +1,19 @@
 <script lang="ts">
-    import faviconsImport from '$remoteAssets/senex-profile.webp?w=16;32;48;180;192;167&quality=50&format=png&remote&as=meta'
-    import senexProfile from '$remoteAssets/senex-profile.webp?quality=50&format=webp&remote';
-    import senexProfileFallback from '$remoteAssets/senex-profile.webp?quality=50&format=png&remote';
+    import {iconCatalogue} from "$model";
     import {page} from "$app/stores";
-    import type {ImageOutputMetadata, Metadata, MetadataImage} from "$model/types";
-    import {PUBLIC_BASE_PATH} from "$env/static/public";
+    import type {IconExport, Metadata, MetadataImage} from "$model/types";
+    import {PUBLIC_BASE_PATH, PUBLIC_IMAGE_BASE_PATH} from "$env/static/public";
 
     $: pageData = $page.data as Metadata|undefined
 
 
-    $: normalFavIcons = faviconsImport.filter((icon: ImageOutputMetadata) => [16, 32, 48, 192].includes(icon.width))
-    $: appleFavIcon = faviconsImport.filter((icon: ImageOutputMetadata) => [167, 180].includes(icon.width))
+    $: normalFavIcons = iconCatalogue.filter((icon: IconExport) => [16, 32, 48, 192].includes(icon.width))
+    $: appleFavIcon = iconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width))
 
     const mastodonLink = "https://meow.social/@senex"
-    const basePath = PUBLIC_BASE_PATH ?? "https://example.com"
+    const basePath = PUBLIC_BASE_PATH
     const url = basePath + $page.url.pathname
+    const baseImagePath = PUBLIC_IMAGE_BASE_PATH ?? "https://pics.senex.link"
 
     let title: string
     $: title = pageData?.title ?? "Senex, the big Dragon"
@@ -22,20 +21,23 @@
     let description: string
     $: description = pageData?.description ?? "An overview of ways to find and contact the big Dragon!"
 
-    let primaryImage: MetadataImage
-    $: primaryImage = pageData?.image ?? {
-        url: senexProfileFallback,
-        height: 600,
-        width: 600,
-        alt: "Senex's profile picture",
-        type: "image/png"
-    }
+
+    const defaultImages = iconCatalogue.filter(icon => icon.name.startsWith('senex-profile')).map((icon) => {
+        return <MetadataImage>{
+            height: icon.height,
+            width: icon.width,
+            alt: "Senex's Profile",
+            url: baseImagePath + '/' + icon.name,
+            type: "image/" + icon.format
+        }
+    })
 
     let images: MetadataImage[]
-    $: images = pageData?.images ?? [
-        { url: senexProfile, height: 600, width: 600, alt: "Senex's profile picture", type: "image/webp" },
-        primaryImage
-    ]
+    $: images = pageData?.images ?? defaultImages
+
+
+    let primaryImage: MetadataImage
+    $: primaryImage = images.find((image) => image.type == "image/png")
 
     let cardType: string
     $: cardType = pageData?.cardType ?? "summary"
@@ -47,10 +49,10 @@
 <svelte:head>
     <title>{title}</title>
     {#each normalFavIcons as icon}
-        <link rel="icon" href={icon.src} sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="icon" href="{baseImagePath}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
     {#each appleFavIcon as icon}
-        <link rel="apple-touch-icon" href={icon.src} sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="apple-touch-icon" href="{baseImagePath}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
     <link rel="me" href={mastodonLink}>
     <link rel="canonical" href={url}>
@@ -64,7 +66,7 @@
     <meta property="og:description" content={description} />
 
     {#each images as image}
-        <meta property="og:image" content="{basePath}{image.url}" />
+        <meta property="og:image" content="{image.url}" />
         <meta property="og:image:alt" content={image.alt} />
         <meta property="og:image:width" content={image.width.toString()} />
         <meta property="og:image:height" content={image.height.toString()} />
@@ -78,7 +80,7 @@
 
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="{basePath}{primaryImage.url}" />
+    <meta name="twitter:image" content="{primaryImage.url}" />
     <meta name="twitter:image:alt" content={primaryImage.alt} />
     <meta name="twitter:site" content={creator} />
     <meta name="twitter:creator" content={creator} />
