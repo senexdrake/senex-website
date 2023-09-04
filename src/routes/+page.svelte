@@ -42,6 +42,7 @@
 
 <style lang="scss">
 	@use "$styles/variables" as *;
+	@use "$styles/mixins";
 
 	#home {
 		flex: 1;
@@ -56,9 +57,18 @@
 		margin: -$hr-margin 0;
 	}
 
+	.img-format {
+		border-radius: 0;
+		box-shadow: none;
+		margin: 0 (-0.5rem) (-$hr-margin) (-0.5rem);
+
+		@include mixins.breakpoint($big-links-breakpoint) {
+			margin: 0 0 (-$hr-margin) 0;
+		}
+	}
+
 	#profile-pic {
 		img {
-			border-radius: $img-border-radius;
 			//border-radius: 50%;
 			//background: black;
 			//border: 2px solid black;

@@ -104,9 +104,7 @@
 		margin-bottom: 2rem;
 	}
 
-	section {
-		margin: 1rem 0;
-	}
+
 
 	.img-container {
 		cursor: pointer;
