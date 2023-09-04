@@ -1,7 +1,8 @@
 import type {Image} from "$lib/model/types";
 
-import set from "+gi/senexmirror.webp/gw"
-import large from "+gi/senexmirror.webp/full"
+import set from "+gi/afurreak-senexmirror.webp/gw"
+import large from "+gi/afurreak-senexmirror.webp/lg"
+import full from "+gi/afurreak-senexmirror.webp/full"
 import {aFurreak as author} from "../authors";
 
 export default <Image>{
@@ -9,5 +10,6 @@ export default <Image>{
     description: 'How is something that\'s this tiny supposed to fit anyone?!',
     nsfw: false,
     author: author,
-    src: [...set, large]
+    src: [...set, large],
+    full: full
 }

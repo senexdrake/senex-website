@@ -1,11 +1,11 @@
-import type {Plugin, ResolvedConfig} from "vite";
+import type {ChunkMetadata, Plugin, ResolvedConfig} from "vite";
 import axios from "axios";
 import {stat, access, mkdir} from "fs/promises";
 import {createWriteStream, statSync, accessSync, WriteStream} from "fs";
-import {remoteAssetsDir} from "../../config"
+import {remoteAssetsRelative, remoteAssetsDir} from "../../config"
 
 const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
-const basePath = addTrailingSlash(remoteAssetsDir)
+const basePath = addTrailingSlash(remoteAssetsRelative)
 const baseUrl = addTrailingSlash(process.env.REMOTE_ASSETS_BASE_URL ?? "https://pics.arisendrake.de")
 
 export async function ensureRemoteAssetsPathExists() : Promise<void> {
@@ -68,6 +68,8 @@ export function assetDownloader() : Plugin {
         '?galleryWidth',
         '&galleryHeight',
         '?galleryHeight',
+        '&large',
+        '?large',
         '&fullsize',
         '?fullsize'
     ]
@@ -88,7 +90,6 @@ export function assetDownloader() : Plugin {
         },
         resolveId(source: string, importer: string|undefined, options: { assertions: Record<string, string> }) {
             if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null
-            console.log(options)
             const pathParts = source.split('/')
             const assetName = pathParts[1]
             if (!assetName) return null
@@ -98,11 +99,14 @@ export function assetDownloader() : Plugin {
                     case 'full':
                     case 'f':
                         return 'fullsize'
+                    case 'large':
+                    case 'lg':
+                        return 'large'
                     case 'gh': return 'galleryHeight'
                     default: return 'galleryWidth'
                 }
             })()
-            return process.cwd() + remoteAssetsDir + '/' + assetName + '?' + type
+            return process.cwd() +'/' + remoteAssetsDir + '/' + assetName + '?' + type
         },
         load(id) {
             if (!acceptedRemoteParams.some(param => id.indexOf(param) !== -1)) return

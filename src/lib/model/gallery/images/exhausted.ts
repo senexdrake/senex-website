@@ -1,7 +1,8 @@
 import type {Image} from "$lib/model/types";
 
-import set from "+gi/commission1430.png/gw"
-import large from "+gi/commission1430.png/full"
+import set from "+gi/schwarzfox-commission1430.webp/gw"
+import large from "+gi/schwarzfox-commission1430.webp/lg"
+import full from "+gi/schwarzfox-commission1430.webp/full"
 import {schwarzfox as author} from "../authors";
 
 export default <Image>{
@@ -9,5 +10,6 @@ export default <Image>{
     description: "That was one hell of a workout! Wait, what do you mean we haven't started yet? I feel so pent up already though...",
     nsfw: true,
     author: author,
-    src: [set, large]
+    src: [set, large],
+    full: full
 }

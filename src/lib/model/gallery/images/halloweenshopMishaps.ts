@@ -1,7 +1,8 @@
 import type {Image} from "$lib/model/types";
 
-import set from "+gi/halloweenshop-mishaps.png/gw"
-import large from "+gi/halloweenshop-mishaps.png/full"
+import set from "+gi/deadanthro-halloweenshop-mishaps.webp/gw"
+import large from "+gi/deadanthro-halloweenshop-mishaps.webp/lg"
+import full from "+gi/deadanthro-halloweenshop-mishaps.webp/full"
 import {deadAnthro as author} from "../authors";
 
 export default <Image>{
@@ -10,5 +11,6 @@ export default <Image>{
         "It's not easy with a friend whose endowments are bigger and a lot heavier than your whole body.",
     nsfw: true,
     author: author,
-    src: [...set, large]
+    src: [...set, large],
+    full: full
 }

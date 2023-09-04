@@ -1,7 +1,8 @@
 import type {Image, ImageOutputMetadata} from "$lib/model/types";
 
-import set from "+gi/ArisenDrake_BV1.png/gw"
-import large from "+gi/ArisenDrake_BV1.png/full"
+import set from "+gi/cringeworthington-cock-jumping.webp/gw"
+import large from "+gi/cringeworthington-cock-jumping.webp/lg"
+import full from "+gi/cringeworthington-cock-jumping.webp/full"
 import {cringeworthington as author} from "../authors";
 
 export default <ImageOutputMetadata>{
@@ -12,5 +13,6 @@ export default <ImageOutputMetadata>{
     src: [
         ...set,
         large
-    ]
+    ],
+    full: full
 }

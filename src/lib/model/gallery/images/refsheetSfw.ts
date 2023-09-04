@@ -1,7 +1,8 @@
 import type {Image} from "$lib/model/types";
 
 import set from "+gi/refsheet-sfw.webp/gw"
-import large from "+gi/refsheet-sfw.webp/full"
+import large from "+gi/refsheet-sfw.webp/lg"
+import full from "+gi/refsheet-sfw.webp/full"
 import {wolke as author} from "../authors";
 
 export default <Image>{
@@ -9,5 +10,6 @@ export default <Image>{
     description: "SFW Refsheet for Senex. Refsheet is made by me, based on a 3D model",
     nsfw: false,
     author: author,
-    src: [...set, large]
+    src: [...set, large],
+    full: full
 }

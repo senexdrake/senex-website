@@ -36,10 +36,11 @@
 		return sourceSet
 	}
 
-	$: largestVariant = (meta: ImageOutputMetadata[]) : ImageOutputMetadata|undefined => {
+	$: largestVariant = (image: Image) : string => {
 		// Largest variant is always the last one
-		if (meta.length === 0) return undefined
-		return meta[meta.length - 1]
+		if (image.full) return image.full
+		const meta = image.src
+		return meta[meta.length - 1].src
 	}
 
 </script>
@@ -53,10 +54,10 @@
 		{#each references.images as image}
 			{#if showImage(image.nsfw ?? false)}
 				<div class="img-container">
-					<a href={largestVariant(image.src)?.src} target="_blank">
+					<a href={largestVariant(image)} target="_blank">
 						<picture>
 							<source srcset={sourceSet(image.src)}>
-							<img src={largestVariant(image.src)?.src} alt={image.title}>
+							<img src={largestVariant(image)} alt={image.title}>
 						</picture>
 						<div class="img-overlay text-center">
 							Open full picture

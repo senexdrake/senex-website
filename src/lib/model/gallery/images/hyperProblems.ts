@@ -1,7 +1,8 @@
 import type {Image} from "$lib/model/types";
 
-import set from "+gi/hyper-problems.png/gh"
-import large from "+gi/hyper-problems.png/full"
+import set from "+gi/klotzzilla-hyper-problems.webp/gh"
+import large from "+gi/klotzzilla-hyper-problems.webp/lg"
+import full from "+gi/klotzzilla-hyper-problems.webp/full"
 import {klotzzilla as author} from "../authors";
 
 export default <Image>{
@@ -9,5 +10,6 @@ export default <Image>{
     description: "I swear, this underwear is getting smaller every day. So annoying.",
     nsfw: true,
     author: author,
-    src: [set, large]
+    src: [set, large],
+    full: full
 }
