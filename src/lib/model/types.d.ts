@@ -51,7 +51,26 @@ export interface MetadataImage {
 }
 
 export interface Images {
-    images: Image[]
+    galleryImages: ImageExport[]
+}
+
+export interface ImageSrc {
+    src: string,
+    width: number,
+    height: number,
+    format: string
+}
+
+export interface ImageExport {
+    id: number,
+    name: string,
+    title: string,
+    description: string,
+    author: Author
+    nsfw: boolean,
+    categories?: string[]
+    src: ImageSrc[],
+    original: ImageSrc
 }
 
 export interface ImageOutputMetadata {

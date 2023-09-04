@@ -3,17 +3,14 @@ import axios from "axios";
 import {stat, access, mkdir} from "fs/promises";
 import {createWriteStream, statSync, accessSync, WriteStream} from "fs";
 import {remoteAssetsRelative} from "../../config"
+import {addTrailingSlash, ensurePathExists} from "../util";
+import path from "path";
 
-const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
 const basePath = addTrailingSlash(remoteAssetsRelative)
 const baseUrl = addTrailingSlash(process.env.REMOTE_ASSETS_BASE_URL ?? "https://pics.arisendrake.de")
 
 export async function ensureRemoteAssetsPathExists() : Promise<void> {
-    try {
-        await access(basePath)
-    } catch (e: any) {
-        await mkdir(basePath)
-    }
+    await ensurePathExists(basePath)
 }
 export function downloadAsset(assetName: string) : Promise<string> {
     return new Promise((resolve, reject) => {

@@ -1,19 +1,26 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import { dataToEsm } from "@rollup/pluginutils"
+import {createWriteStream} from "fs";
 import {access, copyFile, mkdir, rm} from "fs/promises";
-import {remoteAssetsDir} from "../../config"
+import {remoteAssetsDir, dataDir} from "../../config"
 import * as path from "path";
+import {addTrailingSlash, ensurePathExists} from "../util";
+import {promisify} from "util";
+import stream from "stream";
+import axios from "axios";
+
+const finished = promisify(stream.finished)
 
 const staticAssetPath = '_assets/'
 const imagePath = staticAssetPath + 'gallery/'
+const baseUrl = addTrailingSlash(process.env.PICTURES_BASE_PATH ?? "https://pics.senex.link")
 
 export async function ensureStaticGalleryPathExists(basePath: string) : Promise<void> {
-    const targetPath = path.resolve(basePath, imagePath)
-    try {
-        await access(targetPath)
-    } catch (e: any) {
-        await mkdir(targetPath, { recursive: true })
-    }
+    await ensurePathExists(path.resolve(basePath, imagePath))
+}
+
+export async function ensureDataDirectoryExits() : Promise<void> {
+    await ensurePathExists(dataDir)
 }
 
 export function staticImageHandler() : Plugin {
@@ -41,6 +48,21 @@ export function staticImageHandler() : Plugin {
         async configResolved(cfg) {
             viteConfig = cfg
             await ensureStaticGalleryPathExists(viteConfig.publicDir)
+        },
+        async buildStart() {
+            await ensureDataDirectoryExits()
+            const imageCatalogueName = "images.json"
+            const targetPath = path.resolve(dataDir, imageCatalogueName)
+            const writer = createWriteStream(targetPath)
+            await axios({
+                method: 'GET',
+                url: baseUrl + imageCatalogueName,
+                responseType: 'stream'
+            }).then(async (response) => {
+                response.data.pipe(writer)
+                await finished(writer)
+                console.log('Wrote image catalogue to', targetPath)
+            })
         },
         resolveId(source: string) {
             if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null

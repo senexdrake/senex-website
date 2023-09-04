@@ -1,14 +1,20 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
-	import type {Image, ImageAuthor, ImageCategory, ImageOutputMetadata, Images} from "$model/types";
+	import type {
+		ImageAuthor,
+		ImageExport,
+		ImageSrc
+	} from "$model/types";
 
 	const refsheetAuthor: ImageAuthor = {
 		name: "Wolke",
 		url: "https://wolke.carrd.co/"
 	}
 
-	const references = $page.data.categories[0]
+	const imageBaseUrl = "https://pics.senex.link"
+
+	const images: ImageExport[] = $page.data.galleryImages
 
 	$: showNsfw = $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
@@ -25,22 +31,22 @@
 
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 
-	$: sourceSet = (meta: ImageOutputMetadata[]) => {
-		const lastValidIndex = meta.length - 2
+	$: sourceSet = (src: ImageSrc[]) => {
+		const lastValidIndex = src.length - 2
 		let sourceSet = ""
 		if (lastValidIndex < 0) return sourceSet
 		for (let i = 0; i <= lastValidIndex; i++) {
 			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${meta[i].src} ${meta[i].width}w`
+			sourceSet += `${imageBaseUrl}/${src[i].src} ${src[i].width}w`
 		}
 		return sourceSet
 	}
 
-	$: largestVariant = (image: Image) : string => {
+	$: largestVariant = (image: ImageExport) : string => {
 		// Largest variant is always the last one
-		if (image.full) return image.full
-		const meta = image.src
-		return meta[meta.length - 1].src
+		if (image.original) return image.original.src
+		const sources = image.src
+		return sources[sources.length - 1].src
 	}
 
 </script>
@@ -51,13 +57,13 @@
 	<button class="button" on:click={toggleNsfw} id="nsfw-toggle">{showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}</button>
 
 	<div class="text-center">
-		{#each references.images as image}
+		{#each images as image}
 			{#if showImage(image.nsfw ?? false)}
 				<div class="img-container">
-					<a href={largestVariant(image)} target="_blank">
+					<a href="{imageBaseUrl}/{largestVariant(image)}" target="_blank">
 						<picture>
 							<source srcset={sourceSet(image.src)}>
-							<img src={largestVariant(image)} alt={image.title}>
+							<img src="{imageBaseUrl}/{largestVariant(image)}" alt={image.title}>
 						</picture>
 						<div class="img-overlay text-center">
 							Open full picture
