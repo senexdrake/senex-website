@@ -45,7 +45,6 @@
 
 	#home {
 		flex: 1;
-		padding-top: 1rem;
 		display: flex;
 		width: 100%;
 		flex-direction: column;
