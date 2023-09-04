@@ -1,11 +1,13 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import { dataToEsm } from "@rollup/pluginutils"
-import {access, copyFile, mkdir} from "fs/promises";
+import {access, copyFile, mkdir, rm} from "fs/promises";
+import {remoteAssetsDir} from "../../config"
 import * as path from "path";
 
-const imagePath = '_assets/gallery/'
+const staticAssetPath = '_assets/'
+const imagePath = staticAssetPath + 'gallery/'
 
-export async function ensurePublicGalleryPathExists(basePath: string) : Promise<void> {
+export async function ensureStaticGalleryPathExists(basePath: string) : Promise<void> {
     const targetPath = path.resolve(basePath, imagePath)
     try {
         await access(targetPath)
@@ -17,12 +19,48 @@ export async function ensurePublicGalleryPathExists(basePath: string) : Promise<
 export function staticImageHandler() : Plugin {
     let viteConfig: ResolvedConfig
 
+    async function cleanupStaticGallery() : Promise<void> {
+        const targetPath = path.resolve(viteConfig.publicDir, staticAssetPath)
+        try {
+            await rm(targetPath, { recursive: true })
+        } catch (err: any) {
+            if (err.code != 'ENOENT') throw err
+            // ENOENT isn't problematic
+        }
+    }
+
+    const acceptedGalleryImagePrefixes = [
+        '+i/',
+        '+images/',
+        '+gi/'
+    ]
+
     return {
         name: 'static-image-handler',
         enforce: 'pre',
         async configResolved(cfg) {
             viteConfig = cfg
-            await ensurePublicGalleryPathExists(viteConfig.publicDir)
+            await ensureStaticGalleryPathExists(viteConfig.publicDir)
+        },
+        resolveId(source: string) {
+            if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null
+            const pathParts = source.split('/')
+            const assetName = pathParts[1]
+            if (!assetName) return null
+            const type = (() => {
+                switch (pathParts[2]) {
+                    case 'fullsize':
+                    case 'full':
+                    case 'f':
+                        return 'fullsize'
+                    case 'large':
+                    case 'lg':
+                        return 'large'
+                    case 'gh': return 'galleryHeight'
+                    default: return 'galleryWidth'
+                }
+            })()
+            return process.cwd() +'/' + remoteAssetsDir + '/' + assetName + '?' + type
         },
         async load(id) {
             if (id.includes('fullsize')) {
@@ -37,6 +75,12 @@ export function staticImageHandler() : Plugin {
                     preferConst: true
                 })
             }
+        },
+        async closeBundle() {
+            if (!this.meta.watchMode) await cleanupStaticGallery()
+        },
+        async closeWatcher() {
+            await cleanupStaticGallery()
         }
     }
 }

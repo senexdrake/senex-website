@@ -8,8 +8,6 @@ import largeCock from "+gi/blueblaster-bunkerbuster-cock.webp/lg"
 import fullCock from "+gi/blueblaster-bunkerbuster-cock.webp/full"
 import {blueblaster as author} from "../authors";
 
-console.log(full)
-
 export const bunkerbusterBulge: Image = {
     title: "You better come out or I'll have to get angry...",
     description: 'Thought they could hide in there. Thought I wouldn\'t be able to reach them because I\'m... quite big. Well, maybe they are right.',

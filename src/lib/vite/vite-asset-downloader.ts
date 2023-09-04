@@ -2,7 +2,7 @@ import type {ChunkMetadata, Plugin, ResolvedConfig} from "vite";
 import axios from "axios";
 import {stat, access, mkdir} from "fs/promises";
 import {createWriteStream, statSync, accessSync, WriteStream} from "fs";
-import {remoteAssetsRelative, remoteAssetsDir} from "../../config"
+import {remoteAssetsRelative} from "../../config"
 
 const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
 const basePath = addTrailingSlash(remoteAssetsRelative)
@@ -74,12 +74,6 @@ export function assetDownloader() : Plugin {
         '?fullsize'
     ]
 
-    const acceptedGalleryImagePrefixes = [
-        '+i/',
-        '+images/',
-        '+gi/'
-    ]
-
     const resolvingAssets = new Map<string, Promise<void>>()
 
     return {
@@ -87,26 +81,6 @@ export function assetDownloader() : Plugin {
         enforce: 'pre',
         async configResolved(cfg) {
             await ensureRemoteAssetsPathExists()
-        },
-        resolveId(source: string, importer: string|undefined, options: { assertions: Record<string, string> }) {
-            if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null
-            const pathParts = source.split('/')
-            const assetName = pathParts[1]
-            if (!assetName) return null
-            const type = (() => {
-                switch (pathParts[2]) {
-                    case 'fullsize':
-                    case 'full':
-                    case 'f':
-                        return 'fullsize'
-                    case 'large':
-                    case 'lg':
-                        return 'large'
-                    case 'gh': return 'galleryHeight'
-                    default: return 'galleryWidth'
-                }
-            })()
-            return process.cwd() +'/' + remoteAssetsDir + '/' + assetName + '?' + type
         },
         load(id) {
             if (!acceptedRemoteParams.some(param => id.indexOf(param) !== -1)) return
