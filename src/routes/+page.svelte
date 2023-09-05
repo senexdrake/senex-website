@@ -21,7 +21,7 @@
 	<div class="img-format">
 		<picture id="profile-pic">
 			<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
-			<img src="{galleryAssetPrefix}{senexProfileFallback.src}" alt="Senex profile" />
+			<img src="{galleryAssetPrefix}{senexProfileFallback.src}" alt="Senex profile" fetchpriority="high" />
 		</picture>
 	</div>
 	<hr class="default">
