@@ -284,7 +284,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const favicons = await glob.glob(addTrailingSlash(assetOutputDir) + 'favicon*')
         await Promise.all(favicons.map(iconPath => {
             const name = path.basename(iconPath)
-            return rename(iconPath, path.resolve(faviconDir, name))
+            return copyFile(iconPath, path.resolve(faviconDir, name))
         }))
     }
 
