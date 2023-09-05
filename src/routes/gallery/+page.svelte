@@ -26,16 +26,15 @@
 		}
 	}
 
+	$: largestVariants = new Map<string, ImageSrc>(images.map(image => {
+		const sources = validSources(image.src)
+		return [image.name, sources[sources.length - 1]]
+	}))
+
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 
 	$: sourceSet = (src: ImageSrc) => {
 		return `${imageBaseUrl}${src.src} ${src.width}w`
-	}
-
-	$: largestVariant = (image: ImageExport) : string => {
-
-		const sources = validSources(image.src)
-		return sources[sources.length - 1].src
 	}
 
 	$: validSources = (sources: ImageSrc[]) => sources.filter(src => src.width <= imgMaxWidth)
@@ -55,11 +54,20 @@
 						<picture>
 							{#each validSources(image.src) as source}
 								<source srcset={sourceSet(source)}
+										height={source.height}
+										width={source.width}
 										media="(max-width: {source.width}px)"
 										type="image/{source.format}"
 								>
-							{/each}
-							<img src="{imageBaseUrl}{largestVariant(image)}" alt={image.title} loading="lazy">
+								{/each}
+
+							<img
+								src="{imageBaseUrl}{largestVariants.get(image.name)?.src}"
+								height={largestVariants.get(image.name)?.height}
+								width={largestVariants.get(image.name)?.height}
+								alt={image.title}
+								loading="lazy"
+							>
 						</picture>
 						<div class="img-overlay text-center">
 							Open full picture
@@ -117,8 +125,12 @@
 		}
 
 		img {
+			display: block;
 			max-height: $img-max-height;
 			transition: $img-transition;
+			width: 100%;
+			height: auto;
+
 		}
 
 		.img-overlay {
