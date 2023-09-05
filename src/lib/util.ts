@@ -1,7 +1,6 @@
 import type {PathLike} from "fs";
 import {access, mkdir, rm} from "fs/promises";
-
-export const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
+export { addTrailingSlash } from "./util-shared"
 
 export async function ensurePathExists(path: PathLike, recursive = true) {
     if (!await pathExists(path)) await mkdir(path, { recursive: recursive })

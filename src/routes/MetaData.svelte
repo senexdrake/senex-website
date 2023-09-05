@@ -1,8 +1,10 @@
 <script lang="ts">
     import {iconCatalogue} from "$model";
+    import { galleryAssetPrefix } from "$/config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
-    import {PUBLIC_BASE_PATH, PUBLIC_IMAGE_BASE_PATH} from "$env/static/public";
+    import {PUBLIC_BASE_PATH} from "$env/static/public";
+    import {addTrailingSlash} from "$lib/util-shared";
 
     $: pageData = $page.data as Metadata|undefined
 
@@ -13,7 +15,7 @@
     const mastodonLink = "https://meow.social/@senex"
     const basePath = PUBLIC_BASE_PATH
     const url = basePath + $page.url.pathname
-    const baseImagePath = PUBLIC_IMAGE_BASE_PATH ?? "https://pics.senex.link"
+    const baseImagePath = galleryAssetPrefix
 
     let title: string
     $: title = pageData?.title ?? "Senex, the big Dragon"
@@ -27,7 +29,7 @@
             height: icon.height,
             width: icon.width,
             alt: "Senex's Profile",
-            url: baseImagePath + '/' + icon.name,
+            url: addTrailingSlash(PUBLIC_BASE_PATH) + baseImagePath + icon.name,
             type: "image/" + icon.format
         }
     })
@@ -49,10 +51,10 @@
 <svelte:head>
     <title>{title}</title>
     {#each normalFavIcons as icon}
-        <link rel="icon" href="{baseImagePath}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="icon" href="./{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
     {#each appleFavIcon as icon}
-        <link rel="apple-touch-icon" href="{baseImagePath}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="apple-touch-icon" href="./{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
     <link rel="me" href={mastodonLink}>
     <link rel="canonical" href={url}>

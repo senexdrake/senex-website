@@ -1,0 +1,1 @@
+export const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
