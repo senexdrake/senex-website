@@ -19,6 +19,7 @@ import { promisify } from "util"
 import path from "path"
 import * as stream from "stream"
 import {
+    allowEnlargementFor,
     defaultFaviconFormat, defaultFaviconSize,
     defaultImageType,
     fileEncoding,
@@ -26,7 +27,7 @@ import {
     processingRules,
 } from "./config"
 import type {AssetHandlingConfig} from "./types";
-import {addTrailingSlash, ensurePathExists} from "../../util";
+import {addTrailingSlash} from "../../util";
 import {addAbortSignal} from "stream";
 const finished = promisify(stream.finished)
 
@@ -137,12 +138,13 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         if (!originalWidth) throw new Error('Image width is undefined')
         if (!originalHeight) throw new Error('Image height is undefined')
         const heightLimited = (originalHeight ?? 0) > (originalWidth ?? 0)
+        const allowEnlargement = rawImage.categories?.some(c => allowEnlargementFor.includes(c))
 
         const processingPromises = processingRules.map(async (rule) => {
             const resizeOptions: ResizeOptions = {
                 height: heightLimited ? rule.maxDimension : undefined,
                 width: heightLimited ? undefined : rule.maxDimension,
-                withoutEnlargement: rule.withoutEnlargement
+                withoutEnlargement: rule.withoutEnlargement && !allowEnlargement
             }
 
             const nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf('.'))

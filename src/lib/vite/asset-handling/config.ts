@@ -5,6 +5,8 @@ export const fileEncoding = 'utf-8'
 
 export const remoteAssetBaseUrl = (process.env.REMOTE_ASSETS_BASE_URL ?? "https://pics.arisendrake.de") + '/'
 
+export const allowEnlargementFor = []
+
 export const processingRules: ProcessingRule[] = [
     { maxDimension: 600, quality: 65, format: defaultImageType },
     { maxDimension: 1200, quality: 65, format: defaultImageType },
