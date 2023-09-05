@@ -8,29 +8,9 @@ export interface LinkItem {
     linkType?: LinkType
 }
 
-export interface Image {
-    src: ImageOutputMetadata[],
-    full?: string,
-    title: string,
-    description: string,
-    nsfw?: boolean,
-    author?: ImageAuthor
-}
-
 export interface ImageAuthor {
     name: string,
     url: string
-}
-
-export interface ImageCategory {
-    title: string,
-    description: string,
-    images: Image[]
-}
-
-
-export interface ImageCategories {
-    categories: ImageCategory[]
 }
 
 export interface Metadata {

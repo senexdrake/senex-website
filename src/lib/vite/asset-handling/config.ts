@@ -9,6 +9,7 @@ export const allowEnlargementFor = []
 
 export const processingRules: ProcessingRule[] = [
     { maxDimension: 600, quality: 65, format: defaultImageType },
+    { maxDimension: 900, quality: 65, format: defaultImageType },
     { maxDimension: 1200, quality: 65, format: defaultImageType },
     { maxDimension: 2400, quality: 65, format: defaultImageType },
     { maxDimension: 4000, quality: 90, format: defaultImageType }
