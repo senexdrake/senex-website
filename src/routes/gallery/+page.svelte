@@ -8,6 +8,7 @@
 		ImageSrc
 	} from "$model/types";
 
+	const imgMaxWidth = 1200
 	const imageBaseUrl = galleryAssetPrefix
 
 	const images: ImageExport[] = $page.data.galleryImages
@@ -27,23 +28,17 @@
 
 	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 
-	$: sourceSet = (src: ImageSrc[]) => {
-		const lastValidIndex = src.length - 2
-		let sourceSet = ""
-		if (lastValidIndex < 0) return sourceSet
-		for (let i = 0; i <= lastValidIndex; i++) {
-			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${imageBaseUrl}${src[i].src} ${src[i].width}w`
-		}
-		return sourceSet
+	$: sourceSet = (src: ImageSrc) => {
+		return `${imageBaseUrl}${src.src} ${src.width}w`
 	}
 
 	$: largestVariant = (image: ImageExport) : string => {
-		// Largest variant is always the last one
-		if (image.original) return image.original.src
-		const sources = image.src
+
+		const sources = validSources(image.src)
 		return sources[sources.length - 1].src
 	}
+
+	$: validSources = (sources: ImageSrc[]) => sources.filter(src => src.width <= imgMaxWidth)
 
 </script>
 
@@ -56,9 +51,14 @@
 		{#each images as image}
 			{#if showImage(image.nsfw ?? false)}
 				<div class="img-container img-format">
-					<a href="{imageBaseUrl}{largestVariant(image)}" target="_blank">
+					<a href="{imageBaseUrl}{image.original.src}" target="_blank">
 						<picture>
-							<source srcset={sourceSet(image.src)}>
+							{#each validSources(image.src) as source}
+								<source srcset={sourceSet(source)}
+										media="(max-width: {source.width}px)"
+										type="image/{source.format}"
+								>
+							{/each}
 							<img src="{imageBaseUrl}{largestVariant(image)}" alt={image.title} loading="lazy">
 						</picture>
 						<div class="img-overlay text-center">
