@@ -17,3 +17,4 @@ data/
 /static/favicon*
 tmp/
 .tmp/
+.tmp*/

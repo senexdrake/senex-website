@@ -1,6 +1,6 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import {readdir, } from "fs/promises";
-import {staticAssetsPrefix, galleryAssetPrefix} from "../../config"
+import {staticAssetsPrefix, galleryAssetPrefix, galleryAssetDir} from "../../config"
 import * as path from "path";
 import {pathExists} from "../util";
 import {runAssetHandling} from "./asset-handling"
@@ -18,16 +18,16 @@ export function staticImageHandler() : Plugin {
             viteConfig = cfg
         },
         async buildStart() {
-            const staticAssetOutDir = path.resolve(viteConfig.publicDir, staticAssetsPrefix)
-            const galleryAssetOutDir = path.resolve(viteConfig.publicDir, galleryAssetPrefix)
+            const galleryAssetOutDir = path.resolve(viteConfig.publicDir, galleryAssetDir)
             if ((await pathExists(galleryAssetOutDir)) && (!viteConfig.build.ssr || (await readdir(galleryAssetOutDir)).length > 0)) {
                 console.log(`Gallery asset directory at "${galleryAssetOutDir}" not empty, skipping asset handling`)
                 return
             }
 
             await runAssetHandling({
-                imageOutputDir: galleryAssetOutDir,
-                assetOutputDir: staticAssetOutDir,
+                assetOutputPrefix: staticAssetsPrefix,
+                imageOutputPrefix: galleryAssetPrefix,
+                targetDir: viteConfig.publicDir,
                 metaOutputDir: './src/lib/data',
                 remoteAssetsBaseUrl: remoteAssetBaseUrl,
                 faviconDir: viteConfig.publicDir

@@ -38,13 +38,17 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     const authors = new Map<string, ImageAuthor>()
     const tmpDir = path.resolve(process.cwd(), "./.tmp-asset-handling")
     const remoteAssetBaseUrl = addTrailingSlash(config.remoteAssetsBaseUrl)
-    const { imageOutputDir, metaOutputDir } = config
+    const { metaOutputDir } = config
+
+    const assetOutputDir = path.resolve(config.targetDir, config.assetOutputPrefix)
+    const imageOutputDir = path.resolve(assetOutputDir, config.imageOutputPrefix)
+
     const faviconDir = config.faviconDir ?? path.resolve('../', imageOutputDir)
     const metaPath = 'meta/'
     const resoucePath = './resources'
 
     async function setup() {
-        await clearPath(config.imageOutputDir)
+        await clearPath(imageOutputDir)
         await clearPath(config.metaOutputDir)
         await clearPath(tmpDir)
         await clearPath(path.resolve(tmpDir, metaPath))
@@ -96,11 +100,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             return
         }
 
-        const files = (await glob(`${config.assetOutputDir}/**/*`, { posix: true, nodir: true }))
+        const files = (await glob(`${assetOutputDir}/**/*`, { nodir: true, absolute: true,  }))
             .map((file) => {
                 return <LinkDefinition>{
-                    name: file.substring(file.lastIndexOf('/') + 1),
-                    target: file.substring(file.indexOf('/'))
+                    name: path.basename(file),
+                    target: '/' + path.relative(config.targetDir, file).replace(/(\\)/g, "/")
                 }
             }).sort((a, b) => a.name.localeCompare(b.name))
 
@@ -112,7 +116,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         )
         const filename = 'index.html'
         await writeFile(path.resolve(imageOutputDir, filename), rendered)
-        await writeFile(path.resolve(config.assetOutputDir, filename), rendered)
+        await writeFile(path.resolve(assetOutputDir, filename), rendered)
     }
 
     async function fetchRemoteAsset(assetPath: string) : Promise<string> {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { galleryAssetPrefix } from '$/config'
+	import { galleryAssetDir } from '$/config'
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
 	import type {
@@ -8,7 +8,7 @@
 	} from "$model/types";
 	import {validSources} from "$lib/imageHelper";
 
-	const imageBaseUrl = galleryAssetPrefix
+	const imageBaseUrl = galleryAssetDir
 
 	const images: ImageExport[] = $page.data.galleryImages
 

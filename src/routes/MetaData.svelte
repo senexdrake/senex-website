@@ -1,6 +1,6 @@
 <script lang="ts">
     import {iconCatalogue} from "$model";
-    import { galleryAssetPrefix } from "$/config";
+    import { galleryAssetDir } from "$/config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
     import {PUBLIC_BASE_PATH} from "$env/static/public";
@@ -15,7 +15,7 @@
     const mastodonLink = "https://meow.social/@senex"
     const basePath = PUBLIC_BASE_PATH
     const url = basePath + $page.url.pathname
-    const baseImagePath = galleryAssetPrefix
+    const baseImagePath = galleryAssetDir
 
     let title: string
     $: title = pageData?.title ?? "Senex, the big Dragon"

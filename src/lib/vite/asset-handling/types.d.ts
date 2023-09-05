@@ -1,10 +1,11 @@
 export interface AssetHandlingConfig {
-    imageOutputDir: string,
+    imageOutputPrefix: string,
     metaOutputDir: string,
-    assetOutputDir: string
+    assetOutputPrefix: string
     remoteAssetsBaseUrl: string,
     faviconDir?: string,
-    templateFolder?: string
+    templateFolder?: string,
+    targetDir: string
 }
 
 export interface ProcessingRule {
