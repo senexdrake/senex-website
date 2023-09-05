@@ -1,0 +1,9 @@
+# Cache all images and favicons
+/_assets/*
+  Cache-Control: public, max-age=86400, immutable
+
+/favicon*
+  Cache-Control: public, max-age=86400, immutable
+
+/*.json
+  Cache-Control: no-cache

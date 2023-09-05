@@ -70,6 +70,9 @@ export function staticImageHandler() : Plugin {
             })
         },
         async closeBundle() {
+            // Copy cloudflare _headers file to dist
+            const name = '_headers'
+            await copyFile(name, path.resolve(viteConfig.build.outDir, name))
             if (!this.meta.watchMode) await cleanupAssets()
         },
         async closeWatcher() {
