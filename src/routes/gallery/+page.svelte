@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { galleryAssetPrefix } from '$/config'
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
 	import type {
@@ -7,12 +8,7 @@
 		ImageSrc
 	} from "$model/types";
 
-	const refsheetAuthor: ImageAuthor = {
-		name: "Wolke",
-		url: "https://wolke.carrd.co/"
-	}
-
-	const imageBaseUrl = "https://pics.senex.link"
+	const imageBaseUrl = galleryAssetPrefix
 
 	const images: ImageExport[] = $page.data.galleryImages
 
@@ -37,7 +33,7 @@
 		if (lastValidIndex < 0) return sourceSet
 		for (let i = 0; i <= lastValidIndex; i++) {
 			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${imageBaseUrl}/${src[i].src} ${src[i].width}w`
+			sourceSet += `${imageBaseUrl}${src[i].src} ${src[i].width}w`
 		}
 		return sourceSet
 	}
@@ -60,10 +56,10 @@
 		{#each images as image}
 			{#if showImage(image.nsfw ?? false)}
 				<div class="img-container img-format">
-					<a href="{imageBaseUrl}/{largestVariant(image)}" target="_blank">
+					<a href="{imageBaseUrl}{largestVariant(image)}" target="_blank">
 						<picture>
 							<source srcset={sourceSet(image.src)}>
-							<img src="{imageBaseUrl}/{largestVariant(image)}" alt={image.title}>
+							<img src="{imageBaseUrl}{largestVariant(image)}" alt={image.title}>
 						</picture>
 						<div class="img-overlay text-center">
 							Open full picture

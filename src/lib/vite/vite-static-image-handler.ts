@@ -1,13 +1,16 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import { dataToEsm } from "@rollup/pluginutils"
-import {createWriteStream} from "fs";
-import {access, copyFile, mkdir, rm} from "fs/promises";
-import {remoteAssetsDir, dataDir} from "../../config"
+import {createWriteStream, PathLike} from "fs";
+import {access, copyFile, mkdir, readdir, rm} from "fs/promises";
+import {remoteAssetsDir, dataDir, galleryAssetPrefix} from "../../config"
 import * as path from "path";
 import {addTrailingSlash, ensurePathExists} from "../util";
 import {promisify} from "util";
 import stream from "stream";
 import axios from "axios";
+import {runAssetHandling} from "./asset-handling"
+import {remoteAssetBaseUrl} from "./asset-handling/config";
+import {glob} from "glob";
 
 const finished = promisify(stream.finished)
 
@@ -26,52 +29,24 @@ export async function ensureDataDirectoryExits() : Promise<void> {
 export function staticImageHandler() : Plugin {
     let viteConfig: ResolvedConfig
 
-    async function cleanupStaticGallery() : Promise<void> {
-        const targetPath = path.resolve(viteConfig.publicDir, staticAssetPath)
+    async function removeDirectoryIfExists(path: PathLike) {
         try {
-            await rm(targetPath, { recursive: true })
+            await rm(path, { recursive: true })
         } catch (err: any) {
             if (err.code != 'ENOENT') throw err
             // ENOENT isn't problematic
         }
     }
 
-    async function fetchRemoteAsset(assetPath: string, logMessage: string, targetBasePath = dataDir) {
-        const targetPath = path.resolve(targetBasePath, assetPath)
-        const writer = createWriteStream(targetPath)
-        await axios({
-            method: 'GET',
-            url: baseUrl + assetPath,
-            responseType: 'stream'
-        }).then(async (response) => {
-            response.data.pipe(writer)
-            await finished(writer)
-            console.log(logMessage, targetPath)
-        })
+    async function cleanupFavicons() : Promise<void> {
+        const favicons = await glob(addTrailingSlash(viteConfig.publicDir) + 'favicon*')
+        await Promise.all(favicons.map(icon => rm(icon)))
     }
 
-    async function fetchCatalogue(catalogueName: string) {
-        await fetchRemoteAsset(catalogueName, 'Wrote catalogue to')
+    async function cleanupAssets() : Promise<void> {
+        await removeDirectoryIfExists(path.resolve(viteConfig.publicDir, staticAssetPath))
+        await cleanupFavicons()
     }
-
-    async function fetchImageCatalogue() {
-        await fetchCatalogue("images.json")
-    }
-
-    async function fetchIconCatalogue() {
-        await fetchCatalogue("icons.json")
-    }
-
-    async function fetchDefaultFavicons() {
-        await fetchRemoteAsset("favicon.ico", 'Wrote favicon to', './static')
-        await fetchRemoteAsset("favicon.png", 'Wrote favicon to', './static')
-    }
-
-    const acceptedGalleryImagePrefixes = [
-        '+i/',
-        '+images/',
-        '+gi/'
-    ]
 
     return {
         name: 'static-image-handler',
@@ -81,50 +56,24 @@ export function staticImageHandler() : Plugin {
             await ensureStaticGalleryPathExists(viteConfig.publicDir)
         },
         async buildStart() {
-            await ensureDataDirectoryExits()
-            await fetchImageCatalogue()
-            await fetchIconCatalogue()
-            await fetchDefaultFavicons()
-        },
-        resolveId(source: string) {
-            if (!acceptedGalleryImagePrefixes.some(param => source.indexOf(param) !== -1)) return null
-            const pathParts = source.split('/')
-            const assetName = pathParts[1]
-            if (!assetName) return null
-            const type = (() => {
-                switch (pathParts[2]) {
-                    case 'fullsize':
-                    case 'full':
-                    case 'f':
-                        return 'fullsize'
-                    case 'large':
-                    case 'lg':
-                        return 'large'
-                    case 'gh': return 'galleryHeight'
-                    default: return 'galleryWidth'
-                }
-            })()
-            return process.cwd() +'/' + remoteAssetsDir + '/' + assetName + '?' + type
-        },
-        async load(id) {
-            if (id.includes('fullsize')) {
-                const srcPath = id.substring(0, id.indexOf('?'))
-                const assetName = path.basename(srcPath)
-                const fullTargetPath = path.resolve(viteConfig.publicDir, imagePath, assetName)
-                await copyFile(srcPath, fullTargetPath)
-                const relativePath = '/' + imagePath + assetName
-                return dataToEsm(relativePath, {
-                    namedExports: viteConfig.json?.namedExports ?? true,
-                    compact: !!viteConfig.build.minify ?? false,
-                    preferConst: true
-                })
+            const assetOutputDir = path.resolve(viteConfig.publicDir, galleryAssetPrefix)
+            if (!viteConfig.build.ssr || (await readdir(assetOutputDir)).length > 0) {
+                console.log(`Gallery asset directory at "${assetOutputDir}" not empty, skipping asset handling`)
+                return
             }
+
+            await runAssetHandling({
+                assetOutputDir: assetOutputDir,
+                metaOutputDir: './src/lib/data',
+                remoteAssetsBaseUrl: remoteAssetBaseUrl,
+                faviconDir: viteConfig.publicDir
+            })
         },
         async closeBundle() {
-            if (!this.meta.watchMode) await cleanupStaticGallery()
+            if (!this.meta.watchMode) await cleanupAssets()
         },
         async closeWatcher() {
-            await cleanupStaticGallery()
+            await cleanupAssets()
         }
     }
 }

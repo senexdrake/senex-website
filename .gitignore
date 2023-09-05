@@ -14,3 +14,6 @@ vite.config.ts.timestamp-*
 .idea
 data/
 /static/_assets/
+/static/favicon*
+tmp/
+.tmp/
