@@ -2,11 +2,11 @@ import { parse as parseYaml } from "yaml"
 import {readFile, copyFile, writeFile, rename} from "fs/promises";
 import {createReadStream, createWriteStream} from "fs";
 import type {ImageAuthor, IconExport, ImageExport, ImageSrc} from "../../model/types"
-import type {IconsRaw, ImageRaw, IconVariant} from "./types";
+import type {IconsRaw, ImageRaw, LinkDefinition} from "./types";
 import type {ResizeOptions} from "sharp"
 import createSharp from 'sharp'
 import axios from "axios"
-//import mustache from "mustache"
+import mustache from "mustache"
 import { glob } from "glob"
 import {
     checkAuthor,
@@ -27,21 +27,24 @@ import {
     processingRules,
 } from "./config"
 import type {AssetHandlingConfig} from "./types";
-import {addTrailingSlash} from "../../util";
-import {addAbortSignal} from "stream";
+import {addTrailingSlash, pathExists} from "../../util";
 const finished = promisify(stream.finished)
+
+const imageCatalogueName = 'images.json'
+const iconCatalogueName = 'icons.json'
 
 export async function runAssetHandling(config: AssetHandlingConfig) {
 
     const authors = new Map<string, ImageAuthor>()
-    const tmpDir = path.resolve(process.cwd(), "./.tmp/asset-handling")
+    const tmpDir = path.resolve(process.cwd(), "./.tmp-asset-handling")
     const remoteAssetBaseUrl = addTrailingSlash(config.remoteAssetsBaseUrl)
-    const { assetOutputDir, metaOutputDir } = config
-    const faviconDir = config.faviconDir ?? path.resolve('../', assetOutputDir)
+    const { imageOutputDir, metaOutputDir } = config
+    const faviconDir = config.faviconDir ?? path.resolve('../', imageOutputDir)
     const metaPath = 'meta/'
+    const resoucePath = './resources'
 
     async function setup() {
-        await clearPath(config.assetOutputDir)
+        await clearPath(config.imageOutputDir)
         await clearPath(config.metaOutputDir)
         await clearPath(tmpDir)
         await clearPath(path.resolve(tmpDir, metaPath))
@@ -71,7 +74,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         console.log(`Processed ${images.length} images`)
 
-        const imageCatalogueTargetPath = path.resolve(metaOutputDir, 'images.json')
+        const imageCatalogueTargetPath = path.resolve(imageOutputDir, imageCatalogueName)
         await writeFile(imageCatalogueTargetPath, JSON.stringify(images))
         console.log("Wrote image catalogue to", imageCatalogueTargetPath)
     }
@@ -81,24 +84,36 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             await fetchMeta('icons.yml')
         )).toString(fileEncoding))
         const icons = await processIcons(iconsRaw)
-        const iconCatalogueTargetPath = path.resolve(metaOutputDir, 'icons.json')
+        const iconCatalogueTargetPath = path.resolve(imageOutputDir, iconCatalogueName)
         await writeFile(iconCatalogueTargetPath, JSON.stringify(icons))
     }
 
-    // async function runIndexCreation() {
-    //     const files = (await glob(`${assetOutputDir}/**/*`, { posix: true })).map((file) => {
-    //         return file.substring(file.indexOf('/') + 1)
-    //     })
-    //
-    //     const template = "index-template.mustache"
-    //     const rendered = mustache.render(
-    //         (await readFile(template)).toString(fileEncoding),
-    //         {
-    //             files: files
-    //         }
-    //     )
-    //     await writeFile(path.resolve(metaOutputDir, 'index.html'), rendered)
-    // }
+    async function runIndexCreation() {
+        const templateName = "index-template.mustache"
+        const templateFile = path.resolve(resoucePath, templateName)
+        if (!(await pathExists(templateFile))) {
+            console.log(`Gallery asset index template ${templateName} not found, skipping index creation`)
+            return
+        }
+
+        const files = (await glob(`${config.assetOutputDir}/**/*`, { posix: true, nodir: true }))
+            .map((file) => {
+                return <LinkDefinition>{
+                    name: file.substring(file.lastIndexOf('/') + 1),
+                    target: file.substring(file.indexOf('/'))
+                }
+            }).sort((a, b) => a.name.localeCompare(b.name))
+
+        const rendered = mustache.render(
+            (await readFile(templateFile)).toString(fileEncoding),
+            {
+                files: files
+            }
+        )
+        const filename = 'index.html'
+        await writeFile(path.resolve(imageOutputDir, filename), rendered)
+        await writeFile(path.resolve(config.assetOutputDir, filename), rendered)
+    }
 
     async function fetchRemoteAsset(assetPath: string) : Promise<string> {
         const targetPath = path.resolve(tmpDir, assetPath)
@@ -163,7 +178,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const newFileName = `${nameWithoutExtension}-${width}x${height}`
             const targetImageName = `${newFileName}.${format}`
 
-            const processedTargetPath = path.resolve(assetOutputDir, targetImageName)
+            const processedTargetPath = path.resolve(imageOutputDir, targetImageName)
             await copyFile(tmpFilePath, processedTargetPath)
 
             console.log("Wrote processed image to", processedTargetPath)
@@ -190,7 +205,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 .toFile(originalPath)
         }
 
-        const originalTargetPath = path.resolve(assetOutputDir, originalName)
+        const originalTargetPath = path.resolve(imageOutputDir, originalName)
         await copyFile(originalPath, originalTargetPath)
         console.log("Wrote original image to", originalTargetPath)
 
@@ -237,7 +252,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                     .then(async (outputInfo) => {
                         const {width, height, format: outputFormat} = outputInfo
                         const targetFileName = `${name}-${width}x${height}.${outputFormat}`
-                        const targetPath = path.resolve(assetOutputDir, targetFileName)
+                        const targetPath = path.resolve(imageOutputDir, targetFileName)
                         await copyFile(tmpPath, targetPath);
                         return {
                             name: targetFileName,
@@ -261,7 +276,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         if (!defaultIconTemplate) throw Error('no default icon found')
         const defaultIcon = { ...defaultIconTemplate }
         defaultIcon.name = 'favicon.png'
-        await copyFile(path.resolve(assetOutputDir, defaultIconTemplate.name), path.resolve(assetOutputDir, defaultIcon.name))
+        await copyFile(path.resolve(imageOutputDir, defaultIconTemplate.name), path.resolve(imageOutputDir, defaultIcon.name))
 
         processedIcons.push(defaultIcon)
 
@@ -271,7 +286,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     async function fetchDefaultIcon(): Promise<IconExport> {
         const name = "favicon.ico"
         const icon = await fetchRemoteImage(name)
-        await copyFile(icon, path.resolve(assetOutputDir, name))
+        await copyFile(icon, path.resolve(imageOutputDir, name))
         return {
             width: 96,
             height: 96,
@@ -281,7 +296,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     }
 
     async function copyFaviconsToFaviconDir() : Promise<void> {
-        const favicons = await glob.glob(addTrailingSlash(assetOutputDir) + 'favicon*')
+        const favicons = await glob.glob(addTrailingSlash(imageOutputDir) + 'favicon*')
         await Promise.all(favicons.map(iconPath => {
             const name = path.basename(iconPath)
             return copyFile(iconPath, path.resolve(faviconDir, name))
@@ -290,22 +305,34 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     async function cleanup(cleanupOutDir = false) {
         if (cleanupOutDir) {
-            await clearPath(assetOutputDir)
+            await clearPath(imageOutputDir)
             await clearPath(metaOutputDir)
         }
         await clearPath(tmpDir)
     }
 
+    async function copyMetadata() {
+        const imageCatalogueTargetPath = path.resolve(metaOutputDir, imageCatalogueName)
+        await copyFile(path.resolve(imageOutputDir, imageCatalogueName), imageCatalogueTargetPath)
+        console.log('Copied image catalogue to', imageCatalogueTargetPath)
+
+        const iconCatalogueTargetPath = path.resolve(metaOutputDir, iconCatalogueName)
+        await copyFile(path.resolve(imageOutputDir, iconCatalogueName), iconCatalogueTargetPath)
+        console.log('Copied icon catalogue to', iconCatalogueTargetPath)
+    }
+
     await setup()
     await runImageCatalogueProcessing()
     await runIconProcessing()
-    await copyFaviconsToFaviconDir()
+    await runIndexCreation()
 
-    //await runIndexCreation()
 
     // Copy Cloudflare's _header file to output dir
     // const headersFileName = '_headers'
     // await copyFile(headersFileName, path.resolve(outDir, headersFileName))
+
+    await copyFaviconsToFaviconDir()
+    await copyMetadata()
 
     // cleanup
     await cleanup()

@@ -1,8 +1,10 @@
 export interface AssetHandlingConfig {
-    assetOutputDir: string,
+    imageOutputDir: string,
     metaOutputDir: string,
+    assetOutputDir: string
     remoteAssetsBaseUrl: string,
     faviconDir?: string,
+    templateFolder?: string
 }
 
 export interface ProcessingRule {
@@ -35,4 +37,9 @@ export interface ImageRaw {
     format?: string,
     categories?: string[],
     ignoreAuthorName?: boolean
+}
+
+export interface LinkDefinition {
+    name: string,
+    target: string
 }

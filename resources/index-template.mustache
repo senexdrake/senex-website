@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Senex Pictures and Assets</title>
+    <style lang="css">
+        :root {
+            font-family: 'Segeo UI', Arial, sans-serif;
+        }
+        body {
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Senex Pictures
+    </h1>
+    <p>
+        I don't expect anyone to find this page,  but this is just a basic listing of all assets available on this domain.
+    </p>
+    <ul>
+        {{#files}}
+            <li><a href="{{target}}">{{name}}</a></li>
+        {{/files}}
+    </ul>
+</body>
+</html>
