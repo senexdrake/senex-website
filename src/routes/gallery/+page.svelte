@@ -59,7 +59,7 @@
 					<a href="{imageBaseUrl}{largestVariant(image)}" target="_blank">
 						<picture>
 							<source srcset={sourceSet(image.src)}>
-							<img src="{imageBaseUrl}{largestVariant(image)}" alt={image.title}>
+							<img src="{imageBaseUrl}{largestVariant(image)}" alt={image.title} loading="lazy">
 						</picture>
 						<div class="img-overlay text-center">
 							Open full picture
