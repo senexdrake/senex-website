@@ -3,12 +3,11 @@
 	import { page } from "$app/stores";
 	import { userSettings } from "$lib/stores/userSettings"
 	import type {
-		ImageAuthor,
 		ImageExport,
 		ImageSrc
 	} from "$model/types";
+	import {validSources} from "$lib/imageHelper";
 
-	const imgMaxWidth = 1200
 	const imageBaseUrl = galleryAssetPrefix
 
 	const images: ImageExport[] = $page.data.galleryImages
@@ -36,8 +35,6 @@
 	$: sourceSet = (src: ImageSrc) => {
 		return `${imageBaseUrl}${src.src} ${src.width}w`
 	}
-
-	$: validSources = (sources: ImageSrc[]) => sources.filter(src => src.width <= imgMaxWidth)
 
 </script>
 

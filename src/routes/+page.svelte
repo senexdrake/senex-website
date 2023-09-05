@@ -3,10 +3,11 @@
 	import {profileBanner} from "$model/gallery";
 	import type {ImageExport} from "$model/types.d";
 	import { galleryAssetPrefix } from '../config'
+	import {validSources} from "$lib/imageHelper";
 
 	function iconToSourceSet(image: ImageExport): string {
 		let sourceSet = ""
-		for (const src of image.src) {
+		for (const src of validSources(image.src)) {
 			if (sourceSet.length !== 0) sourceSet += ', '
 			sourceSet += `${galleryAssetPrefix}${src.src} ${src.width}w`
 		}
@@ -19,10 +20,12 @@
 
 <section id="home">
 	<div class="img-format">
-		<picture id="profile-pic">
-			<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
-			<img src="{galleryAssetPrefix}{senexProfileFallback.src}" alt="Senex profile" fetchpriority="high" />
-		</picture>
+		<a href="{galleryAssetPrefix}{profileBanner.original.src}">
+			<picture id="profile-pic">
+				<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
+				<img src="{galleryAssetPrefix}{senexProfileFallback.src}" alt="Senex profile" fetchpriority="high" />
+			</picture>
+		</a>
 	</div>
 	<hr class="default">
 	<div id="about-me" class="text-center">
