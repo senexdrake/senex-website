@@ -48,7 +48,7 @@
 
 		padding: 1rem 1rem;
 		@include mixins.breakpoint($big-links-breakpoint) {
-			padding: 1rem 2rem;
+			padding: 2rem 2rem;
 		}
 	}
 
