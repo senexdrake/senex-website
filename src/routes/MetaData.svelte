@@ -1,6 +1,6 @@
 <script lang="ts">
     import {iconCatalogue} from "$model";
-    import { galleryAssetBaseUrl } from "$/config";
+    import { galleryAssetBaseUrl } from "../config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
     import {PUBLIC_BASE_PATH} from "$env/static/public";
