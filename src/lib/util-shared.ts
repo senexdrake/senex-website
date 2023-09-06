@@ -1,1 +1,2 @@
 export const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
+export const stripTrailingSlash = (input: string) => input.substring(0, input.length - (input.endsWith('/') ? 1 : 0) )

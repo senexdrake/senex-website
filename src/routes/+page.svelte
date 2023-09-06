@@ -2,14 +2,14 @@
 	import Links from "./Links.svelte";
 	import {profileBanner} from "$model/gallery";
 	import type {ImageExport} from "$model/types.d";
-	import { galleryAssetDir } from '../config'
+	import { galleryAssetBaseUrl } from '../config'
 	import {validSources} from "$lib/imageHelper";
 
 	function iconToSourceSet(image: ImageExport): string {
 		let sourceSet = ""
 		for (const src of validSources(image.src)) {
 			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${galleryAssetDir}${src.src} ${src.width}w`
+			sourceSet += `${galleryAssetBaseUrl}${src.src} ${src.width}w`
 		}
 		return sourceSet
 	}
@@ -20,10 +20,10 @@
 
 <section id="home">
 	<div class="img-format">
-		<a href="{galleryAssetDir}{profileBanner.original.src}">
+		<a href="{galleryAssetBaseUrl}{profileBanner.original.src}">
 			<picture id="profile-pic">
 				<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
-				<img src="{galleryAssetDir}{senexProfileFallback.src}" alt="Senex profile" fetchpriority="high" />
+				<img src="{galleryAssetBaseUrl}{senexProfileFallback.src}" alt="Senex profile" fetchpriority="high" />
 			</picture>
 		</a>
 	</div>
