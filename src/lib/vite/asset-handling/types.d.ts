@@ -40,6 +40,13 @@ export interface ImageRaw {
     ignoreAuthorName?: boolean
 }
 
+export interface CategoryRaw {
+    name: string,
+    displayName: string,
+    description: string,
+    show: boolean
+}
+
 export interface LinkDefinition {
     name: string,
     target: string

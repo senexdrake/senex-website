@@ -2,7 +2,9 @@
 	import '$styles/styles.scss';
 	import Header from './Header.svelte';
 	import MetaData from "./MetaData.svelte";
+	import {page} from "$app/stores";
 
+	$: maxWidth = $page.data.width ?? '50rem'
 	const currentYear = new Date().getFullYear()
 </script>
 
@@ -10,7 +12,7 @@
 	<MetaData />
 	<Header />
 
-	<main>
+	<main style="--width: {maxWidth}">
 		<slot />
 	</main>
 
@@ -34,10 +36,10 @@
 	}
 
 	main {
+		max-width: var(--width);
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		max-width: 50rem;
 		margin: 1.5rem auto 0;
 		justify-content: center;
 		align-items: center;

@@ -2,7 +2,7 @@ import { parse as parseYaml } from "yaml"
 import {readFile, copyFile, writeFile, rename} from "fs/promises";
 import {createReadStream, createWriteStream} from "fs";
 import type {ImageAuthor, IconExport, ImageExport, ImageSrc} from "../../model/types"
-import type {IconsRaw, ImageRaw, LinkDefinition} from "./types";
+import type {CategoryRaw, IconsRaw, ImageRaw, LinkDefinition} from "./types";
 import type {ResizeOptions} from "sharp"
 import createSharp from 'sharp'
 import axios from "axios"
@@ -19,7 +19,7 @@ import { promisify } from "util"
 import path from "path"
 import * as stream from "stream"
 import {
-    allowEnlargementFor,
+    allowEnlargementFor, defaultCategory,
     defaultFaviconFormat, defaultFaviconSize,
     defaultImageType,
     fileEncoding,
@@ -32,9 +32,11 @@ const finished = promisify(stream.finished)
 
 const imageCatalogueName = 'images.json'
 const iconCatalogueName = 'icons.json'
+const categoryCatalogueName = 'categories.json'
 
 export async function runAssetHandling(config: AssetHandlingConfig) {
 
+    const hiddenCategories = new Set<string>()
     const authors = new Map<string, ImageAuthor>()
     const tmpDir = path.resolve(process.cwd(), "./.tmp-asset-handling")
     const remoteAssetBaseUrl = addTrailingSlash(config.remoteAssetsBaseUrl)
@@ -61,6 +63,19 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         )).toString(fileEncoding))
         parsedAuthors.forEach(author => authors.set(author.name.toLowerCase(), author))
 
+        const categoriesRaw: CategoryRaw[] = parseYaml((await readFile(
+            await fetchMeta('categories.yml')
+        )).toString(fileEncoding))
+        // If "show" attribute is not set, assume it's true
+        categoriesRaw.forEach(cat => {
+            if (cat.show === undefined) cat.show = true
+        })
+        categoriesRaw.filter(cat => !cat.show).forEach(cat => hiddenCategories.add(cat.name))
+
+        const categoryCatalogueTargetPath = path.resolve(imageOutputDir, categoryCatalogueName)
+        await writeFile(categoryCatalogueTargetPath, JSON.stringify(categoriesRaw))
+        console.log('Wrote category catalogue to', categoryCatalogueTargetPath)
+
         const imagesRaw: ImageRaw[] = parseYaml((await readFile(
             await fetchMeta('images.yml')
         )).toString(fileEncoding))
@@ -72,6 +87,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         })
 
         const images = await Promise.all(imagesRaw.map(raw => {
+            if (!raw.categories) raw.categories = [defaultCategory]
             checkAuthor(raw.author, authors)
             return processImage(raw)
         }))
@@ -213,6 +229,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         await copyFile(originalPath, originalTargetPath)
         console.log("Wrote original image to", originalTargetPath)
 
+        const categories = Array.from(rawImage.categories ?? [])
+        if (!categories.includes(defaultCategory) && categories.every(cat => !hiddenCategories.has(cat))) {
+            categories.push(defaultCategory)
+        }
+
         return {
             id: rawImage.id,
             name: rawImage.name,
@@ -221,7 +242,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             description: rawImage.description,
             author: authors.get(rawImage.author.toLowerCase()),
             src: sources,
-            categories: rawImage.categories ?? ['images'],
+            categories: categories,
             original: {
                 width: originalWidth,
                 height: originalHeight,
@@ -316,6 +337,10 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     }
 
     async function copyMetadata() {
+        const categoryCataloguePath = path.resolve(metaOutputDir, categoryCatalogueName)
+        await copyFile(path.resolve(imageOutputDir, categoryCatalogueName), categoryCataloguePath)
+        console.log('Copied category catalogue to', categoryCataloguePath)
+
         const imageCatalogueTargetPath = path.resolve(metaOutputDir, imageCatalogueName)
         await copyFile(path.resolve(imageOutputDir, imageCatalogueName), imageCatalogueTargetPath)
         console.log('Copied image catalogue to', imageCatalogueTargetPath)

@@ -19,7 +19,8 @@ export interface Metadata {
     creator?: string,
     image?: MetadataImage,
     images?: MetadataImage[],
-    cardType?: string
+    cardType?: string,
+    width?: string
 }
 
 export interface MetadataImage {
@@ -51,6 +52,13 @@ export interface ImageExport {
     categories?: string[]
     src: ImageSrc[],
     original: ImageSrc
+}
+
+export interface ImageCategory {
+    name: string,
+    displayName: string,
+    description: string,
+    show: boolean
 }
 
 export interface IconExport {

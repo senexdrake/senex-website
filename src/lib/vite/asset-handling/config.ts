@@ -18,3 +18,4 @@ export const originalTransformQuality = 95
 
 export const defaultFaviconSize = 192
 export const defaultFaviconFormat = 'png'
+export const defaultCategory = 'images'
