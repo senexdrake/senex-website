@@ -5,6 +5,7 @@
 	import { goto } from "$app/navigation"
 	import { userSettings } from "$lib/stores/userSettings"
 	import type {
+		ImageCategory,
 		ImageExport,
 		ImageSrc
 	} from "$model/types";
@@ -13,33 +14,57 @@
 
 	const imageBaseUrl = galleryAssetBaseUrl
 
-	let images: ImageExport[]
-	$: images = imagesForCategory($page.data.category)
-
-	$: currentCategory = categories.get($page.data.category)
-	$: currentCategoryName = currentCategory?.name ?? ''
 	$: showNsfw = $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
+
+	$: allImages = (category: string|ImageCategory): ImageExport[] => {
+		if (typeof category !== 'string') category = category.name
+		return imagesForCategory(category)
+	}
+
+	$: filteredImages = (category: string|ImageCategory): ImageExport[] => {
+		const images = allImages(category)
+		if (showNsfw) return images
+		return images.filter(image => !image.nsfw)
+	}
+
+	let currentImages: ImageExport[]
+	$: currentImages = allImages(currentCategory)
+
+	$: currentCategory = categories.get($page.data.category)
+
+	$: currentImagesFiltered = filteredImages(currentCategory)
+
+	$: currentCategoryName = currentCategory?.name ?? ''
 	$: filteredCategories = Array.from(categories.values()).filter(cat => showNsfw || !cat.nsfw)
+
+	$: imagesSfw = currentImages.filter(image => !image.nsfw)
+	$: imagesNsfw = currentImages.filter(image => image.nsfw)
 
 	let loading = false
 
-	async function gotoCategory() {
+	async function gotoCategory(categoryName: string) {
 		loading = true
-		await goto(`/gallery/${currentCategoryName}`)
+		await goto(`/gallery/${categoryName}`)
 		loading = false
 	}
 
+	async function onCategoryChange() {
+		await gotoCategory(currentCategoryName)
+	}
 
-	function enableNsfw() {
+
+	function enableNsfw() : boolean {
 		const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
 		$userSettings.showNsfw = nsfwResponse
 		$userSettings.allowNsfw = nsfwResponse
+		return nsfwResponse
 	}
 
 	onMount(() => {
 		if (currentCategory?.nsfw) {
-			enableNsfw()
+			// If the user does not accept NSFW content, go to default category
+			if (!enableNsfw()) gotoCategory('')
 		}
 	})
 
@@ -52,12 +77,10 @@
 		}
 	}
 
-	$: largestVariants = new Map<string, ImageSrc>(images.map(image => {
+	$: largestVariants = new Map<string, ImageSrc>(currentImages.map(image => {
 		const sources = validSources(image.src)
 		return [image.name, sources[sources.length - 1]]
 	}))
-
-	$: showImage = (isNsfw: boolean) => !isNsfw || showNsfw
 
 	$: sourceSet = (src: ImageSrc) => {
 		return `${imageBaseUrl}${src.src} ${src.width}w`
@@ -74,9 +97,11 @@
 		</div>
 		<div>
 			<label for="category">Category</label>
-			<select id="category" class="select" bind:value={currentCategoryName} on:change={gotoCategory}>
+			<select id="category" class="select" bind:value={currentCategoryName} on:change={onCategoryChange}>
 				{#each filteredCategories as category}
-					<option value={category.name}>{category.displayName}</option>
+					<option value={category.name}>
+						{category.displayName} ({filteredImages(category).length})
+					</option>
 				{/each}
 			</select>
 		</div>
@@ -85,47 +110,52 @@
 	<p>
 		{currentCategory?.description}
 	</p>
+	<p>
+		Currently showing <span class="font-weight-bold">{currentImagesFiltered.length}</span> images out of a total
+		of <span class="font-weight-bold">{currentImages.length}</span> images
+		(<span class="font-weight-bold">{imagesSfw.length}</span> <span class="font-italic">SFW</span> and
+		<span class="font-weight-bold">{imagesNsfw.length}</span> <span class="font-italic">NSFW</span>)
+		in this category.
+	</p>
 
 	{#if loading}
 		<div>Loading images...</div>
 	{:else}
 		<div class="images text-center">
-			{#each images as image}
-				{#if showImage(image.nsfw ?? false)}
-					<div class="image">
-						<hr class="default">
-						<div class="img-container img-format">
-							<a href="{imageBaseUrl}{image.original.src}" target="_blank">
-								<picture>
-									{#each validSources(image.src) as source}
-										<source srcset={sourceSet(source)}
-												height={source.height}
-												width={source.width}
-												media="(max-width: {source.width}px)"
-												type="image/{source.format}"
-										>
-									{/each}
-
-									<img
-											src="{imageBaseUrl}{largestVariants.get(image.name)?.src}"
-											height={largestVariants.get(image.name)?.height}
-											width={largestVariants.get(image.name)?.height}
-											alt={image.title}
-											loading="lazy"
+			{#each currentImagesFiltered as image}
+				<div class="image">
+					<hr class="default">
+					<div class="img-container img-format">
+						<a href="{imageBaseUrl}{image.original.src}" target="_blank">
+							<picture>
+								{#each validSources(image.src) as source}
+									<source srcset={sourceSet(source)}
+											height={source.height}
+											width={source.width}
+											media="(max-width: {source.width}px)"
+											type="image/{source.format}"
 									>
-								</picture>
-								<div class="img-overlay text-center">
-									Open full picture
-								</div>
-							</a>
-						</div>
-						<h3>{image.title}</h3>
-						<p>{image.description}</p>
-						{#if image.author}
-							<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
-						{/if}
+								{/each}
+
+								<img
+										src="{imageBaseUrl}{largestVariants.get(image.name)?.src}"
+										height={largestVariants.get(image.name)?.height}
+										width={largestVariants.get(image.name)?.height}
+										alt={image.title}
+										loading="lazy"
+								>
+							</picture>
+							<div class="img-overlay text-center">
+								Open full picture
+							</div>
+						</a>
 					</div>
-				{/if}
+					<h3>{image.title}</h3>
+					<p>{image.description}</p>
+					{#if image.author}
+						<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
+					{/if}
+				</div>
 			{/each}
 		</div>
 	{/if}
