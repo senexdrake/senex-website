@@ -104,13 +104,19 @@ img {
 
 .button {
 	@include mixins.input-styling;
-	@include mixins.whenDark() {
+	&:hover {
 		@include mixins.input-styling-hover;
 	}
 }
 
 .select {
-	@include mixins.input-styling
+	--dropdown-bg-color: var(--color-bg-card);
+	@include mixins.input-styling;
+
+	option {
+		background-color: var(--dropdown-bg-color);
+		color: var(--color-text);
+	}
 }
 
 .img-format {
