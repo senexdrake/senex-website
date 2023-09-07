@@ -149,11 +149,18 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             await finished(writer);
             console.log("Fetched asset", targetPath)
             return targetPath
-        });
+        })
     }
     async function fetchRemoteImage(image: ImageRaw|string): Promise<string> {
         const imageName = typeof image === 'string' ? image : fileNameFromImage(image)
-        return await fetchRemoteAsset(imageName)
+        try {
+            return await fetchRemoteAsset(imageName)
+        } catch (error: any) {
+            if (error.code === 404) {
+                console.error("Could not find image", imageName)
+            }
+            throw error
+        }
     }
 
     async function fetchMeta(metaFile: string): Promise<string> {
