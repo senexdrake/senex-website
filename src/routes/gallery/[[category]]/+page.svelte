@@ -83,7 +83,7 @@
 	</div>
 
 	<p>
-		{currentCategory.description}
+		{currentCategory?.description}
 	</p>
 
 	{#if loading}
