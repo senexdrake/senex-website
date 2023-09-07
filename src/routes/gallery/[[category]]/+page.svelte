@@ -18,13 +18,18 @@
 
 	$: currentCategory = categories.get($page.data.category)
 	$: currentCategoryName = currentCategory?.name ?? ''
-
 	$: showNsfw = $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
+	$: filteredCategories = Array.from(categories.values()).filter(cat => showNsfw || !cat.nsfw)
 
-	function gotoCategory() {
-		goto(`/gallery/${currentCategoryName}`)
+	let loading = false
+
+	async function gotoCategory() {
+		loading = true
+		await goto(`/gallery/${currentCategoryName}`)
+		loading = false
 	}
+
 
 	function enableNsfw() {
 		const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
@@ -58,7 +63,6 @@
 		return `${imageBaseUrl}${src.src} ${src.width}w`
 	}
 
-	$: filteredCategories = Array.from(categories.values()).filter(cat => showNsfw || !cat.nsfw)
 </script>
 
 
@@ -82,45 +86,49 @@
 		{currentCategory.description}
 	</p>
 
-	<div class="images text-center">
-		{#each images as image}
-			{#if showImage(image.nsfw ?? false)}
-				<div class="image">
-					<hr class="default">
-					<div class="img-container img-format">
-						<a href="{imageBaseUrl}{image.original.src}" target="_blank">
-							<picture>
-								{#each validSources(image.src) as source}
-									<source srcset={sourceSet(source)}
-											height={source.height}
-											width={source.width}
-											media="(max-width: {source.width}px)"
-											type="image/{source.format}"
-									>
-								{/each}
+	{#if loading}
+		<div>Loading images...</div>
+	{:else}
+		<div class="images text-center">
+			{#each images as image}
+				{#if showImage(image.nsfw ?? false)}
+					<div class="image">
+						<hr class="default">
+						<div class="img-container img-format">
+							<a href="{imageBaseUrl}{image.original.src}" target="_blank">
+								<picture>
+									{#each validSources(image.src) as source}
+										<source srcset={sourceSet(source)}
+												height={source.height}
+												width={source.width}
+												media="(max-width: {source.width}px)"
+												type="image/{source.format}"
+										>
+									{/each}
 
-								<img
-										src="{imageBaseUrl}{largestVariants.get(image.name)?.src}"
-										height={largestVariants.get(image.name)?.height}
-										width={largestVariants.get(image.name)?.height}
-										alt={image.title}
-										loading="lazy"
-								>
-							</picture>
-							<div class="img-overlay text-center">
-								Open full picture
-							</div>
-						</a>
+									<img
+											src="{imageBaseUrl}{largestVariants.get(image.name)?.src}"
+											height={largestVariants.get(image.name)?.height}
+											width={largestVariants.get(image.name)?.height}
+											alt={image.title}
+											loading="lazy"
+									>
+								</picture>
+								<div class="img-overlay text-center">
+									Open full picture
+								</div>
+							</a>
+						</div>
+						<h3>{image.title}</h3>
+						<p>{image.description}</p>
+						{#if image.author}
+							<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
+						{/if}
 					</div>
-					<h3>{image.title}</h3>
-					<p>{image.description}</p>
-					{#if image.author}
-						<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
-					{/if}
-				</div>
-			{/if}
-		{/each}
-	</div>
+				{/if}
+			{/each}
+		</div>
+	{/if}
 	<hr class="default">
 	<h1>More coming Soon!</h1>
 	<div>Now that I've figured out the asset management, I now have to figure out how to structure this page...</div>
