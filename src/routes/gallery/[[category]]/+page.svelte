@@ -43,7 +43,7 @@
 
 	let loading = false
 
-	async function gotoCategory(categoryName: string) {
+	async function gotoCategory(categoryName = '') {
 		loading = true
 		await goto(`/gallery/${categoryName}`)
 		loading = false
@@ -64,14 +64,23 @@
 	onMount(() => {
 		if (currentCategory?.nsfw) {
 			// If the user does not accept NSFW content, go to default category
-			if (!enableNsfw()) gotoCategory('')
+			if (!enableNsfw()) gotoCategory()
 		}
 	})
 
 
 	const toggleNsfw = () => {
 		if (showNsfw) {
-			$userSettings.showNsfw = !showNsfw
+			let redirectToDefault = false
+
+			if (currentCategory?.nsfw) {
+				redirectToDefault = confirm('This category is marked as NSFW only. Do you really want to disable NSFW content?' +
+						' You will be redirected to the default category.')
+				if (!redirectToDefault) return
+			}
+
+			$userSettings.showNsfw = false
+			if (redirectToDefault) gotoCategory()
 		} else {
 			enableNsfw()
 		}
