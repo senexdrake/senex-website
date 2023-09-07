@@ -25,9 +25,9 @@ export const imageCatalogue = categoryImageMap.get('images') ?? []
 const profileImages = categoryImageMap.get('profile') ?? []
 export const profileBanner: ImageExport = profileImages[0]
 
-const oldestFirst = ['references']
+const oldestFirst = ['references', 'refsheets']
 export function imagesForCategory(category: string): ImageExport[] {
-    const images = categoryImageMap.get(category) ?? []
+    const images = Array.from(categoryImageMap.get(category) ?? [])
     if (!oldestFirst.includes(category)) images.reverse()
     return images
 }

@@ -23,9 +23,9 @@
 	}
 
 	$: filteredImages = (category: string|ImageCategory): ImageExport[] => {
-		const images = allImages(category)
-		if (showNsfw) return images
-		return images.filter(image => !image.nsfw)
+		let images = allImages(category)
+		if (!showNsfw) images = images.filter(image => !image.nsfw)
+		return images
 	}
 
 	let currentImages: ImageExport[]
