@@ -249,7 +249,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             title: rawImage.title,
             nsfw: rawImage.nsfw,
             description: rawImage.description,
-            author: authors.get(rawImage.author.toLowerCase()),
+            author: authors.get(rawImage.author.toLowerCase()) ?? { name: "UNKNOWN", url: "" },
             src: sources,
             categories: categories,
             original: {

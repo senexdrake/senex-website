@@ -47,9 +47,9 @@ export interface ImageExport {
     name: string,
     title: string,
     description: string,
-    author: Author
+    author: ImageAuthor
     nsfw: boolean,
-    categories?: string[]
+    categories: string[]
     src: ImageSrc[],
     original: ImageSrc
 }

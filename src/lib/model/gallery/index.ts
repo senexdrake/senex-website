@@ -18,10 +18,6 @@ export const categories = new Map<string, ImageCategory>(
     }
 ))
 
-
-
-export const imageCatalogue = categoryImageMap.get('images') ?? []
-
 const profileImages = categoryImageMap.get('profile') ?? []
 export const profileBanner: ImageExport = profileImages[0]
 
