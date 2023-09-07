@@ -72,10 +72,6 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         })
         categoriesRaw.filter(cat => !cat.show).forEach(cat => hiddenCategories.add(cat.name))
 
-        const categoryCatalogueTargetPath = path.resolve(imageOutputDir, categoryCatalogueName)
-        await writeFile(categoryCatalogueTargetPath, JSON.stringify(categoriesRaw))
-        console.log('Wrote category catalogue to', categoryCatalogueTargetPath)
-
         const imagesRaw: ImageRaw[] = parseYaml((await readFile(
             await fetchMeta('images.yml')
         )).toString(fileEncoding))
@@ -97,6 +93,10 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const imageCatalogueTargetPath = path.resolve(imageOutputDir, imageCatalogueName)
         await writeFile(imageCatalogueTargetPath, JSON.stringify(images))
         console.log("Wrote image catalogue to", imageCatalogueTargetPath)
+
+        const categoryCatalogueTargetPath = path.resolve(imageOutputDir, categoryCatalogueName)
+        await writeFile(categoryCatalogueTargetPath, JSON.stringify(categoriesRaw))
+        console.log('Wrote category catalogue to', categoryCatalogueTargetPath)
     }
 
     async function runIconProcessing() {
