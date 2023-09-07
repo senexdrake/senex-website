@@ -9,6 +9,7 @@
 		ImageSrc
 	} from "$model/types";
 	import {validSources} from "$lib/imageHelper";
+	import {onMount} from "svelte";
 
 	const imageBaseUrl = galleryAssetBaseUrl
 
@@ -18,21 +19,31 @@
 	$: currentCategory = categories.get($page.data.category)
 	$: currentCategoryName = currentCategory?.name ?? ''
 
+	$: showNsfw = $userSettings.showNsfw
+	$: allowNsfw = $userSettings.allowNsfw
+
 	function gotoCategory() {
 		goto(`/gallery/${currentCategoryName}`)
 	}
 
+	function enableNsfw() {
+		const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
+		$userSettings.showNsfw = nsfwResponse
+		$userSettings.allowNsfw = nsfwResponse
+	}
 
-	$: showNsfw = $userSettings.showNsfw
-	$: allowNsfw = $userSettings.allowNsfw
+	onMount(() => {
+		if (currentCategory?.nsfw) {
+			enableNsfw()
+		}
+	})
+
 
 	const toggleNsfw = () => {
 		if (showNsfw) {
 			$userSettings.showNsfw = !showNsfw
 		} else {
-			const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
-			$userSettings.showNsfw = nsfwResponse
-			$userSettings.allowNsfw = nsfwResponse
+			enableNsfw()
 		}
 	}
 
@@ -47,6 +58,7 @@
 		return `${imageBaseUrl}${src.src} ${src.width}w`
 	}
 
+	$: filteredCategories = Array.from(categories.values()).filter(cat => showNsfw || !cat.nsfw)
 </script>
 
 
@@ -59,7 +71,7 @@
 		<div>
 			<label for="category">Category</label>
 			<select id="category" class="select" bind:value={currentCategoryName} on:change={gotoCategory}>
-				{#each categories.values() as category}
+				{#each filteredCategories as category}
 					<option value={category.name}>{category.displayName}</option>
 				{/each}
 			</select>

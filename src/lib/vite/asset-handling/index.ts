@@ -67,8 +67,10 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             await fetchMeta('categories.yml')
         )).toString(fileEncoding))
         // If "show" attribute is not set, assume it's true
+        // If "nsfw" is not set, assume it's false
         categoriesRaw.forEach(cat => {
             if (cat.show === undefined) cat.show = true
+            if (cat.nsfw === undefined) cat.nsfw = false
         })
         categoriesRaw.filter(cat => !cat.show).forEach(cat => hiddenCategories.add(cat.name))
 

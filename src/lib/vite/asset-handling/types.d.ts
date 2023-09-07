@@ -44,7 +44,8 @@ export interface CategoryRaw {
     name: string,
     displayName: string,
     description: string,
-    show: boolean
+    show?: boolean,
+    nsfw?: boolean
 }
 
 export interface LinkDefinition {
