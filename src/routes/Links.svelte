@@ -12,7 +12,7 @@
 
     const smallLinks: LinkItem[] = [
         { name: 'Steam', target: 'https://senex.link/steam', order: 10 },
-        { name: 'E-Mail', target: 'mailto:fa@arisendrake.de', order: 11 },
+        { name: 'E-Mail', target: 'mailto:furry@arisendrake.de', order: 11 },
         { name: 'Furry Network', target: 'https://senex.link/fn', order: 12 },
     ]
 
