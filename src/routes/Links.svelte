@@ -6,7 +6,8 @@
         { name: 'Itaku', target: 'https://senex.link/itaku', order: 2 },
         { name: 'FurAffinity', target: 'https://senex.link/fa', order: 3 },
         { name: 'Mastodon', target: 'https://senex.link/mastodon', order: 4 },
-        { name: 'Telegram', target: 'https://senex.link/telegram', order: 5 },
+        { name: 'BlueSky', target: 'https://senex.link/bsky-fur', order: 5 },
+        { name: 'Telegram', target: 'https://senex.link/telegram', order: 8 },
         { name: 'Character References', target: 'https://senex.link/senex-refs', order: 100 }
     ]
 
