@@ -17,6 +17,8 @@
 	$: showNsfw = $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
 
+	$: currentCategory = categories.get($page.data.category)
+
 	$: allImages = (category: string|ImageCategory): ImageExport[] => {
 		if (typeof category !== 'string') category = category.name
 		return imagesForCategory(category)
@@ -28,14 +30,10 @@
 		return images
 	}
 
-	let currentImages: ImageExport[]
 	$: currentImages = allImages(currentCategory)
-
-	$: currentCategory = categories.get($page.data.category)
-
 	$: currentImagesFiltered = filteredImages(currentCategory)
 
-	$: currentCategoryName = currentCategory?.name ?? ''
+	let currentCategoryName = ""
 	$: filteredCategories = Array.from(categories.values()).filter(cat => showNsfw || !cat.nsfw)
 
 	$: imagesSfw = currentImages.filter(image => !image.nsfw)
@@ -66,6 +64,8 @@
 			// If the user does not accept NSFW content, go to default category
 			if (!enableNsfw()) gotoCategory()
 		}
+
+		currentCategoryName = currentCategory?.name ?? ''
 	})
 
 
@@ -108,7 +108,7 @@
 			<label for="category">Category</label>
 			<select id="category" class="select" bind:value={currentCategoryName} on:change={onCategoryChange}>
 				{#each filteredCategories as category}
-					<option value={category.name}>
+					<option value={category.name} selected={currentCategory?.name === category.name}>
 						{category.displayName} ({filteredImages(category).length})
 					</option>
 				{/each}
