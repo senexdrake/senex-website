@@ -18,3 +18,4 @@ data/
 tmp/
 .tmp/
 .tmp*/
+*.webmanifest

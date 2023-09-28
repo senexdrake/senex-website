@@ -1,6 +1,6 @@
 <script lang="ts">
     import {iconCatalogue} from "$model";
-    import { galleryAssetBaseUrl } from "../config";
+    import { galleryAssetBaseUrl, defaultTitle, defaultDescription } from "../config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
     import {PUBLIC_BASE_PATH} from "$env/static/public";
@@ -18,10 +18,10 @@
     const baseImagePath = galleryAssetBaseUrl
 
     let title: string
-    $: title = pageData?.title ?? "Senex, the big Dragon"
+    $: title = pageData?.title ?? defaultTitle
 
     let description: string
-    $: description = pageData?.description ?? "An overview of ways to find and contact the big Dragon!"
+    $: description = pageData?.description ?? defaultDescription
 
 
     const defaultImages = iconCatalogue.filter(icon => icon.name.startsWith('senex-profile')).map((icon) => {
