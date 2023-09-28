@@ -46,7 +46,7 @@ export function webmanifest() : Plugin {
             })
 
             const normalIcons = iconCatalogue
-                .filter(icon => icon.name.startsWith("favicon"))
+                .filter(icon => icon.name.startsWith("favicon-"))
                 .map(icon => {
                     return iconToImage(icon)
             })
@@ -59,7 +59,10 @@ export function webmanifest() : Plugin {
 
             const icons = [...normalIcons, ...maskableIcons]
 
-            const displayModes: DisplayModeType[] = ['minimal-ui', 'browser']
+            const shortcutIconTypes = ['image/png']
+            const shortcutIcons = icons.filter(icon => shortcutIconTypes.includes(icon.type ?? ""))
+
+            const displayModes: DisplayModeType[] = ['standalone', 'minimal-ui', 'browser']
 
             const webmanifest: CustomWebAppManifest = {
                 id: 'senex-gallery',
@@ -74,19 +77,19 @@ export function webmanifest() : Plugin {
                 categories: ['gallery', 'blog', 'personal'],
                 shortcuts: [
                     {
-                        icons: icons,
+                        icons: shortcutIcons,
                         name: "Home",
                         url: "/",
                         description: "Home page, featuring a description of the big Dragon as well as contact links"
                     },
                     {
-                        icons: icons,
+                        icons: shortcutIcons,
                         name: "Gallery",
                         url: "/gallery",
                         description: "A gallery showcasing the big Dragon"
                     },
                     {
-                        icons: icons,
+                        icons: shortcutIcons,
                         name: "Reference Gallery",
                         url: "/gallery/references",
                         description: "A selection of images that should serve as references of the big Dragon"
