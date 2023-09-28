@@ -1,3 +1,14 @@
+import {
+    AvifOptions,
+    GifOptions,
+    HeifOptions, Jp2Options,
+    JpegOptions,
+    JxlOptions,
+    OutputOptions,
+    PngOptions, TiffOptions,
+    WebpOptions
+} from "sharp";
+
 export interface AssetHandlingConfig {
     imageOutputPrefix: string,
     metaOutputDir: string,
@@ -53,3 +64,14 @@ export interface LinkDefinition {
     name: string,
     target: string
 }
+
+type FormatOptions = OutputOptions
+    | JpegOptions
+    | PngOptions
+    | WebpOptions
+    | AvifOptions
+    | HeifOptions
+    | JxlOptions
+    | GifOptions
+    | Jp2Options
+    | TiffOptions

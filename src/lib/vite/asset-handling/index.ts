@@ -2,8 +2,8 @@ import { parse as parseYaml } from "yaml"
 import {readFile, copyFile, writeFile, rename} from "fs/promises";
 import {createReadStream, createWriteStream} from "fs";
 import type {ImageAuthor, IconExport, ImageExport, ImageSrc} from "../../model/types"
-import type {CategoryRaw, IconsRaw, ImageRaw, LinkDefinition} from "./types";
-import type {ResizeOptions} from "sharp"
+import type {CategoryRaw, IconsRaw, ImageRaw, LinkDefinition, FormatOptions} from "./types";
+import type {PngOptions, ResizeOptions} from "sharp"
 import createSharp from 'sharp'
 import axios from "axios"
 import mustache from "mustache"
@@ -282,6 +282,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                     name + '.' + fileNameHash() + '.' + format
                 )
 
+                let qualitySettings: FormatOptions = { quality: quality }
+                if (format === "png") {
+                    qualitySettings = <PngOptions>{ quality: 100 }
+                }
+
                 const localSharp = sharp.clone()
                 if (background) {
                     localSharp.flatten({ background: background })
@@ -289,7 +294,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
                 const promise = localSharp
                     .resize({ width: size })
-                    .toFormat(format, { quality: quality })
+                    .toFormat(format, qualitySettings)
                     .toFile(tmpPath)
                     .then(async (outputInfo) => {
                         const {width, height, format: outputFormat} = outputInfo
