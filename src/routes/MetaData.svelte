@@ -9,7 +9,7 @@
     $: pageData = $page.data as Metadata|undefined
 
 
-    $: normalFavIcons = iconCatalogue.filter((icon: IconExport) => [16, 32, 48, 192].includes(icon.width))
+    $: normalFavIcons = iconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width))
     $: appleFavIcon = iconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width))
 
     const mastodonLink = "https://meow.social/@senex"

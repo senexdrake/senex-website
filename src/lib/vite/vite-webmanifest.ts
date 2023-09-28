@@ -4,7 +4,6 @@ import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manif
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
 import { dataDir, defaultTitle, defaultDescription } from "../../config"
-import {types} from "sass";
 
 interface CustomWebAppManifest extends WebAppManifest {
     display_override?: DisplayModeType[]
@@ -31,13 +30,32 @@ export function webmanifest() : Plugin {
             const iconCatalogueRaw = await readFile(iconPath)
             const iconCatalogue = JSON.parse(iconCatalogueRaw.toString()) as IconExport[]
 
-            const icons: ImageResource[] = iconCatalogue.filter(icon => icon.name.startsWith("favicon")).map(icon => {
-                return {
-                    src: `/${icon.name}`,
-                    sizes: `${icon.width}x${icon.height}`,
-                    type: iconMimeType(icon)
-                }
+            const validSizes = [96, 192, 512]
+            const maskableIconSize = [512]
+
+            const icons: ImageResource[] = []
+            const shortcutIcons: ImageResource[] = []
+
+            iconCatalogue
+                .filter(icon => icon.name.startsWith("favicon") && validSizes.includes(icon.width))
+                .forEach(icon => {
+                    const imageResource: ImageResource = {
+                        purpose: 'any',
+                        src: `/${icon.name}`,
+                        sizes: `${icon.width}x${icon.height}`,
+                        type: iconMimeType(icon)
+                    }
+                    icons.push(imageResource)
+
+                    if (maskableIconSize.includes(icon.width)) {
+                        const maskableResource = Object.assign({}, imageResource)
+                        maskableResource.purpose = 'maskable'
+                        icons.push(maskableResource)
+                    }
+
             })
+
+
 
             const displayModes: DisplayModeType[] = ['minimal-ui', 'browser']
 
@@ -54,16 +72,19 @@ export function webmanifest() : Plugin {
                 categories: ['gallery', 'blog', 'personal'],
                 shortcuts: [
                     {
+                        icons: icons,
                         name: "Home",
                         url: "/",
                         description: "Home page, featuring a description of the big Dragon as well as contact links"
                     },
                     {
+                        icons: icons,
                         name: "Gallery",
                         url: "/gallery",
                         description: "A gallery showcasing the big Dragon"
                     },
                     {
+                        icons: icons,
                         name: "Reference Gallery",
                         url: "/gallery/references",
                         description: "A selection of images that should serve as references of the big Dragon"
