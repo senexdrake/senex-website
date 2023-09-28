@@ -210,7 +210,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const processedTargetPath = path.resolve(imageOutputDir, targetImageName)
             await copyFile(tmpFilePath, processedTargetPath)
 
-            console.log("Wrote processed image to", processedTargetPath)
+            console.debug("Wrote processed image to", processedTargetPath)
 
             return <ImageSrc>{
                 src: targetImageName,
@@ -236,7 +236,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         const originalTargetPath = path.resolve(imageOutputDir, originalName)
         await copyFile(originalPath, originalTargetPath)
-        console.log("Wrote original image to", originalTargetPath)
+        console.debug("Wrote original image to", originalTargetPath)
 
         const categories = Array.from(rawImage.categories ?? [])
         if (!categories.includes(defaultCategory) && categories.every(cat => !hiddenCategories.has(cat))) {
@@ -264,6 +264,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const sourceImage = await fetchRemoteImage(icons.source)
         const sourceImagePath = path.resolve(tmpDir, sourceImage)
         const sharp = createSharp()
+        // Fix for processing a lot of variants for one image without rereading the stream
+        sharp.setMaxListeners(icons.variants.length * 5)
         createReadStream(sourceImagePath).pipe(sharp)
 
         const processing: Promise<IconExport>[] = []
@@ -274,11 +276,12 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const quality = variant.quality ?? icons.quality
             const name = variant.name ?? "favicon"
 
-            formats.forEach((format) => {
+            formats.forEach(format => {
                 const tmpPath = path.resolve(
                     tmpDir,
                     name + '.' + fileNameHash() + '.' + format
                 )
+
                 const promise = sharp.clone()
                     .resize({ width: size })
                     .toFormat(format, { quality: quality })

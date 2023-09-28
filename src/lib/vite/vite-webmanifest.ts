@@ -3,12 +3,21 @@ import type {IconExport} from "../model/types";
 import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manifest";
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
-import { defaultTitle, defaultDescription } from "../../config"
+import { dataDir, defaultTitle, defaultDescription } from "../../config"
+import {types} from "sass";
 
 interface CustomWebAppManifest extends WebAppManifest {
     display_override?: DisplayModeType[]
 }
 
+const fileFormatMimeMapping = new Map(Object.entries({
+    ico: 'image/x-icon'
+}))
+
+function iconMimeType(icon: IconExport) : string {
+    const mime = fileFormatMimeMapping.get(icon.format)
+    return mime ?? `image/${icon.format}`
+}
 export function webmanifest() : Plugin {
     let viteConfig: ResolvedConfig
 
@@ -18,7 +27,7 @@ export function webmanifest() : Plugin {
             viteConfig = cfg
         },
         buildEnd: async function () {
-            const iconPath = "./src/lib/data/icons.json"
+            const iconPath = path.join(dataDir, 'icons.json')
             const iconCatalogueRaw = await readFile(iconPath)
             const iconCatalogue = JSON.parse(iconCatalogueRaw.toString()) as IconExport[]
 
@@ -26,7 +35,7 @@ export function webmanifest() : Plugin {
                 return {
                     src: `/${icon.name}`,
                     sizes: `${icon.width}x${icon.height}`,
-                    type: `image/${icon.format}`
+                    type: iconMimeType(icon)
                 }
             })
 
