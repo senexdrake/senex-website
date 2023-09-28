@@ -266,7 +266,6 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const sharp = createSharp()
         // Fix for processing a lot of variants for one image without rereading the stream
         sharp.setMaxListeners(icons.variants.length * 5)
-        createReadStream(sourceImagePath).pipe(sharp)
 
         const processing: Promise<IconExport>[] = []
 
@@ -303,6 +302,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             })
         })
 
+        createReadStream(sourceImagePath).pipe(sharp)
         processing.push(fetchDefaultIcon())
 
         const processedIcons = await Promise.all(processing)
