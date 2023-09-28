@@ -62,11 +62,11 @@ export function webmanifest() : Plugin {
             const shortcutIconTypes = ['image/png']
             const shortcutIcons = icons.filter(icon => shortcutIconTypes.includes(icon.type ?? ""))
 
-            const displayModes: DisplayModeType[] = ['standalone', 'minimal-ui', 'browser']
+            const displayModes: DisplayModeType[] = ['minimal-ui', 'browser']
 
             const webmanifest: CustomWebAppManifest = {
                 id: 'senex-gallery',
-                orientation: 'portrait-primary',
+                orientation: 'any',
                 lang: 'en',
                 background_color: '#424242',
                 theme_color: '#4075a6',
@@ -75,6 +75,7 @@ export function webmanifest() : Plugin {
                 start_url: "/",
                 display_override: displayModes,
                 categories: ['gallery', 'blog', 'personal'],
+                icons: icons,
                 shortcuts: [
                     {
                         icons: shortcutIcons,
@@ -94,8 +95,7 @@ export function webmanifest() : Plugin {
                         url: "/gallery/references",
                         description: "A selection of images that should serve as references of the big Dragon"
                     }
-                ],
-                icons: icons
+                ]
             }
 
             webmanifest.display = displayModes[0] ?? 'browser'
