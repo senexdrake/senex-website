@@ -283,14 +283,13 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 )
 
                 const localSharp = sharp.clone()
-                    .resize({ width: size })
-                    .toFormat(format, { quality: quality })
-
                 if (background) {
                     localSharp.flatten({ background: background })
                 }
 
                 const promise = localSharp
+                    .resize({ width: size })
+                    .toFormat(format, { quality: quality })
                     .toFile(tmpPath)
                     .then(async (outputInfo) => {
                         const {width, height, format: outputFormat} = outputInfo
