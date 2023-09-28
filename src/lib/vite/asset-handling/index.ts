@@ -274,6 +274,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const formats = Array.isArray(variant.format) ? variant.format : [variant.format]
             const quality = variant.quality ?? icons.quality
             const name = variant.name ?? "favicon"
+            const background = variant.background
 
             formats.forEach(format => {
                 const tmpPath = path.resolve(
@@ -281,9 +282,15 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                     name + '.' + fileNameHash() + '.' + format
                 )
 
-                const promise = sharp.clone()
+                const localSharp = sharp.clone()
                     .resize({ width: size })
                     .toFormat(format, { quality: quality })
+
+                if (background) {
+                    localSharp.flatten({ background: background })
+                }
+
+                const promise = localSharp
                     .toFile(tmpPath)
                     .then(async (outputInfo) => {
                         const {width, height, format: outputFormat} = outputInfo

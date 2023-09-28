@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {iconCatalogue} from "$model";
+    import {faviconCatalogue, iconCatalogue} from "$model";
     import { galleryAssetBaseUrl, defaultTitle, defaultDescription } from "../config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
@@ -9,8 +9,8 @@
     $: pageData = $page.data as Metadata|undefined
 
 
-    $: normalFavIcons = iconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width))
-    $: appleFavIcon = iconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width))
+    $: normalFavIcons = faviconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width))
+    $: appleFavIcon = faviconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width))
 
     const mastodonLink = "https://meow.social/@senex"
     const basePath = PUBLIC_BASE_PATH

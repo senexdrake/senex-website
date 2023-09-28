@@ -3,7 +3,7 @@ import type {IconExport} from "../model/types";
 import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manifest";
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
-import { dataDir, defaultTitle, defaultDescription } from "../../config"
+import { dataDir, defaultTitle, defaultDescription, galleryAssetBaseUrl } from "../../config"
 
 interface CustomWebAppManifest extends WebAppManifest {
     display_override?: DisplayModeType[]
@@ -17,6 +17,16 @@ function iconMimeType(icon: IconExport) : string {
     const mime = fileFormatMimeMapping.get(icon.format)
     return mime ?? `image/${icon.format}`
 }
+
+function iconToImage(icon: IconExport, prefix = '/', maskable = false) : ImageResource {
+    return {
+        purpose: maskable ? 'maskable' : 'any',
+        src: prefix + icon.name,
+        sizes: `${icon.width}x${icon.height}`,
+        type: iconMimeType(icon)
+    }
+}
+
 export function webmanifest() : Plugin {
     let viteConfig: ResolvedConfig
 
@@ -25,37 +35,29 @@ export function webmanifest() : Plugin {
         async configResolved(cfg) {
             viteConfig = cfg
         },
-        buildEnd: async function () {
+        async buildEnd() {
             const iconPath = path.join(dataDir, 'icons.json')
             const iconCatalogueRaw = await readFile(iconPath)
-            const iconCatalogue = JSON.parse(iconCatalogueRaw.toString()) as IconExport[]
 
             const validSizes = [96, 192, 512]
-            const maskableIconSize = [512]
 
-            const icons: ImageResource[] = []
-            const shortcutIcons: ImageResource[] = []
-
-            iconCatalogue
-                .filter(icon => icon.name.startsWith("favicon") && validSizes.includes(icon.width))
-                .forEach(icon => {
-                    const imageResource: ImageResource = {
-                        purpose: 'any',
-                        src: `/${icon.name}`,
-                        sizes: `${icon.width}x${icon.height}`,
-                        type: iconMimeType(icon)
-                    }
-                    icons.push(imageResource)
-
-                    if (maskableIconSize.includes(icon.width)) {
-                        const maskableResource = Object.assign({}, imageResource)
-                        maskableResource.purpose = 'maskable'
-                        icons.push(maskableResource)
-                    }
-
+            const iconCatalogue = (JSON.parse(iconCatalogueRaw.toString()) as IconExport[]).filter(icon => {
+                return validSizes.includes(icon.width)
             })
 
+            const normalIcons = iconCatalogue
+                .filter(icon => icon.name.startsWith("favicon"))
+                .map(icon => {
+                    return iconToImage(icon)
+            })
 
+            const maskableIcons = iconCatalogue
+                .filter(icon => icon.name.startsWith("pwa-icon"))
+                .map(icon => {
+                    return iconToImage(icon, galleryAssetBaseUrl, true)
+            })
+
+            const icons = [...normalIcons, ...maskableIcons]
 
             const displayModes: DisplayModeType[] = ['minimal-ui', 'browser']
 

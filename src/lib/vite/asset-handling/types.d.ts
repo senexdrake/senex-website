@@ -19,7 +19,8 @@ export interface IconVariant {
     size: number,
     format: (keyof FormatEnum | AvailableFormatInfo)|(keyof FormatEnum | AvailableFormatInfo)[],
     name?: string
-    quality: number
+    quality: number,
+    background?: string
 }
 export interface IconsRaw {
     source: string,
