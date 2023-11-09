@@ -243,13 +243,16 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             categories.push(defaultCategory)
         }
 
+        const author = authors.get(rawImage.author.toLowerCase()) ?? { name: "UNKNOWN", url: "" }
+
         return {
             id: rawImage.id,
             name: rawImage.name,
+            nameUnique: `${author.name.toLowerCase()}-${rawImage.name}`,
             title: rawImage.title,
             nsfw: rawImage.nsfw,
             description: rawImage.description,
-            author: authors.get(rawImage.author.toLowerCase()) ?? { name: "UNKNOWN", url: "" },
+            author: author,
             src: sources,
             categories: categories,
             original: {

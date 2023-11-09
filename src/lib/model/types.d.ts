@@ -45,6 +45,7 @@ export interface ImageSrc {
 export interface ImageExport {
     id: number,
     name: string,
+    nameUnique: string,
     title: string,
     description: string,
     author: ImageAuthor

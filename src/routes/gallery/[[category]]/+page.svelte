@@ -88,7 +88,7 @@
 
 	$: largestVariants = new Map<string, ImageSrc>(currentImages.map(image => {
 		const sources = validSources(image.src)
-		return [image.name, sources[sources.length - 1]]
+		return [image.nameUnique, sources[sources.length - 1]]
 	}))
 
 	$: sourceSet = (src: ImageSrc) => {
@@ -147,9 +147,9 @@
 								{/each}
 
 								<img
-										src="{imageBaseUrl}{largestVariants.get(image.name)?.src}"
-										height={largestVariants.get(image.name)?.height}
-										width={largestVariants.get(image.name)?.height}
+										src="{imageBaseUrl}{largestVariants.get(image.nameUnique)?.src}"
+										height={largestVariants.get(image.nameUnique)?.height}
+										width={largestVariants.get(image.nameUnique)?.height}
 										alt={image.title}
 										loading="lazy"
 								>
