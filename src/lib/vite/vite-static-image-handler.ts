@@ -14,7 +14,7 @@ export function staticImageHandler() : Plugin {
     return {
         name: 'static-image-handler',
         enforce: 'pre',
-        async configResolved(cfg) {
+        configResolved(cfg) {
             viteConfig = cfg
         },
         async buildStart() {
@@ -24,7 +24,7 @@ export function staticImageHandler() : Plugin {
                 return
             }
 
-            await runAssetHandling({
+            return await runAssetHandling({
                 assetOutputPrefix: staticAssetsPrefix,
                 imageOutputPrefix: galleryAssetPrefix,
                 targetDir: viteConfig.publicDir,

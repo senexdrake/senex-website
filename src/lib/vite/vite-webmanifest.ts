@@ -32,7 +32,7 @@ export function webmanifest() : Plugin {
 
     return {
         name: 'webmanifest',
-        async configResolved(cfg) {
+        configResolved(cfg) {
             viteConfig = cfg
         },
         async buildEnd() {
@@ -102,7 +102,7 @@ export function webmanifest() : Plugin {
             webmanifest.short_name = webmanifest.name
 
             const webmanifestPath = path.join(viteConfig.publicDir, "app.webmanifest")
-            await writeFile(webmanifestPath, JSON.stringify(webmanifest))
+            return await writeFile(webmanifestPath, JSON.stringify(webmanifest))
         }
     }
 }
