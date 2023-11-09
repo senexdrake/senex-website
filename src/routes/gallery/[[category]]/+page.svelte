@@ -1,18 +1,14 @@
 <script lang="ts">
-	import { galleryAssetBaseUrl } from '$/config'
     import { imagesForCategory, categories } from '$lib/model/gallery'
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation"
 	import { userSettings } from "$lib/stores/userSettings"
 	import type {
 		ImageCategory,
-		ImageExport,
-		ImageSrc
+		ImageExport
 	} from "$model/types";
-	import {validSources} from "$lib/imageHelper";
 	import {onMount} from "svelte";
-
-	const imageBaseUrl = galleryAssetBaseUrl
+	import GalleryImage from "../GalleryImage.svelte";
 
 	$: showNsfw = $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
@@ -86,15 +82,6 @@
 		}
 	}
 
-	$: largestVariants = new Map<string, ImageSrc>(currentImages.map(image => {
-		const sources = validSources(image.src)
-		return [image.nameUnique, sources[sources.length - 1]]
-	}))
-
-	$: sourceSet = (src: ImageSrc) => {
-		return `${imageBaseUrl}${src.src} ${src.width}w`
-	}
-
 </script>
 
 
@@ -132,39 +119,7 @@
 	{:else}
 		<div class="images text-center">
 			{#each currentImagesFiltered as image}
-				<div class="image">
-					<hr class="default">
-					<div class="img-container img-format">
-						<a href="{imageBaseUrl}{image.original.src}" target="_blank">
-							<picture>
-								{#each validSources(image.src) as source}
-									<source srcset={sourceSet(source)}
-											height={source.height}
-											width={source.width}
-											media="(max-width: {source.width}px)"
-											type="image/{source.format}"
-									>
-								{/each}
-
-								<img
-										src="{imageBaseUrl}{largestVariants.get(image.nameUnique)?.src}"
-										height={largestVariants.get(image.nameUnique)?.height}
-										width={largestVariants.get(image.nameUnique)?.height}
-										alt={image.title}
-										loading="lazy"
-								>
-							</picture>
-							<div class="img-overlay text-center">
-								Open full picture
-							</div>
-						</a>
-					</div>
-					<h3>{image.title}</h3>
-					<p>{image.description}</p>
-					{#if image.author}
-						<p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
-					{/if}
-				</div>
+				<GalleryImage image={image}></GalleryImage>
 			{/each}
 		</div>
 	{/if}
@@ -214,12 +169,6 @@
 		@include mixins.breakpoint('lg') {
 			grid-template-columns: 1fr 1fr 1fr;
 		}
-
-		.image {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-end;
-		}
 	}
 
 	hr {
@@ -228,48 +177,5 @@
 
 	#nsfw-toggle {
 		margin-bottom: 2rem;
-	}
-
-
-
-	.img-container {
-		cursor: pointer;
-
-		&:hover {
-			.img-overlay {
-				opacity: 1;
-			}
-
-			img {
-				filter: blur(4px);
-				transform: scale(1.05);
-			}
-		}
-
-		img {
-			display: block;
-			max-height: $img-max-height;
-			transition: $img-transition;
-			width: 100%;
-			height: auto;
-
-		}
-
-		.img-overlay {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			position: absolute;
-			font-size: 2em;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: 100%;
-			text-align: center;
-			background: rgba(0, 0, 0, 0.5);
-			color: $color-text-dark;
-			opacity: 0;
-			transition: $img-transition;
-		}
 	}
 </style>
