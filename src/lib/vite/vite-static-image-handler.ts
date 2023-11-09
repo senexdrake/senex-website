@@ -24,14 +24,21 @@ export function staticImageHandler() : Plugin {
                 return
             }
 
-            return await runAssetHandling({
-                assetOutputPrefix: staticAssetsPrefix,
-                imageOutputPrefix: galleryAssetPrefix,
-                targetDir: viteConfig.publicDir,
-                metaOutputDir: './src/lib/data',
-                remoteAssetsBaseUrl: remoteAssetBaseUrl,
-                faviconDir: viteConfig.publicDir
-            })
+            try {
+                await runAssetHandling({
+                    assetOutputPrefix: staticAssetsPrefix,
+                    imageOutputPrefix: galleryAssetPrefix,
+                    targetDir: viteConfig.publicDir,
+                    metaOutputDir: './src/lib/data',
+                    remoteAssetsBaseUrl: remoteAssetBaseUrl,
+                    faviconDir: viteConfig.publicDir
+                })
+            } catch (e: any) {
+                console.error("Error handling static assets:", e)
+                process.exit(1)
+            }
+
+
         }
     }
 }
