@@ -28,6 +28,7 @@ import {
 } from "./config"
 import type {AssetHandlingConfig} from "./types";
 import {addTrailingSlash, pathExists} from "../../util";
+import {marked} from "marked";
 const finished = promisify(stream.finished)
 
 const imageCatalogueName = 'images.json'
@@ -244,6 +245,10 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         }
 
         const author = authors.get(rawImage.author.toLowerCase()) ?? { name: "UNKNOWN", url: "" }
+        const parsedDescription = await marked.parseInline(rawImage.description.trim(), {
+            gfm: true,
+            breaks: true
+        })
 
         return {
             id: rawImage.id,
@@ -251,7 +256,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             nameUnique: `${author.name.toLowerCase()}-${rawImage.name}`,
             title: rawImage.title,
             nsfw: rawImage.nsfw,
-            description: rawImage.description,
+            description: parsedDescription,
             author: author,
             src: sources,
             categories: categories,

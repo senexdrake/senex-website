@@ -12,6 +12,9 @@ $: sourceSet = (src: ImageSrc) => {
     return `${imageBaseUrl}${src.src} ${src.width}w`
 }
 
+// HTMl tags are safe in this case, as they are directly read from a configuration file
+/* eslint-disable svelte/no-at-html-tags */
+
 </script>
 
 <div class="image">
@@ -42,7 +45,7 @@ $: sourceSet = (src: ImageSrc) => {
         </a>
     </div>
     <h3>{image.title}</h3>
-    <p>{image.description}</p>
+    <p>{@html image.description}</p>
     {#if image.author}
         <p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
     {/if}
