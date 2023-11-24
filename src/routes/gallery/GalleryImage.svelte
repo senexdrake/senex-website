@@ -18,7 +18,7 @@ $: sourceSet = (src: ImageSrc) => {
 </script>
 
 <div class="image" id={image.nameUnique}>
-    <hr class="default">
+    <hr>
     <div class="img-container img-format">
         <a href="{imageBaseUrl}{image.original.src}" target="_blank">
             <picture>
@@ -57,6 +57,10 @@ $: sourceSet = (src: ImageSrc) => {
   $img-blur-speed: .2s;
   $img-transition: $img-blur-speed ease all;
   $img-max-height: 65vh;
+
+  hr {
+    margin: 0 0 $hr-margin;
+  }
 
   .no-decoration {
     text-decoration: none;
