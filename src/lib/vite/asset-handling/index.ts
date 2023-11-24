@@ -246,8 +246,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         const author = authors.get(rawImage.author.toLowerCase()) ?? { name: "UNKNOWN", url: "" }
         const parsedDescription = await marked.parseInline(rawImage.description.trim(), {
-            gfm: true,
-            breaks: true
+            gfm: true
         })
 
         return {
