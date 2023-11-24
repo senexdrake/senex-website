@@ -17,7 +17,7 @@ $: sourceSet = (src: ImageSrc) => {
 
 </script>
 
-<div class="image">
+<div class="image" id={image.nameUnique}>
     <hr class="default">
     <div class="img-container img-format">
         <a href="{imageBaseUrl}{image.original.src}" target="_blank">
