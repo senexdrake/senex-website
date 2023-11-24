@@ -44,7 +44,7 @@ $: sourceSet = (src: ImageSrc) => {
             </div>
         </a>
     </div>
-    <h3>{image.title}</h3>
+    <h3><a class="no-decoration" href="#{image.nameUnique}">{image.title}</a></h3>
     <p>{@html image.description}</p>
     {#if image.author}
         <p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
@@ -57,6 +57,10 @@ $: sourceSet = (src: ImageSrc) => {
   $img-blur-speed: .2s;
   $img-transition: $img-blur-speed ease all;
   $img-max-height: 65vh;
+
+  .no-decoration {
+    text-decoration: none;
+  }
 
   .image {
     display: flex;
