@@ -118,7 +118,7 @@
 		<div>Loading images...</div>
 	{:else}
 		<div class="images text-center">
-			{#each currentImagesFiltered as image}
+			{#each currentImagesFiltered as image (image.id)}
 				<GalleryImage image={image}></GalleryImage>
 			{/each}
 		</div>

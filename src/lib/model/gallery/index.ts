@@ -2,7 +2,7 @@ import imageCatalogueRaw from "$lib/data/images.json"
 import categoryCatalogueRaw from "$lib/data/categories.json"
 import type {ImageCategory, ImageExport} from "../types";
 
-export const allImages = imageCatalogueRaw as ImageExport[]
+export const allImages = new Map((imageCatalogueRaw as ImageExport[]).map(image => [image.id, image]))
 
 
 const catMap = new Map<string, ImageExport[]>()

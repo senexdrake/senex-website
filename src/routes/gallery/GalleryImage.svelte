@@ -2,15 +2,25 @@
 import {validSources} from "$lib/imageHelper";
 import type {ImageExport, ImageSrc} from "$model/types.d";
 import { galleryAssetBaseUrl as imageBaseUrl } from '$/config'
+import {beforeUpdate} from "svelte";
 
 export let image: ImageExport
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
 
+let description = image.description
+
+
 $: sourceSet = (src: ImageSrc) => {
     return `${imageBaseUrl}${src.src} ${src.width}w`
 }
+
+beforeUpdate(() => {
+    // Force rerendering of image description after an update
+    description = ""
+    description = image.description
+})
 
 // HTMl tags are safe in this case, as they are directly read from a configuration file
 /* eslint-disable svelte/no-at-html-tags */
@@ -45,7 +55,7 @@ $: sourceSet = (src: ImageSrc) => {
         </a>
     </div>
     <h3><a class="no-decoration" href="#{image.nameUnique}">{image.title}</a></h3>
-    <p>{@html image.description}</p>
+    <p>{@html description}</p>
     {#if image.author}
         <p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
     {/if}
