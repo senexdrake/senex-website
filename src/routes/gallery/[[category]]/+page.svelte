@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { imagesForCategory, categories } from '$lib/model/gallery'
+    import { imagesForCategory, categories, nsfwSuffix, defaultCategory } from '$lib/model/gallery'
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation"
+	import { redirectToNsfw } from "$/config"
 	import { userSettings } from "$lib/stores/userSettings"
 	import type {
 		ImageCategory,
@@ -10,8 +11,9 @@
 	import {onMount} from "svelte";
 	import GalleryImage from "../GalleryImage.svelte";
 
-	$: showNsfw = $userSettings.showNsfw
+	$: showNsfw = $page.data.nsfw
 	$: allowNsfw = $userSettings.allowNsfw
+	$: needsNsfwConsent = showNsfw && !allowNsfw
 
 	$: currentCategory = categories.get($page.data.category)
 
@@ -29,7 +31,7 @@
 	$: currentImages = allImages(currentCategory)
 	$: currentImagesFiltered = filteredImages(currentCategory)
 
-	let currentCategoryName = ""
+	let selectedCategory = ""
 	$: filteredCategories = Array.from(categories.values()).filter(cat => showNsfw || !cat.nsfw)
 
 	$: imagesSfw = currentImages.filter(image => !image.nsfw)
@@ -37,46 +39,82 @@
 
 	let loading = false
 
-	async function gotoCategory(categoryName = '') {
+	async function gotoCategory(categoryName = '', nsfw: boolean = showNsfw) {
 		loading = true
-		await goto(`/gallery/${categoryName}`)
+		if (nsfw) categoryName += nsfwSuffix
+		const url = `/gallery/${categoryName}`
+		await goto(url)
+		selectedCategory = currentCategory?.name
 		loading = false
 	}
 
 	async function onCategoryChange() {
-		await gotoCategory(currentCategoryName)
+		console.log(selectedCategory)
+		await gotoCategory(selectedCategory)
 	}
 
 
 	function enableNsfw() : boolean {
 		const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
+
+		let categoryTarget = currentCategory?.name ?? ''
+		if (!nsfwResponse && currentCategory?.nsfw) {
+			categoryTarget = ''
+		}
+
 		$userSettings.showNsfw = nsfwResponse
 		$userSettings.allowNsfw = nsfwResponse
+
+		if (nsfwResponse && categoryTarget.length == 0)
+			categoryTarget = defaultCategory
+
+		gotoCategory(categoryTarget, nsfwResponse)
 		return nsfwResponse
 	}
 
-	onMount(() => {
+	function disableNsfw() {
+		let redirectToDefault = false
+
 		if (currentCategory?.nsfw) {
-			// If the user does not accept NSFW content, go to default category
-			if (!enableNsfw()) gotoCategory()
+			redirectToDefault = confirm('This category is marked as NSFW only. Do you really want to disable NSFW content?' +
+					' You will be redirected to the default category.')
+			if (!redirectToDefault) return
 		}
 
-		currentCategoryName = currentCategory?.name ?? ''
+		$userSettings.showNsfw = false
+		if (redirectToDefault) {
+			gotoCategory('', false)
+		} else {
+			gotoCategory(currentCategory?.name, false)
+		}
+	}
+
+	let imageContainerStyle = ""
+
+	// If the page will be NSFW, we need to anticipate a NSFW consent pop up
+	if ($page.data.nsfw) {
+		imageContainerStyle = "display: none"
+	}
+
+	onMount(() => {
+		// Redirect to NSFW page when last NSFW setting was set to show
+		if (redirectToNsfw && $userSettings.showNsfw && !$page.data.nsfw) {
+			enableNsfw()
+		}
+
+		if (needsNsfwConsent) {
+			enableNsfw()
+		}
+
+		selectedCategory = currentCategory?.name ?? ''
+
+		imageContainerStyle = ""
 	})
 
 
 	const toggleNsfw = () => {
 		if (showNsfw) {
-			let redirectToDefault = false
-
-			if (currentCategory?.nsfw) {
-				redirectToDefault = confirm('This category is marked as NSFW only. Do you really want to disable NSFW content?' +
-						' You will be redirected to the default category.')
-				if (!redirectToDefault) return
-			}
-
-			$userSettings.showNsfw = false
-			if (redirectToDefault) gotoCategory()
+			disableNsfw()
 		} else {
 			enableNsfw()
 		}
@@ -93,9 +131,9 @@
 		</div>
 		<div>
 			<label for="category">Category</label>
-			<select id="category" class="select" bind:value={currentCategoryName} on:change={onCategoryChange}>
+			<select id="category" class="select" bind:value={selectedCategory} on:change={onCategoryChange}>
 				{#each filteredCategories as category}
-					<option value={category.name} selected={currentCategory?.name === category.name}>
+					<option value={category.name}>
 						{category.displayName} ({filteredImages(category).length})
 					</option>
 				{/each}
@@ -117,7 +155,7 @@
 	{#if loading}
 		<div>Loading images...</div>
 	{:else}
-		<div class="images text-center">
+		<div class="images text-center" style={imageContainerStyle}>
 			{#each currentImagesFiltered as image (image.id)}
 				<GalleryImage image={image}></GalleryImage>
 			{/each}

@@ -23,6 +23,11 @@ export interface Metadata {
     width?: string
 }
 
+export interface GalleryMetadata {
+    category: string,
+    nsfw: boolean
+}
+
 export interface MetadataImage {
     url: string,
     width: number,

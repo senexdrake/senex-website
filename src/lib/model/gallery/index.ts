@@ -4,6 +4,8 @@ import type {ImageCategory, ImageExport} from "../types";
 
 export const allImages = new Map((imageCatalogueRaw as ImageExport[]).map(image => [image.id, image]))
 
+export const nsfwSuffix = "-nsfw"
+export const defaultCategory = "images"
 
 const catMap = new Map<string, ImageExport[]>()
 allImages.forEach(image => image.categories?.forEach((category => {

@@ -9,3 +9,5 @@ export const galleryAssetBaseUrl = '/' + galleryAssetDir
 
 export const defaultTitle = "Senex, the big Dragon"
 export const defaultDescription = "An overview of ways to find, contact and find out more about the big Dragon!"
+
+export const redirectToNsfw = false
