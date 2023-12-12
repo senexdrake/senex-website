@@ -1,5 +1,5 @@
 import { parse as parseYaml } from "yaml"
-import {readFile, copyFile, writeFile, rename} from "fs/promises";
+import {readFile, copyFile, writeFile} from "fs/promises";
 import {createReadStream, createWriteStream} from "fs";
 import type {ImageAuthor, IconExport, ImageExport, ImageSrc} from "../../model/types"
 import type {CategoryRaw, IconsRaw, ImageRaw, LinkDefinition, FormatOptions} from "./types";
@@ -184,6 +184,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         if (!originalHeight) throw new Error('Image height is undefined')
         const heightLimited = (originalHeight ?? 0) > (originalWidth ?? 0)
         const allowEnlargement = rawImage.categories?.some(c => allowEnlargementFor.includes(c))
+        const nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf('.'))
 
         const processingPromises = processingRules.map(async (rule) => {
             const resizeOptions: ResizeOptions = {
@@ -191,8 +192,6 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 width: heightLimited ? undefined : rule.maxDimension,
                 withoutEnlargement: rule.withoutEnlargement && !allowEnlargement
             }
-
-            const nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf('.'))
 
             const tmpFilePath = path.resolve(
                 tmpDir,
@@ -235,9 +234,39 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 .toFile(originalPath)
         }
 
+
         const originalTargetPath = path.resolve(imageOutputDir, originalName)
         await copyFile(originalPath, originalTargetPath)
         console.debug("Wrote original image to", originalTargetPath)
+
+        // --- Metadata Version ---
+
+        const metadataVersionFormat = "png"
+        const metadataVersionName = nameWithoutExtension + '-meta.' + metadataVersionFormat
+        const metadataVersionPath = path.resolve(tmpDir, metadataVersionName)
+        const metadataMaxDimension = 1000
+        const metadataVersionResult = await sharp.clone()
+            .resize({
+                height: heightLimited ? metadataMaxDimension : undefined,
+                width: heightLimited ? undefined : metadataMaxDimension,
+                withoutEnlargement: true
+            })
+            .toFormat(metadataVersionFormat, { quality: originalTransformQuality })
+            .toFile(metadataVersionPath)
+
+        const metadataVersionTargetPath = path.resolve(imageOutputDir, metadataVersionName)
+        await copyFile(metadataVersionPath, metadataVersionTargetPath)
+
+        const metadataVersion: ImageSrc = {
+            width: metadataVersionResult.width,
+            height: metadataVersionResult.height,
+            format: metadataVersionFormat,
+            src: metadataVersionName
+        }
+
+        console.debug("Wrote metadata image to", metadataVersionTargetPath)
+
+        // --- Done ---
 
         const categories = Array.from(rawImage.categories ?? [])
         if (!categories.includes(defaultCategory) && categories.every(cat => !hiddenCategories.has(cat))) {
@@ -268,9 +297,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 height: originalHeight,
                 src: originalName,
                 format: originalFormat
-            }
+            },
+            metadataSrc: metadataVersion
         }
     }
+
     async function processIcons(icons: IconsRaw): Promise<IconExport[]> {
         const sourceImage = await fetchRemoteImage(icons.source)
         const sourceImagePath = path.resolve(tmpDir, sourceImage)

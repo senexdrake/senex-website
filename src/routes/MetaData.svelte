@@ -39,7 +39,7 @@
 
 
     let primaryImage: MetadataImage
-    $: primaryImage = images.find((image) => image.type == "image/png")
+    $: primaryImage = images.find((image) => image.type == "image/png") ?? images[images.length - 1]
 
     let cardType: string
     $: cardType = pageData?.cardType ?? "summary"

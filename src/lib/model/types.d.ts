@@ -62,7 +62,8 @@ export interface ImageExport {
     categories: string[]
     src: ImageSrc[],
     original: ImageSrc,
-    related?: number[]
+    related?: number[],
+    metadataSrc: ImageSrc
 }
 
 export interface ImageCategory {

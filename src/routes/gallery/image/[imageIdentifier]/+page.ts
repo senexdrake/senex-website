@@ -1,18 +1,37 @@
-import type {ImagePageMetadata, Metadata, PageLoadData, ImageCategory} from "$lib/model/types"
+import type {ImagePageMetadata, Metadata, PageLoadData, MetadataImage, ImageExport, ImageSrc} from "$lib/model/types"
 import { dev } from "$app/environment"
 import { error } from '@sveltejs/kit';
 import {categories, getImage, imagesForCategory} from "$lib/model/gallery";
+import {stripTrailingSlash} from "$lib/util-shared";
+import {PUBLIC_BASE_PATH} from "$env/static/public";
+import {galleryAssetBaseUrl} from "$/config"
 
 export const csr = dev
+
+const useImageAsMetadataImage = true
 
 export function load(data: PageLoadData) : Metadata|ImagePageMetadata {
     const identifier = data.params["imageIdentifier"]
 
-    const image = getImage(identifier)
+    const image: ImageExport|undefined = getImage(identifier)
     if (!image) throw error(404, 'Not Found')
+
+    let metadataImages: MetadataImage[]|undefined = undefined
+
+    if (useImageAsMetadataImage && !image.nsfw) {
+        const src = image.metadataSrc
+        metadataImages = [{
+            height: src.height,
+            width: src.width,
+            alt: image.title,
+            url: stripTrailingSlash(PUBLIC_BASE_PATH) + galleryAssetBaseUrl + src.src,
+            type: "image/" + src.format
+        }]
+    }
 
     return {
         image: image,
+        images: metadataImages,
         title: `Senex's Gallery - ${image.title}`,
         description: image.description
     }
