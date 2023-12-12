@@ -10,6 +10,7 @@
 	} from "$model/types";
 	import {onMount} from "svelte";
 	import GalleryImage from "../GalleryImage.svelte";
+	import {browser} from "$app/environment";
 
 	$: showNsfw = $page.data.nsfw
 	$: allowNsfw = $userSettings.allowNsfw
@@ -41,10 +42,11 @@
 
 	let loading = false
 
-	async function gotoCategory(categoryName = '', nsfw: boolean = showNsfw) {
+	async function gotoCategory(categoryName = '', nsfw: boolean = showNsfw, keepHash: boolean = false) {
 		loading = true
 		if (nsfw) categoryName += nsfwSuffix
-		const url = `/gallery/${categoryName}`
+		let url = `/gallery/${categoryName}`
+		if (browser && keepHash) url += location.hash
 		await goto(url)
 		if (currentCategory !== undefined) {
 			selectedCategory = currentCategory.name
@@ -71,7 +73,7 @@
 		if (nsfwResponse && categoryTarget.length == 0)
 			categoryTarget = defaultCategory
 
-		gotoCategory(categoryTarget, nsfwResponse)
+		gotoCategory(categoryTarget, nsfwResponse, nsfwResponse)
 		return nsfwResponse
 	}
 
@@ -107,6 +109,17 @@
 
 		selectedCategory = currentCategory?.name ?? ''
 		imageContainerHidden = false
+
+		// Manually scroll to the selected element
+		if (browser) {
+			setTimeout(() => {
+				const hashValue = location.hash.substring(1)
+				const targetElement = document.getElementById(hashValue)
+				targetElement?.scrollIntoView({
+					behavior: "auto"
+				})
+			}, 100)
+		}
 	})
 
 
