@@ -3,9 +3,8 @@ import type {
     PageLoadData,
     RefPageMetadata
 } from "$lib/model/types"
-import { dev } from "$app/environment"
 
-export const csr = dev
+export const csr = true
 
 export function load(data: PageLoadData) : Metadata|RefPageMetadata {
     const nsfw = data.params["variant"] == "nsfw"
