@@ -9,6 +9,7 @@ export let image: ImageExport
 export let singleView = false
 export let titleAboveImage = false
 export let lazyLoad = !singleView
+export let compact = false
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
@@ -32,7 +33,7 @@ beforeUpdate(() => {
 </script>
 
 <div class="image" id={image.nameUnique}>
-    {#if !singleView}
+    {#if !singleView && !compact}
     <hr>
     {/if}
     {#if titleAboveImage}
@@ -67,11 +68,13 @@ beforeUpdate(() => {
         </a>
     </div>
     {#if !titleAboveImage}
-        <div id="title">
+        <div id="title" class:compact={compact}>
             <GalleryImageTitle image={image} large={singleView}></GalleryImageTitle>
         </div>
     {/if}
-    <p>{@html description}</p>
+    {#if !compact}
+        <p>{@html description}</p>
+    {/if}
     {#if image.author}
         <p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
     {/if}
@@ -94,6 +97,9 @@ beforeUpdate(() => {
 
   #title {
     margin: 1.5em 0 .5em;
+    &.compact {
+      margin: 1em 0 0;
+    }
   }
 
   .image {

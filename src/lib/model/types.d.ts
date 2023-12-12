@@ -32,6 +32,10 @@ export interface ImagePageMetadata {
     galleryImage: ImageExport
 }
 
+export interface RefPageMetadata {
+    nsfw: boolean
+}
+
 export interface MetadataImage {
     url: string,
     width: number,

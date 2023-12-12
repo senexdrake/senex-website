@@ -160,7 +160,8 @@
 		of <span class="font-weight-bold">{currentImages.length}</span> images
 		(<span class="font-weight-bold">{imagesSfw.length}</span> <span class="font-italic">SFW</span> and
 		<span class="font-weight-bold">{imagesNsfw.length}</span> <span class="font-italic">NSFW</span>)
-		in this category.
+		in this category.<br>
+		Clicking on an image will open the full resolution version. Clicking on the title will open a singular image page.
 	</p>
 
 	{#if loading}
@@ -175,15 +176,17 @@
 	<hr class="default">
 	<h1>More coming Soon!</h1>
 	<div>Now that I've figured out the asset management, I now have to figure out how to structure this page...</div>
+	<hr>
+	Reference Pages:
+	<ul>
+		<li><a href="/gallery/refs/sfw">SFW References</a></li>
+		<li><a href="/gallery/refs/nsfw">NSFW References</a></li>
+	</ul>
 </section>
 
 <style lang="scss">
 	@use "$styles/variables" as *;
 	@use "$styles/mixins";
-
-	$img-blur-speed: .2s;
-	$img-transition: $img-blur-speed ease all;
-	$img-max-height: 65vh;
 
 	#header {
 		display: grid;
