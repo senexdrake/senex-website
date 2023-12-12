@@ -3,9 +3,11 @@ import {validSources} from "$lib/imageHelper";
 import type {ImageExport, ImageSrc} from "$model/types.d";
 import { galleryAssetBaseUrl as imageBaseUrl } from '$/config'
 import {beforeUpdate} from "svelte";
+import GalleryImageTitle from "./GalleryImageTitle.svelte";
 
 export let image: ImageExport
 export let singleView = false
+export let titleAboveImage = false
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
@@ -32,6 +34,11 @@ beforeUpdate(() => {
     {#if !singleView}
     <hr>
     {/if}
+    {#if titleAboveImage}
+        <div id="title-above" class="text-center">
+            <GalleryImageTitle image={image} large={true}></GalleryImageTitle>
+        </div>
+    {/if}
     <div class="img-container img-format">
         <a href="{imageBaseUrl}{image.original.src}" target="_blank">
             <picture>
@@ -50,6 +57,7 @@ beforeUpdate(() => {
                         width={largestVariant.height}
                         alt={image.title}
                         loading="lazy"
+                        class:limit-height={!singleView}
                 >
             </picture>
             <div class="img-overlay text-center">
@@ -57,7 +65,11 @@ beforeUpdate(() => {
             </div>
         </a>
     </div>
-    <h3><a class="no-decoration" href="/gallery/image/{image.nameUnique}">{image.title}</a></h3>
+    {#if !titleAboveImage}
+        <div id="title">
+            <GalleryImageTitle image={image} large={singleView}></GalleryImageTitle>
+        </div>
+    {/if}
     <p>{@html description}</p>
     {#if image.author}
         <p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>
@@ -75,8 +87,12 @@ beforeUpdate(() => {
     margin: 0 0 $hr-margin;
   }
 
-  .no-decoration {
-    text-decoration: none;
+  #title-above {
+    margin-bottom: 1em;
+  }
+
+  #title {
+    margin: 1.5em 0 .5em;
   }
 
   .image {
@@ -101,11 +117,13 @@ beforeUpdate(() => {
 
     img {
       display: block;
-      max-height: $img-max-height;
       transition: $img-transition;
       width: 100%;
       height: auto;
+    }
 
+    img.limit-height {
+      max-height: $img-max-height;
     }
 
     .img-overlay {

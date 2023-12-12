@@ -18,7 +18,7 @@ function categoryUrl(category: ImageCategory): string {
 
 </script>
 
-<section>
+<section id="image">
     <GalleryImage image={image} singleView={true}></GalleryImage>
     <hr>
     Categories:
