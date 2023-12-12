@@ -17,12 +17,14 @@
 
 	$: currentCategory = categories.get($page.data.category)
 
-	$: allImages = (category: string|ImageCategory): ImageExport[] => {
+	$: allImages = (category: string|ImageCategory|undefined): ImageExport[] => {
+		if (category === undefined) return []
 		if (typeof category !== 'string') category = category.name
 		return imagesForCategory(category)
 	}
 
-	$: filteredImages = (category: string|ImageCategory): ImageExport[] => {
+	$: filteredImages = (category: string|ImageCategory|undefined): ImageExport[] => {
+		if (category === undefined) return []
 		let images = allImages(category)
 		if (!showNsfw) images = images.filter(image => !image.nsfw)
 		return images
