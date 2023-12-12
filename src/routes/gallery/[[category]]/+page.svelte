@@ -44,12 +44,13 @@
 		if (nsfw) categoryName += nsfwSuffix
 		const url = `/gallery/${categoryName}`
 		await goto(url)
-		selectedCategory = currentCategory?.name
+		if (currentCategory !== undefined) {
+			selectedCategory = currentCategory.name
+		}
 		loading = false
 	}
 
 	async function onCategoryChange() {
-		console.log(selectedCategory)
 		await gotoCategory(selectedCategory)
 	}
 
@@ -89,12 +90,8 @@
 		}
 	}
 
-	let imageContainerStyle = ""
-
 	// If the page will be NSFW, we need to anticipate a NSFW consent pop up
-	if ($page.data.nsfw) {
-		imageContainerStyle = "display: none"
-	}
+	let imageContainerHidden = $page.data.nsfw
 
 	onMount(() => {
 		// Redirect to NSFW page when last NSFW setting was set to show
@@ -107,8 +104,7 @@
 		}
 
 		selectedCategory = currentCategory?.name ?? ''
-
-		imageContainerStyle = ""
+		imageContainerHidden = false
 	})
 
 
@@ -155,7 +151,7 @@
 	{#if loading}
 		<div>Loading images...</div>
 	{:else}
-		<div class="images text-center" style={imageContainerStyle}>
+		<div class="images text-center" class:hidden={imageContainerHidden}>
 			{#each currentImagesFiltered as image (image.id)}
 				<GalleryImage image={image}></GalleryImage>
 			{/each}
@@ -190,6 +186,10 @@
 		button, select {
 			margin-top: 1rem;
 		}
+	}
+
+	.hidden {
+		display: none !important;
 	}
 
 	.images {
