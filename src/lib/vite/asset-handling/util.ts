@@ -61,6 +61,14 @@ function createPlainTextRenderer() {
         return "\n";
     }
 
+    render.del = (text) => {
+        return text
+    }
+
+    render.codespan = (code) => {
+        return code
+    }
+
     render.em = (text) => {
         return text
     }
