@@ -9,6 +9,7 @@ import {galleryAssetBaseUrl} from "$/config"
 export const csr = dev
 
 const useImageAsMetadataImage = true
+const allowNsfwMetadataImage = true
 
 export function load(data: PageLoadData) : Metadata|ImagePageMetadata {
     const identifier = data.params["imageIdentifier"]
@@ -18,7 +19,7 @@ export function load(data: PageLoadData) : Metadata|ImagePageMetadata {
 
     let metadataImages: MetadataImage[]|undefined = undefined
 
-    if (useImageAsMetadataImage && !image.nsfw) {
+    if (useImageAsMetadataImage && (allowNsfwMetadataImage || !image.nsfw)) {
         const src = image.metadataSrc
         metadataImages = [{
             height: src.height,
