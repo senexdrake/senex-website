@@ -112,13 +112,15 @@
 
 		// Manually scroll to the selected element
 		if (browser) {
-			setTimeout(() => {
-				const hashValue = location.hash.substring(1)
-				const targetElement = document.getElementById(hashValue)
-				targetElement?.scrollIntoView({
-					behavior: "auto"
-				})
-			}, 100)
+			const hashValue = location.hash.substring(1)
+			if (hashValue.length > 0) {
+				setTimeout(() => {
+					const targetElement = document.getElementById(hashValue)
+					targetElement?.scrollIntoView({
+						behavior: "auto"
+					})
+				}, 100)
+			}
 		}
 	})
 
