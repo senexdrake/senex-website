@@ -2,7 +2,7 @@
 import { page } from "$app/stores";
 import type {ImageCategory, ImageExport} from "$model/types";
 import GalleryImage from "../../GalleryImage.svelte";
-import {imageCategories, nsfwSuffix, allImages} from "$model/gallery";
+import {imageCategories, nsfwSuffix, allImages, linkToImagePage} from "$model/gallery";
 
 let image: ImageExport
 $: image = $page.data.image
@@ -23,7 +23,7 @@ function categoryUrl(category: ImageCategory): string {
 }
 
 function relatedImageUrl(image: ImageExport): string {
-    return `/gallery/image/${image.nameUnique}#image`
+    return linkToImagePage(image)
 }
 
 </script>

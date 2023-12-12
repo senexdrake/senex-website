@@ -12,7 +12,7 @@
 	<MetaData />
 	<Header />
 
-	<main style="--width: {maxWidth}">
+	<main style="--width: {maxWidth}" id="main">
 		<slot />
 	</main>
 

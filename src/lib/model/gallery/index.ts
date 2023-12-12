@@ -49,3 +49,7 @@ export function getImage(name: string): ImageExport|undefined {
     if (!id) return undefined
     return allImages.get(id)
 }
+
+export function linkToImagePage(image: ImageExport): string {
+    return `/gallery/image/${image.nameUnique}#main`
+}
