@@ -249,6 +249,9 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             gfm: true
         })
 
+        const relatedImages = (rawImage.related ?? []).sort((a, b) => a - b)
+        if (relatedImages.includes(rawImage.id)) throw Error(`Image ${rawImage.id} contains image relation to itself!`)
+
         return {
             id: rawImage.id,
             name: rawImage.name,
@@ -259,6 +262,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             author: author,
             src: sources,
             categories: categories,
+            related: relatedImages,
             original: {
                 width: originalWidth,
                 height: originalHeight,

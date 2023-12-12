@@ -49,6 +49,7 @@ export interface ImageRaw {
     src?: string,
     format?: string,
     categories?: string[],
+    related?: number[]
     ignoreAuthorName?: boolean
 }
 

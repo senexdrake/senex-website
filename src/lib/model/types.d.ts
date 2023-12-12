@@ -61,7 +61,8 @@ export interface ImageExport {
     nsfw: boolean,
     categories: string[]
     src: ImageSrc[],
-    original: ImageSrc
+    original: ImageSrc,
+    related?: number[]
 }
 
 export interface ImageCategory {
