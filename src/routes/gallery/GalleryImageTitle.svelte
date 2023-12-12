@@ -13,13 +13,20 @@ export let large = false
     class:large={large}
 ><a class="no-decoration" href={linkToImagePage(image)}>{image.title}</a></span>
 
-<style>
+<style lang="scss">
+
     .no-decoration {
         text-decoration: none;
     }
 
     span {
         font-size: 1.2em;
+        * {
+            transition: color 0.2s ease;
+            &:hover {
+                color: var(--color-theme-1);
+            }
+        }
     }
 
     span.large {

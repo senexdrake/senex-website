@@ -96,7 +96,7 @@
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
 		text-decoration: none;
-		transition: color 0.2s linear;
+		transition: color 0.2s ease;
 	}
 
 	a:hover {
