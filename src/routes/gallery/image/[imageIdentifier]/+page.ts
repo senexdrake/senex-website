@@ -31,7 +31,7 @@ export function load(data: PageLoadData) : Metadata|ImagePageMetadata {
     }
 
     return {
-        image: image,
+        galleryImage: image,
         images: metadataImages,
         title: `Senex's Gallery - ${image.title}`,
         description: image.descriptionPlain

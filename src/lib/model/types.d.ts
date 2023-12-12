@@ -29,7 +29,7 @@ export interface GalleryMetadata {
 }
 
 export interface ImagePageMetadata {
-    image: ImageExport
+    galleryImage: ImageExport
 }
 
 export interface MetadataImage {

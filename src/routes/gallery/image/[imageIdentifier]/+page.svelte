@@ -5,7 +5,7 @@ import GalleryImage from "../../GalleryImage.svelte";
 import {imageCategories, nsfwSuffix, allImages, linkToImagePage} from "$model/gallery";
 
 let image: ImageExport
-$: image = $page.data.image
+$: image = $page.data.galleryImage
 
 let relatedImages: ImageExport[]
 $: relatedImages = image.related.map(id => {
