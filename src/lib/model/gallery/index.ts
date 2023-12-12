@@ -9,9 +9,8 @@ export const defaultCategory = "images"
 
 const catMap = new Map<string, ImageExport[]>()
 allImages.forEach(image => image.categories?.forEach((category => {
-    const targetList: ImageExport[] = catMap.get(category) ?? []
-    targetList.push(image)
-    catMap.set(category, targetList)
+    if (!catMap.has(category)) catMap.set(category, [])
+    catMap.get(category)?.push(image)
 })))
 export const categoryImageMap = catMap
 export const categories = new Map<string, ImageCategory>(
