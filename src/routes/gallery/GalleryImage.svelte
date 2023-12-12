@@ -8,6 +8,7 @@ import GalleryImageTitle from "./GalleryImageTitle.svelte";
 export let image: ImageExport
 export let singleView = false
 export let titleAboveImage = false
+export let lazyLoad = !singleView
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
@@ -56,7 +57,7 @@ beforeUpdate(() => {
                         height={largestVariant.height}
                         width={largestVariant.height}
                         alt={image.title}
-                        loading="lazy"
+                        loading={lazyLoad ? 'lazy' : 'eager'}
                         class:limit-height={!singleView}
                 >
             </picture>
