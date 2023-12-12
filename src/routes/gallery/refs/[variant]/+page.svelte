@@ -63,8 +63,9 @@ $: images = imagesForCategory(refImageCategory)
   }
 
   .images {
+    --columns: 1;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(var(--columns), 1fr);
     grid-auto-flow: row;
     align-items: start;
     grid-auto-rows: auto;
@@ -72,19 +73,19 @@ $: images = imagesForCategory(refImageCategory)
     column-gap: 1rem;
 
     @include mixins.breakpoint('xs') {
-      grid-template-columns: 1fr 1fr;
+      --columns: 2;
     }
     @include mixins.breakpoint('sm') {
-      grid-template-columns: 1fr 1fr 1fr;
+      --columns: 3;
     }
     @include mixins.breakpoint('md') {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      --columns: 4;
     }
     @include mixins.breakpoint('lg') {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      --columns: 5;
     }
     @include mixins.breakpoint('xl') {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      --columns: 6;
     }
   }
 </style>

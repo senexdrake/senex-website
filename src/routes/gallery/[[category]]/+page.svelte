@@ -211,8 +211,9 @@
 	}
 
 	.images {
+		--columns: 1;
 		display: grid;
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(var(--columns), 1fr);
 		grid-auto-flow: row;
 		align-items: start;
 		grid-auto-rows: auto;
@@ -220,10 +221,13 @@
 		column-gap: 1rem;
 
 		@include mixins.breakpoint('sm') {
-			grid-template-columns: 1fr 1fr;
+			--columns: 2;
 		}
 		@include mixins.breakpoint('lg') {
-			grid-template-columns: 1fr 1fr 1fr;
+			--columns: 3;
+		}
+		@include mixins.breakpoint('xl') {
+			--columns: 4;
 		}
 	}
 
