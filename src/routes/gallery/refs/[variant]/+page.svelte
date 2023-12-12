@@ -38,7 +38,7 @@ $: images = imagesForCategory(refImageCategory)
         </div>
     </div>
     <hr>
-    <div class="images text-center">
+    <div class="images text-center" style="--elements: {images.length}">
         {#each images as image (image.id)}
             <GalleryImage image={image} compact={true}></GalleryImage>
         {/each}
@@ -64,8 +64,12 @@ $: images = imagesForCategory(refImageCategory)
 
   .images {
     --columns: 1;
+    /* Fallback to the amount of columns if this does not get overridden */
+    --elements: var(--columns);
+    --actual-columns: min(var(--elements), var(--columns));
+
     display: grid;
-    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-columns: repeat(var(--actual-columns), 1fr);
     grid-auto-flow: row;
     align-items: start;
     grid-auto-rows: auto;

@@ -167,7 +167,7 @@
 	{#if loading}
 		<div>Loading images...</div>
 	{:else}
-		<div class="images text-center" class:hidden={imageContainerHidden}>
+		<div class="images text-center" class:hidden={imageContainerHidden} style="--elements: {currentImagesFiltered.length}">
 			{#each currentImagesFiltered as image (image.id)}
 				<GalleryImage image={image}></GalleryImage>
 			{/each}
@@ -212,8 +212,12 @@
 
 	.images {
 		--columns: 1;
+		/* Fallback to the amount of columns if this does not get overridden */
+		--elements: var(--columns);
+		--actual-columns: min(var(--elements), var(--columns));
+
 		display: grid;
-		grid-template-columns: repeat(var(--columns), 1fr);
+		grid-template-columns: repeat(var(--actual-columns), 1fr);
 		grid-auto-flow: row;
 		align-items: start;
 		grid-auto-rows: auto;
