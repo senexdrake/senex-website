@@ -4,6 +4,12 @@ import type {ImageCategory, ImageExport} from "../types";
 
 export const allImages = new Map((imageCatalogueRaw as ImageExport[]).map(image => [image.id, image]))
 
+const imageNameToIdMap = new Map<string, number>(
+    Array.from(allImages.values()).map((image) => {
+        return [image.nameUnique, image.id]
+    })
+)
+
 export const nsfwSuffix = "-nsfw"
 export const defaultCategory = "images"
 
@@ -27,4 +33,19 @@ export function imagesForCategory(category: string): ImageExport[] {
     const images = Array.from(categoryImageMap.get(category) ?? [])
     if (!oldestFirst.includes(category)) images.reverse()
     return images
+}
+
+export const imageCategories = new Map<number, ImageCategory[]>
+categories.forEach(category => {
+    const images = categoryImageMap.get(category.name) ?? []
+    images.forEach(image => {
+        if (!imageCategories.has(image.id)) imageCategories.set(image.id, [])
+        imageCategories.get(image.id)?.push(category)
+    })
+})
+
+export function getImage(name: string): ImageExport|undefined {
+    const id = imageNameToIdMap.get(name)
+    if (!id) return undefined
+    return allImages.get(id)
 }

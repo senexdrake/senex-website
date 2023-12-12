@@ -1,10 +1,10 @@
-import type {GalleryMetadata, ImageCategory, Metadata} from "$lib/model/types";
+import type {GalleryMetadata, ImageCategory, Metadata, PageLoadData} from "$lib/model/types";
 import {categories, defaultCategory, nsfwSuffix} from "$lib/model/gallery";
 
 export const csr = true
 
-export function load(data: any) : Metadata|GalleryMetadata {
-    const rawCategory = data.params.category as string ?? defaultCategory
+export function load(data: PageLoadData) : Metadata|GalleryMetadata {
+    const rawCategory = data.params["category"] as string ?? defaultCategory
     const categoryParts = rawCategory.split('-')
 
     const categoryName = categoryParts[0]

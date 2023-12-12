@@ -5,6 +5,7 @@ import { galleryAssetBaseUrl as imageBaseUrl } from '$/config'
 import {beforeUpdate} from "svelte";
 
 export let image: ImageExport
+export let singleView = false
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
@@ -28,7 +29,9 @@ beforeUpdate(() => {
 </script>
 
 <div class="image" id={image.nameUnique}>
+    {#if !singleView}
     <hr>
+    {/if}
     <div class="img-container img-format">
         <a href="{imageBaseUrl}{image.original.src}" target="_blank">
             <picture>
@@ -54,7 +57,7 @@ beforeUpdate(() => {
             </div>
         </a>
     </div>
-    <h3><a class="no-decoration" href="#{image.nameUnique}">{image.title}</a></h3>
+    <h3><a class="no-decoration" href="/gallery/image/{image.nameUnique}">{image.title}</a></h3>
     <p>{@html description}</p>
     {#if image.author}
         <p>by <a href={image.author.url} class="author-link font-weight-bold">{image.author.name}</a></p>

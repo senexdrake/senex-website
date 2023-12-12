@@ -28,6 +28,10 @@ export interface GalleryMetadata {
     nsfw: boolean
 }
 
+export interface ImagePageMetadata {
+    image: ImageExport
+}
+
 export interface MetadataImage {
     url: string,
     width: number,
@@ -89,4 +93,8 @@ export interface ImageOutputMetadata {
     hasAlpha: boolean // presence of an alpha transparency channel
     hasProfile: boolean // presence of an embedded ICC profile
     isProgressive: boolean // indicating whether the image is interlaced using a progressive scan
+}
+
+export interface PageLoadData {
+    params: [string, string]
 }
