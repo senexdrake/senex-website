@@ -57,6 +57,7 @@ export interface ImageExport {
     nameUnique: string,
     title: string,
     description: string,
+    descriptionPlain: string,
     author: ImageAuthor
     nsfw: boolean,
     categories: string[]

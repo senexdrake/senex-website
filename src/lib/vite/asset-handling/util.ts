@@ -5,6 +5,7 @@ import type {ImageAuthor} from "../../model/types";
 import {defaultImageType} from "./config";
 import type {ImageRaw} from "./types";
 import {pathExists, ensurePathExists} from "../../util";
+import {marked} from "marked";
 
 export async function clearPath(path: PathLike) {
     if (await pathExists(path)) {
@@ -39,3 +40,51 @@ export function fileNameFromImage(rawImage: ImageRaw) : string {
     }
     return name
 }
+
+function createPlainTextRenderer() {
+    const htmlEscapeToText = (text) => {
+        return text.replace(/\&\#[0-9]*;|&amp;/g, function (escapeCode) {
+            if (escapeCode.match(/amp/)) {
+                return '&';
+            }
+            return String.fromCharCode(escapeCode.match(/[0-9]+/));
+        });
+    }
+
+    const render = new marked.Renderer();
+
+    render.text = (text) => {
+        return text
+    }
+
+    render.br = () => {
+        return "\n";
+    }
+
+    render.em = (text) => {
+        return text
+    }
+
+    // render just the text of a link
+    render.link = (href, title, text) => {
+        return text;
+    };
+
+    // render just the text of a paragraph
+    render.paragraph = function (text) {
+        return htmlEscapeToText(text)+'\r\n';
+    };
+
+    // render just the text of a heading element, but indecate level
+    render.heading = (text, level) => {
+        return level + ' ) ' + text;
+    };
+
+    // render nothing for images
+    render.image = () => {
+        return '';
+    };
+
+    return render;
+}
+export const plainTextRenderer = createPlainTextRenderer()

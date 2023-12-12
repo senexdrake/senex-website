@@ -6,13 +6,14 @@ import type {CategoryRaw, IconsRaw, ImageRaw, LinkDefinition, FormatOptions} fro
 import type {PngOptions, ResizeOptions} from "sharp"
 import createSharp from 'sharp'
 import axios from "axios"
+import {decode} from 'html-entities';
 import mustache from "mustache"
 import { glob } from "glob"
 import {
     checkAuthor,
     clearPath,
     fileNameFromImage,
-    fileNameHash,
+    fileNameHash, plainTextRenderer,
     replaceExtension,
 } from "./util"
 import { promisify } from "util"
@@ -28,12 +29,24 @@ import {
 } from "./config"
 import type {AssetHandlingConfig} from "./types";
 import {addTrailingSlash, pathExists} from "../../util";
-import {marked} from "marked";
+import type {MarkedExtension} from "marked";
+import {Marked} from "marked";
 const finished = promisify(stream.finished)
 
 const imageCatalogueName = 'images.json'
 const iconCatalogueName = 'icons.json'
 const categoryCatalogueName = 'categories.json'
+
+const markedOptions: MarkedExtension = {
+    gfm: true,
+    breaks: true
+}
+const defaultMarked = new Marked(markedOptions)
+
+const plainMarked = new Marked({
+    ...markedOptions,
+    renderer: plainTextRenderer
+})
 
 export async function runAssetHandling(config: AssetHandlingConfig) {
 
@@ -274,9 +287,14 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         }
 
         const author = authors.get(rawImage.author.toLowerCase()) ?? { name: "UNKNOWN", url: "" }
-        const parsedDescription = await marked.parseInline(rawImage.description.trim(), {
-            gfm: true
-        })
+
+        const rawDescription = rawImage.description.split("\\")
+            .map(description => description.trim())
+            .join("\n")
+
+        const parsedDescription = await defaultMarked.parseInline(rawDescription)
+        const plainDescription = decode(await plainMarked
+            .parseInline(rawDescription))
 
         const relatedImages = (rawImage.related ?? []).sort((a, b) => a - b)
         if (relatedImages.includes(rawImage.id)) throw Error(`Image ${rawImage.id} contains image relation to itself!`)
@@ -288,6 +306,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             title: rawImage.title,
             nsfw: rawImage.nsfw,
             description: parsedDescription,
+            descriptionPlain: plainDescription,
             author: author,
             src: sources,
             categories: categories,

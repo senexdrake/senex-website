@@ -26,6 +26,7 @@
 		"eslint": "^8.28.0",
 		"eslint-plugin-svelte": "^2.30.0",
 		"glob": "^10.3.4",
+		"html-entities": "^2.4.0",
 		"marked": "^11.0.0",
 		"mustache": "^4.2.0",
 		"sass": "^1.66.1",
