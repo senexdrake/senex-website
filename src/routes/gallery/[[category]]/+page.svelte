@@ -94,6 +94,16 @@
 		}
 	}
 
+	function scrollToImage(id: string|undefined) {
+		if (id == undefined || id.length == 0) return
+		const targetElement = document.querySelector(id)
+		setTimeout(() => {
+			targetElement?.scrollIntoView({
+				behavior: "auto"
+			})
+		}, 100)
+	}
+
 	// If the page will be NSFW, we need to anticipate a NSFW consent pop up
 	let imageContainerHidden = $page.data.nsfw
 
@@ -112,15 +122,7 @@
 
 		// Manually scroll to the selected element
 		if (browser) {
-			const hashValue = location.hash.substring(1)
-			if (hashValue.length > 0) {
-				setTimeout(() => {
-					const targetElement = document.getElementById(hashValue)
-					targetElement?.scrollIntoView({
-						behavior: "auto"
-					})
-				}, 100)
-			}
+			scrollToImage(location.hash)
 		}
 	})
 
