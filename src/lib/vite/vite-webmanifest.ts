@@ -3,7 +3,7 @@ import type {IconExport} from "../model/types";
 import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manifest";
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
-import { dataDir, defaultTitle, defaultDescription, galleryAssetBaseUrl } from "../../config"
+import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl } from "../../config"
 
 interface CustomWebAppManifest extends WebAppManifest {
     display_override?: DisplayModeType[]
@@ -36,7 +36,7 @@ export function webmanifest() : Plugin {
             viteConfig = cfg
         },
         async buildEnd() {
-            const iconPath = path.join(dataDir, 'icons.json')
+            const iconPath = path.join(imageMetaDir, 'icons.json')
             const iconCatalogueRaw = await readFile(iconPath)
 
             const validSizes = [96, 192, 512]

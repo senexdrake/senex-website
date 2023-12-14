@@ -3,9 +3,18 @@
 	import Header from './Header.svelte';
 	import MetaData from "./MetaData.svelte";
 	import {page} from "$app/stores";
+	import {appVersion} from "$lib/app-info"
+	import {repoUrl, linkToRepo} from "$/config"
 
 	$: maxWidth = $page.data.width ?? '50rem'
 	const currentYear = new Date().getFullYear()
+
+	const maxVersionLength = 8
+
+	let appVersionTrimmed = appVersion.substring(0, maxVersionLength)
+
+	let versionLink = repoUrl + "/tree/" + appVersion
+
 </script>
 
 <div class="app">
@@ -18,8 +27,14 @@
 
 	<footer>
 		<div class="text-center">
-			© {currentYear.toString()} Senex / ArisenDrake -
-			made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>!
+			© {currentYear.toString()} Senex / ArisenDrake,
+			Version
+			{#if linkToRepo}
+				<a href={versionLink}>{appVersionTrimmed}</a>
+			{:else}
+				{appVersionTrimmed}
+			{/if}
+			- made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>!
 		</div>
 	</footer>
 </div>

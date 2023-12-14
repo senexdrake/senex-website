@@ -1,6 +1,6 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import {readdir, } from "fs/promises";
-import {staticAssetsPrefix, galleryAssetPrefix, galleryAssetDir} from "../../config"
+import {staticAssetsPrefix, galleryAssetPrefix, galleryAssetDir, imageMetaDir} from "../../config"
 import * as path from "path";
 import {pathExists} from "../util";
 import {runAssetHandling} from "./asset-handling"
@@ -29,7 +29,7 @@ export function staticImageHandler() : Plugin {
                     assetOutputPrefix: staticAssetsPrefix,
                     imageOutputPrefix: galleryAssetPrefix,
                     targetDir: viteConfig.publicDir,
-                    metaOutputDir: './src/lib/data',
+                    metaOutputDir: imageMetaDir,
                     remoteAssetsBaseUrl: remoteAssetBaseUrl,
                     faviconDir: viteConfig.publicDir
                 })
