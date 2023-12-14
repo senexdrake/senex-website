@@ -7,19 +7,32 @@ import {promisify} from "util";
 
 const exec = promisify(origExec)
 
-const tryGitExecutableForVersion = true
-
 export interface AppInfo {
     version: string
 }
 
-export function appInfo() : Plugin {
+export interface AppInfoConfig {
+    tryGit?: boolean
+    versionEnvironmentName: string
+}
+
+const defaultConfig: AppInfoConfig = {
+    tryGit: true,
+    versionEnvironmentName: "VERSION_HASH"
+}
+
+export function appInfo(_config?: AppInfoConfig) : Plugin {
+    const config: AppInfoConfig = {
+        ...defaultConfig,
+        ..._config
+    }
+
     return {
         enforce: 'post',
         name: 'app-info',
         async buildStart() {
-            let version = process.env.VERSION_HASH ?? process.env.CF_PAGES_COMMIT_SHA
-            if (!version && tryGitExecutableForVersion) {
+            let version = process.env[config.versionEnvironmentName]
+            if (!version && config.tryGit) {
                 const gitCommand = "git rev-parse HEAD"
                 await exec(gitCommand).then(res => {
                     version = res.stdout.trim()

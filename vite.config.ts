@@ -7,7 +7,9 @@ import {appInfo} from "./src/lib/vite/vite-app-info";
 export default defineConfig({
 	plugins: [
 		staticImageHandler(),
-		appInfo(),
+		appInfo({
+			versionEnvironmentName: "CF_PAGES_COMMIT_SHA"
+		}),
 		sveltekit(),
 		webmanifest(),
 	]
