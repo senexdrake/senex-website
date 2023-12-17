@@ -1,5 +1,5 @@
 import { parse as parseYaml } from "yaml"
-import {readFile, copyFile, writeFile} from "fs/promises";
+import {readFile, copyFile, writeFile, readdir, stat} from "fs/promises";
 import {createReadStream, createWriteStream} from "fs";
 import type {ImageAuthor, IconExport, ImageExport, ImageSrc} from "../../model/types"
 import type {CategoryRaw, IconsRaw, ImageRaw, LinkDefinition, FormatOptions} from "./types";
@@ -28,7 +28,7 @@ import {
     processingRules,
 } from "./config"
 import type {AssetHandlingConfig} from "./types";
-import {addTrailingSlash, pathExists} from "../../util";
+import {addTrailingSlash, chalk, formatBytes, pathExists} from "../../util";
 import type {MarkedExtension} from "marked";
 import {Marked} from "marked";
 import * as https from "https";
@@ -463,6 +463,14 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         console.log('Copied icon catalogue to', makeRelative(iconCatalogueTargetPath))
     }
 
+    async function galleryAssetsSize() {
+        const directory = imageOutputDir
+        const files = await readdir( directory )
+        const stats = await Promise.all(files.map( file => stat( path.join( directory, file ) ) ))
+
+        return stats.reduce((accumulator, { size }) => accumulator + size, 0);
+    }
+
     const start = Date.now()
 
     await setup()
@@ -485,4 +493,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     console.log(timeLog(
         timeLogPrefix, "Image handling took", timeInSeconds
     ))
+    console.log(chalk.bold(
+        "Total size of gallery assets:", chalk.yellow(formatBytes(await galleryAssetsSize()))
+    ))
+
 }
