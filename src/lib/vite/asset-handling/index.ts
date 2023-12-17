@@ -104,13 +104,14 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             ids.add(image.id)
         })
 
-        const fetchedImages = await Promise.all(imagesRaw.map(async (raw) => {
-            checkAuthor(raw.author, authors)
-            return {
-                rawImage: raw,
-                sourceFilePath: await fetchRemoteImage(raw)
-            }
-        }))
+        const fetchedImages: {rawImage: ImageRaw, sourceFilePath: string}[] = []
+
+        for (const image of imagesRaw) {
+            fetchedImages.push({
+                rawImage: image,
+                sourceFilePath: await fetchRemoteImage(image)
+            })
+        }
 
         const images = await Promise.all(fetchedImages.map(({rawImage, sourceFilePath}) => {
             if (!rawImage.categories) rawImage.categories = [defaultCategory]
