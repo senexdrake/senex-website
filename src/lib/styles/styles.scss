@@ -9,6 +9,7 @@
 	--color-bg-0: #{$color-bg-0};
 	--color-bg-1: #{$color-bg-1};
 	--color-bg-2: #{$color-bg-2};
+	--color-bg-page: #{$color-bg-page};
 	--color-theme-1: #{$color-theme-1};
 	--color-text: #{$color-text};
 	--color-btn-1: #{$color-btn-1};
@@ -20,6 +21,7 @@
 		--color-bg-0: #{$color-bg-0-dark};
 		--color-bg-1: #{$color-bg-1-dark};
 		--color-bg-2: #{$color-bg-2-dark};
+		--color-bg-page: #{$color-bg-page-dark};
 		--color-theme-1: #{$color-theme-1-dark};
 		--color-text: #{$color-text-dark};
 		--color-btn-1: #{$color-btn-1-dark};
@@ -39,8 +41,8 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	background-attachment: fixed;
+	background-color: var(--color-bg-page);
 	background-image: var(--bg-image);
-	background-color: var(--color-bg-0);
 	background-size: 100vw 100vh;
 }
 
