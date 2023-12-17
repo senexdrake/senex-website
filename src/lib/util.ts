@@ -25,6 +25,6 @@ export async function clearPath(path: PathLike) {
     await ensurePathExists(path)
 }
 
-export async function appVersion(versionEnvironmentName: string, tryGit: boolean = true) {
+export async function appVersion(versionEnvironmentName: string, tryGit: boolean = true): Promise<string|undefined> {
     return appVersionImpl(versionEnvironmentName, tryGit)
 }

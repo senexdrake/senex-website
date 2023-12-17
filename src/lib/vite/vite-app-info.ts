@@ -30,7 +30,7 @@ export function appInfo(_config?: AppInfoConfig) : Plugin {
             const version = await appVersion(
                 config.versionEnvironmentName,
                 config.tryGit
-            )
+            ) ?? "unknown"
 
             await ensurePathExists(dataDir)
             await writeFile(appInfoFile, JSON.stringify(<AppInfo>{

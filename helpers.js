@@ -12,5 +12,5 @@ export async function appVersion(versionEnvironmentName, tryGit) {
         })
     }
 
-    return version ?? "unknown"
+    return version
 }
