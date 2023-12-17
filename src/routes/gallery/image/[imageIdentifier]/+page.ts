@@ -15,7 +15,7 @@ export function load(data: PageLoadData) : Metadata|ImagePageMetadata {
     const identifier = data.params["imageIdentifier"]
 
     const image: ImageExport|undefined = getImage(identifier)
-    if (!image) throw error(404, 'Not Found')
+    if (!image) error(404, 'Not Found');
 
     let metadataImages: MetadataImage[]|undefined = undefined
 
