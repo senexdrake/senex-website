@@ -3,7 +3,7 @@ import type {ImageAuthor} from "../../model/types";
 import {defaultImageType} from "./config";
 import type {ImageRaw} from "./types";
 import {marked} from "marked";
-import chalk from "chalk";
+import {chalk} from "../../util";
 
 export {clearPath} from "../../util";
 

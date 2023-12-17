@@ -1,6 +1,7 @@
 import type {PathLike} from "fs";
 import {access, mkdir, rm} from "fs/promises";
 import {appVersion as appVersionImpl} from "../../helpers"
+import {Chalk} from "chalk";
 
 export { addTrailingSlash } from "./util-shared"
 
@@ -28,3 +29,7 @@ export async function clearPath(path: PathLike) {
 export async function appVersion(versionEnvironmentName: string, tryGit: boolean = true): Promise<string|undefined> {
     return appVersionImpl(versionEnvironmentName, tryGit)
 }
+
+export const chalk = new Chalk({
+    level: 2
+})
