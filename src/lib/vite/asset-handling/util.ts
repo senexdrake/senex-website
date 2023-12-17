@@ -5,7 +5,7 @@ import type {ImageRaw} from "./types";
 import {marked} from "marked";
 import {chalk} from "../../util";
 
-export {clearPath} from "../../util";
+export {clearPath, addTrailingSlash, chalk, formatBytes, pathExists} from "../../util";
 
 export function timeout(duration: number): Promise<void> {
     return new Promise(resolve => setTimeout(() => resolve(), duration))

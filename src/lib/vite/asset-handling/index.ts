@@ -15,6 +15,7 @@ import {
     fileNameFromImage,
     fileNameHash, formattedDuration, plainTextRenderer,
     replaceExtension, timeLog,
+    addTrailingSlash, chalk, formatBytes, pathExists
 } from "./util"
 import { promisify } from "util"
 import path from "path"
@@ -28,7 +29,6 @@ import {
     processingRules,
 } from "./config"
 import type {AssetHandlingConfig} from "./types";
-import {addTrailingSlash, chalk, formatBytes, pathExists} from "../../util";
 import type {MarkedExtension} from "marked";
 import {Marked} from "marked";
 import * as https from "https";
