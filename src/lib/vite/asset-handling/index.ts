@@ -54,6 +54,10 @@ const plainMarked = new Marked({
     renderer: plainTextRenderer
 })
 
+const makeRelative = (p: string, base: string = process.cwd()) => {
+    return path.relative(base, p)
+}
+
 export async function runAssetHandling(config: AssetHandlingConfig) {
 
     const hiddenCategories = new Set<string>()
@@ -122,11 +126,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         const imageCatalogueTargetPath = path.join(imageOutputDir, imageCatalogueName)
         await writeFile(imageCatalogueTargetPath, JSON.stringify(images))
-        console.log("Wrote image catalogue to", imageCatalogueTargetPath)
+        console.log("Wrote image catalogue to", makeRelative(imageCatalogueTargetPath))
 
         const categoryCatalogueTargetPath = path.join(imageOutputDir, categoryCatalogueName)
         await writeFile(categoryCatalogueTargetPath, JSON.stringify(categoriesRaw))
-        console.log('Wrote category catalogue to', categoryCatalogueTargetPath)
+        console.log('Wrote category catalogue to', makeRelative(categoryCatalogueTargetPath))
     }
 
     async function runIconProcessing() {
@@ -177,7 +181,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         }).then(async (response) => {
             response.data.pipe(writer);
             await finished(writer);
-            console.log("Fetched asset", targetPath)
+            console.log("Fetched asset", makeRelative(targetPath, tmpDir))
             return targetPath
         })
     }
@@ -199,7 +203,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     async function processImage(rawImage: ImageRaw, sourceFilePath: string) : Promise<ImageExport> {
         checkAuthor(rawImage.author, authors)
-        console.log("Processing", sourceFilePath)
+        console.log("Processing", makeRelative(sourceFilePath, tmpDir))
         let originalName = fileNameFromImage(rawImage)
         const sharp = createSharp()
         createReadStream(sourceFilePath).pipe(sharp)
@@ -235,7 +239,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const processedTargetPath = path.join(imageOutputDir, targetImageName)
             await copyFile(tmpFilePath, processedTargetPath)
 
-            console.debug("Wrote processed image to", processedTargetPath)
+            console.debug("Wrote processed image to", makeRelative(processedTargetPath))
 
             return <ImageSrc>{
                 src: targetImageName,
@@ -262,7 +266,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         const originalTargetPath = path.join(imageOutputDir, originalName)
         await copyFile(originalPath, originalTargetPath)
-        console.debug("Wrote original image to", originalTargetPath)
+        console.debug("Wrote original image to", makeRelative(originalTargetPath))
 
         // --- Metadata Version ---
 
@@ -289,7 +293,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             src: metadataVersionName
         }
 
-        console.debug("Wrote metadata image to", metadataVersionTargetPath)
+        console.debug("Wrote metadata image to", makeRelative(metadataVersionTargetPath))
 
         // --- Done ---
 
@@ -434,15 +438,15 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     async function copyMetadata() {
         const categoryCataloguePath = path.join(metaOutputDir, categoryCatalogueName)
         await copyFile(path.join(imageOutputDir, categoryCatalogueName), categoryCataloguePath)
-        console.log('Copied category catalogue to', categoryCataloguePath)
+        console.log('Copied category catalogue to', makeRelative(categoryCataloguePath))
 
         const imageCatalogueTargetPath = path.join(metaOutputDir, imageCatalogueName)
         await copyFile(path.join(imageOutputDir, imageCatalogueName), imageCatalogueTargetPath)
-        console.log('Copied image catalogue to', imageCatalogueTargetPath)
+        console.log('Copied image catalogue to', makeRelative(imageCatalogueTargetPath))
 
         const iconCatalogueTargetPath = path.join(metaOutputDir, iconCatalogueName)
         await copyFile(path.join(imageOutputDir, iconCatalogueName), iconCatalogueTargetPath)
-        console.log('Copied icon catalogue to', iconCatalogueTargetPath)
+        console.log('Copied icon catalogue to', makeRelative(iconCatalogueTargetPath))
     }
 
     await setup()
