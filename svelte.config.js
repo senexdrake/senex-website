@@ -10,6 +10,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
+		paths: {
+			relative: false
+		},
 		adapter: adapter({
 			pages: 'dist',
 			assets: 'dist',
