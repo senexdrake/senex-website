@@ -67,7 +67,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     const faviconDir = config.faviconDir ?? path.resolve('../', imageOutputDir)
     const metaPath = 'meta/'
-    const resoucePath = './resources'
+    const resourcePath = './resources'
 
     async function setup() {
         await clearPath(imageOutputDir)
@@ -139,7 +139,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     async function runIndexCreation() {
         const templateName = "index-template.mustache"
-        const templateFile = path.resolve(resoucePath, templateName)
+        const templateFile = path.resolve(resourcePath, templateName)
         if (!(await pathExists(templateFile))) {
             console.log(`Gallery asset index template ${templateName} not found, skipping index creation`)
             return
