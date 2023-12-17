@@ -6,6 +6,7 @@ import {appVersion} from "./helpers.js";
 const dev = true
 
 const version = await appVersion(versionEnvironmentName)
+const timestampedVersion = `${version}-${Date.now()}`
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -14,7 +15,7 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		version: {
-			name: version
+			name: timestampedVersion
 		},
 		paths: {
 			relative: false
