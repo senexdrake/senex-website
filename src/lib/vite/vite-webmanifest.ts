@@ -91,9 +91,15 @@ export function webmanifest() : Plugin {
                     },
                     {
                         icons: shortcutIcons,
-                        name: "Reference Gallery",
-                        url: "/gallery/references",
+                        name: "References",
+                        url: "/gallery/refs/sfw",
                         description: "A selection of images that should serve as references of the big Dragon"
+                    },
+                    {
+                        icons: shortcutIcons,
+                        name: "References (NSFW)",
+                        url: "/gallery/refs/nsfw",
+                        description: "A selection of images that should serve as references of the big Dragon - NSFW Warning!"
                     }
                 ]
             }
