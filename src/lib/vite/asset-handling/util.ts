@@ -3,6 +3,7 @@ import type {ImageAuthor} from "../../model/types";
 import {defaultImageType} from "./config";
 import type {ImageRaw} from "./types";
 import {marked} from "marked";
+import chalk from "chalk";
 
 export {clearPath} from "../../util";
 
@@ -31,6 +32,14 @@ export function fileNameFromImage(rawImage: ImageRaw) : string {
         name += `${rawImage.name}.${fileType}`
     }
     return name
+}
+
+export function formattedDuration(start: number, end: number = Date.now()): string {
+    return formatTime(end - start)
+}
+
+export function formatTime(time: number): string {
+    return (time / 1000).toString() + "s"
 }
 
 function createPlainTextRenderer() {
@@ -87,4 +96,7 @@ function createPlainTextRenderer() {
 
     return render;
 }
+
 export const plainTextRenderer = createPlainTextRenderer()
+
+export const timeLog = chalk.green

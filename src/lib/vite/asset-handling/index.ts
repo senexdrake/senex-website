@@ -13,8 +13,8 @@ import {
     checkAuthor,
     clearPath,
     fileNameFromImage,
-    fileNameHash, plainTextRenderer,
-    replaceExtension,
+    fileNameHash, formattedDuration, plainTextRenderer,
+    replaceExtension, timeLog,
 } from "./util"
 import { promisify } from "util"
 import path from "path"
@@ -54,6 +54,8 @@ const plainMarked = new Marked({
     renderer: plainTextRenderer
 })
 
+const timeLogPrefix = "✓"
+
 const makeRelative = (p: string, base: string = process.cwd()) => {
     return path.relative(base, p)
 }
@@ -81,6 +83,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     }
 
     async function runImageCatalogueProcessing() {
+        let start = Date.now()
         authors.clear()
         const parsedAuthors: ImageAuthor[] = parseYaml((await readFile(
             await fetchMeta('authors.yml')
@@ -108,6 +111,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             ids.add(image.id)
         })
 
+        console.log(timeLog(
+            timeLogPrefix, "Meta fetched in", formattedDuration(start)
+        ))
+
+        start = Date.now()
         const fetchedImages: {rawImage: ImageRaw, sourceFilePath: string}[] = []
 
         for (const image of imagesRaw) {
@@ -116,13 +124,19 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 sourceFilePath: await fetchRemoteImage(image)
             })
         }
+        console.log(timeLog(
+            timeLogPrefix, `Fetched ${fetchedImages.length} images in`, formattedDuration(start)
+        ))
 
+        start = Date.now()
         const images = await Promise.all(fetchedImages.map(({rawImage, sourceFilePath}) => {
             if (!rawImage.categories) rawImage.categories = [defaultCategory]
             return processImage(rawImage, sourceFilePath)
         }))
 
-        console.log(`Processed ${images.length} images`)
+        console.log(timeLog(
+            timeLogPrefix, `Processed ${images.length} images in`, formattedDuration(start)
+        ))
 
         const imageCatalogueTargetPath = path.join(imageOutputDir, imageCatalogueName)
         await writeFile(imageCatalogueTargetPath, JSON.stringify(images))
@@ -449,6 +463,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         console.log('Copied icon catalogue to', makeRelative(iconCatalogueTargetPath))
     }
 
+    const start = Date.now()
+
     await setup()
     await runImageCatalogueProcessing()
     await runIconProcessing()
@@ -464,4 +480,9 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     // cleanup
     await cleanup()
+
+    const timeInSeconds = formattedDuration(start, Date.now())
+    console.log(timeLog(
+        timeLogPrefix, "Image handling took", timeInSeconds
+    ))
 }
