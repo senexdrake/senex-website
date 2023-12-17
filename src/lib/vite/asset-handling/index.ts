@@ -58,14 +58,14 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     const hiddenCategories = new Set<string>()
     const authors = new Map<string, ImageAuthor>()
-    const tmpDir = path.resolve(process.cwd(), "./.tmp-asset-handling")
+    const tmpDir = path.join(process.cwd(), "./.tmp-asset-handling")
     const remoteAssetBaseUrl = addTrailingSlash(config.remoteAssetsBaseUrl)
     const { metaOutputDir } = config
 
-    const assetOutputDir = path.resolve(config.targetDir, config.assetOutputPrefix)
-    const imageOutputDir = path.resolve(assetOutputDir, config.imageOutputPrefix)
+    const assetOutputDir = path.join(config.targetDir, config.assetOutputPrefix)
+    const imageOutputDir = path.join(assetOutputDir, config.imageOutputPrefix)
 
-    const faviconDir = config.faviconDir ?? path.resolve('../', imageOutputDir)
+    const faviconDir = config.faviconDir ?? path.join(imageOutputDir, '../../')
     const metaPath = 'meta/'
     const resourcePath = './resources'
 
@@ -73,7 +73,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         await clearPath(imageOutputDir)
         await clearPath(config.metaOutputDir)
         await clearPath(tmpDir)
-        await clearPath(path.resolve(tmpDir, metaPath))
+        await clearPath(path.join(tmpDir, metaPath))
     }
 
     async function runImageCatalogueProcessing() {
@@ -119,11 +119,11 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         console.log(`Processed ${images.length} images`)
 
-        const imageCatalogueTargetPath = path.resolve(imageOutputDir, imageCatalogueName)
+        const imageCatalogueTargetPath = path.join(imageOutputDir, imageCatalogueName)
         await writeFile(imageCatalogueTargetPath, JSON.stringify(images))
         console.log("Wrote image catalogue to", imageCatalogueTargetPath)
 
-        const categoryCatalogueTargetPath = path.resolve(imageOutputDir, categoryCatalogueName)
+        const categoryCatalogueTargetPath = path.join(imageOutputDir, categoryCatalogueName)
         await writeFile(categoryCatalogueTargetPath, JSON.stringify(categoriesRaw))
         console.log('Wrote category catalogue to', categoryCatalogueTargetPath)
     }
@@ -133,13 +133,13 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             await fetchMeta('icons.yml')
         )).toString(fileEncoding))
         const icons = await processIcons(iconsRaw)
-        const iconCatalogueTargetPath = path.resolve(imageOutputDir, iconCatalogueName)
+        const iconCatalogueTargetPath = path.join(imageOutputDir, iconCatalogueName)
         await writeFile(iconCatalogueTargetPath, JSON.stringify(icons))
     }
 
     async function runIndexCreation() {
         const templateName = "index-template.mustache"
-        const templateFile = path.resolve(resourcePath, templateName)
+        const templateFile = path.join(resourcePath, templateName)
         if (!(await pathExists(templateFile))) {
             console.log(`Gallery asset index template ${templateName} not found, skipping index creation`)
             return
@@ -160,12 +160,12 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             }
         )
         const filename = 'index.html'
-        await writeFile(path.resolve(imageOutputDir, filename), rendered)
-        await writeFile(path.resolve(assetOutputDir, filename), rendered)
+        await writeFile(path.join(imageOutputDir, filename), rendered)
+        await writeFile(path.join(assetOutputDir, filename), rendered)
     }
 
     async function fetchRemoteAsset(assetPath: string) : Promise<string> {
-        const targetPath = path.resolve(tmpDir, assetPath)
+        const targetPath = path.join(tmpDir, assetPath)
         const url = remoteAssetBaseUrl + assetPath
         const writer = createWriteStream(targetPath)
 
@@ -217,7 +217,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 withoutEnlargement: rule.withoutEnlargement && !allowEnlargement
             }
 
-            const tmpFilePath = path.resolve(
+            const tmpFilePath = path.join(
                 tmpDir,
                 nameWithoutExtension + '.' + fileNameHash() + '.' + rule.format
             )
@@ -231,7 +231,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const newFileName = `${nameWithoutExtension}-${width}x${height}`
             const targetImageName = `${newFileName}.${format}`
 
-            const processedTargetPath = path.resolve(imageOutputDir, targetImageName)
+            const processedTargetPath = path.join(imageOutputDir, targetImageName)
             await copyFile(tmpFilePath, processedTargetPath)
 
             console.debug("Wrote processed image to", processedTargetPath)
@@ -251,7 +251,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         if (!originalName.endsWith(defaultImageType)) {
             originalFormat = defaultImageType
             originalName = replaceExtension(originalName, originalFormat)
-            originalPath = path.resolve(tmpDir, originalName)
+            originalPath = path.join(tmpDir, originalName)
             // Process the original as well
             await sharp.clone()
                 .toFormat(defaultImageType, { quality: originalTransformQuality })
@@ -259,7 +259,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         }
 
 
-        const originalTargetPath = path.resolve(imageOutputDir, originalName)
+        const originalTargetPath = path.join(imageOutputDir, originalName)
         await copyFile(originalPath, originalTargetPath)
         console.debug("Wrote original image to", originalTargetPath)
 
@@ -267,7 +267,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         const metadataVersionFormat = "png"
         const metadataVersionName = nameWithoutExtension + '-meta.' + metadataVersionFormat
-        const metadataVersionPath = path.resolve(tmpDir, metadataVersionName)
+        const metadataVersionPath = path.join(tmpDir, metadataVersionName)
         const metadataMaxDimension = 1000
         const metadataVersionResult = await sharp.clone()
             .resize({
@@ -278,7 +278,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             .toFormat(metadataVersionFormat, { quality: originalTransformQuality })
             .toFile(metadataVersionPath)
 
-        const metadataVersionTargetPath = path.resolve(imageOutputDir, metadataVersionName)
+        const metadataVersionTargetPath = path.join(imageOutputDir, metadataVersionName)
         await copyFile(metadataVersionPath, metadataVersionTargetPath)
 
         const metadataVersion: ImageSrc = {
@@ -334,7 +334,6 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     async function processIcons(icons: IconsRaw): Promise<IconExport[]> {
         const sourceImage = await fetchRemoteImage(icons.source)
-        const sourceImagePath = path.resolve(tmpDir, sourceImage)
         const sharp = createSharp()
         // Fix for processing a lot of variants for one image without rereading the stream
         sharp.setMaxListeners(icons.variants.length * 5)
@@ -349,7 +348,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const background = variant.background
 
             formats.forEach(format => {
-                const tmpPath = path.resolve(
+                const tmpPath = path.join(
                     tmpDir,
                     name + '.' + fileNameHash() + '.' + format
                 )
@@ -371,7 +370,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                     .then(async (outputInfo) => {
                         const {width, height, format: outputFormat} = outputInfo
                         const targetFileName = `${name}-${width}x${height}.${outputFormat}`
-                        const targetPath = path.resolve(imageOutputDir, targetFileName)
+                        const targetPath = path.join(imageOutputDir, targetFileName)
                         await copyFile(tmpPath, targetPath);
                         return {
                             name: targetFileName,
@@ -385,7 +384,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             })
         })
 
-        createReadStream(sourceImagePath).pipe(sharp)
+        createReadStream(sourceImage).pipe(sharp)
         processing.push(fetchDefaultIcon())
 
         const processedIcons = await Promise.all(processing)
@@ -396,7 +395,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         if (!defaultIconTemplate) throw Error('no default icon found')
         const defaultIcon = { ...defaultIconTemplate }
         defaultIcon.name = 'favicon.png'
-        await copyFile(path.resolve(imageOutputDir, defaultIconTemplate.name), path.resolve(imageOutputDir, defaultIcon.name))
+        await copyFile(path.join(imageOutputDir, defaultIconTemplate.name), path.join(imageOutputDir, defaultIcon.name))
 
         processedIcons.push(defaultIcon)
 
@@ -406,7 +405,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     async function fetchDefaultIcon(): Promise<IconExport> {
         const name = "favicon.ico"
         const icon = await fetchRemoteImage(name)
-        await copyFile(icon, path.resolve(imageOutputDir, name))
+        await copyFile(icon, path.join(imageOutputDir, name))
         return {
             width: 96,
             height: 96,
@@ -419,7 +418,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const favicons = await glob.glob(addTrailingSlash(imageOutputDir) + 'favicon*')
         await Promise.all(favicons.map(iconPath => {
             const name = path.basename(iconPath)
-            return copyFile(iconPath, path.resolve(faviconDir, name))
+            return copyFile(iconPath, path.join(faviconDir, name))
         }))
     }
 
@@ -432,16 +431,16 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     }
 
     async function copyMetadata() {
-        const categoryCataloguePath = path.resolve(metaOutputDir, categoryCatalogueName)
-        await copyFile(path.resolve(imageOutputDir, categoryCatalogueName), categoryCataloguePath)
+        const categoryCataloguePath = path.join(metaOutputDir, categoryCatalogueName)
+        await copyFile(path.join(imageOutputDir, categoryCatalogueName), categoryCataloguePath)
         console.log('Copied category catalogue to', categoryCataloguePath)
 
-        const imageCatalogueTargetPath = path.resolve(metaOutputDir, imageCatalogueName)
-        await copyFile(path.resolve(imageOutputDir, imageCatalogueName), imageCatalogueTargetPath)
+        const imageCatalogueTargetPath = path.join(metaOutputDir, imageCatalogueName)
+        await copyFile(path.join(imageOutputDir, imageCatalogueName), imageCatalogueTargetPath)
         console.log('Copied image catalogue to', imageCatalogueTargetPath)
 
-        const iconCatalogueTargetPath = path.resolve(metaOutputDir, iconCatalogueName)
-        await copyFile(path.resolve(imageOutputDir, iconCatalogueName), iconCatalogueTargetPath)
+        const iconCatalogueTargetPath = path.join(metaOutputDir, iconCatalogueName)
+        await copyFile(path.join(imageOutputDir, iconCatalogueName), iconCatalogueTargetPath)
         console.log('Copied icon catalogue to', iconCatalogueTargetPath)
     }
 
@@ -453,7 +452,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     // Copy Cloudflare's _header file to output dir
     // const headersFileName = '_headers'
-    // await copyFile(headersFileName, path.resolve(outDir, headersFileName))
+    // await copyFile(headersFileName, path.join(outDir, headersFileName))
 
     await copyFaviconsToFaviconDir()
     await copyMetadata()
