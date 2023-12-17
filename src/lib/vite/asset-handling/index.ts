@@ -104,10 +104,17 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             ids.add(image.id)
         })
 
-        const images = await Promise.all(imagesRaw.map(raw => {
-            if (!raw.categories) raw.categories = [defaultCategory]
+        const fetchedImages = await Promise.all(imagesRaw.map(async (raw) => {
             checkAuthor(raw.author, authors)
-            return processImage(raw)
+            return {
+                rawImage: raw,
+                sourceFilePath: await fetchRemoteImage(raw)
+            }
+        }))
+
+        const images = await Promise.all(fetchedImages.map(({rawImage, sourceFilePath}) => {
+            if (!rawImage.categories) rawImage.categories = [defaultCategory]
+            return processImage(rawImage, sourceFilePath)
         }))
 
         console.log(`Processed ${images.length} images`)
@@ -189,10 +196,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         return await fetchRemoteAsset(addTrailingSlash(metaPath) + metaFile)
     }
 
-    async function processImage(rawImage: ImageRaw) : Promise<ImageExport> {
+    async function processImage(rawImage: ImageRaw, sourceFilePath: string) : Promise<ImageExport> {
         checkAuthor(rawImage.author, authors)
-
-        const sourceFilePath = await fetchRemoteImage(rawImage)
         console.log("Processing", sourceFilePath)
         let originalName = fileNameFromImage(rawImage)
         const sharp = createSharp()
