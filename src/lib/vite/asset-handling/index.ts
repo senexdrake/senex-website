@@ -31,11 +31,17 @@ import type {AssetHandlingConfig} from "./types";
 import {addTrailingSlash, pathExists} from "../../util";
 import type {MarkedExtension} from "marked";
 import {Marked} from "marked";
+import * as https from "https";
 const finished = promisify(stream.finished)
 
 const imageCatalogueName = 'images.json'
 const iconCatalogueName = 'icons.json'
 const categoryCatalogueName = 'categories.json'
+
+const axiosInstance = axios.create({
+    timeout: 30000,
+    httpsAgent: new https.Agent({keepAlive: true})
+})
 
 const markedOptions: MarkedExtension = {
     gfm: true,
@@ -156,7 +162,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const url = remoteAssetBaseUrl + assetPath
         const writer = createWriteStream(targetPath)
 
-        return axios({
+        return axiosInstance({
             method: 'GET',
             url: url,
             responseType: 'stream'
