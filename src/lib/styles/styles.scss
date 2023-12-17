@@ -121,8 +121,14 @@ img {
 }
 
 .img-format {
+	--shadow-color: #{$img-shadow-color};
+
+	@include mixins.whenDark() {
+		--shadow-color: #{$img-shadow-color-dark};
+	}
+
 	border-radius: $img-border-radius;
-	box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.7);
+	box-shadow: 0 0 20px 10px var(--shadow-color);
 	position: relative;
 	overflow: hidden;
 	width: fit-content;
