@@ -1,8 +1,11 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import {dataDir, remoteAssetsRelative} from "./src/config.js";
+import {dataDir, remoteAssetsRelative, versionEnvironmentName} from "./src/config.js";
+import {appVersion} from "./helpers.js";
 
 const dev = true
+
+const version = await appVersion(versionEnvironmentName)
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -10,6 +13,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
+		version: {
+			name: version
+		},
 		paths: {
 			relative: false
 		},

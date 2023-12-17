@@ -1,5 +1,7 @@
 import type {PathLike} from "fs";
 import {access, mkdir, rm} from "fs/promises";
+import {appVersion as appVersionImpl} from "../../helpers"
+
 export { addTrailingSlash } from "./util-shared"
 
 export async function ensurePathExists(path: PathLike, recursive = true) {
@@ -21,4 +23,8 @@ export async function clearPath(path: PathLike) {
         await rm(path, { recursive: true })
     }
     await ensurePathExists(path)
+}
+
+export async function appVersion(versionEnvironmentName: string, tryGit: boolean = true) {
+    return appVersionImpl(versionEnvironmentName, tryGit)
 }
