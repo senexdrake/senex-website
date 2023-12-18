@@ -132,10 +132,9 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         ))
 
         start = Date.now()
-        const images = await Promise.all(fetchedImages.map(({rawImage, sourceFilePath}) => {
-            if (!rawImage.categories) rawImage.categories = [defaultCategory]
-            return processImage(rawImage, sourceFilePath)
-        }))
+        const images = await Promise.all(
+            fetchedImages.map(({rawImage, sourceFilePath}) => processImage(rawImage, sourceFilePath))
+        )
 
         console.log(timeLog(
             timeLogPrefix, `Processed ${images.length} images in`, formattedDuration(start)
