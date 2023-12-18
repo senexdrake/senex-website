@@ -23,6 +23,8 @@ $: images = imagesForCategory(refImageCategory)
     })
 
 
+$: elements = Math.ceil(images.length / 2)
+
 </script>
 
 <section>
@@ -38,7 +40,7 @@ $: images = imagesForCategory(refImageCategory)
         </div>
     </div>
     <hr>
-    <div class="images text-center" style="--elements: {images.length}">
+    <div class="images text-center" style="--elements: {elements}">
         {#each images as image (image.id)}
             <GalleryImage image={image} compact={true}></GalleryImage>
         {/each}
