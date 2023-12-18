@@ -15,10 +15,19 @@ const baseUrl = "/gallery/refs/"
 $: variantToggleLink = baseUrl + (nsfwEnabled ? 'sfw' : 'nsfw')
 $: variantToggleText = nsfwEnabled ? 'Show SFW' : 'Show NSFW'
 
+function isSfwAndHasNsfwVersion(image: ImageExport, images: ImageExport[]): boolean {
+    if (image.nsfw) return false
+    for (const tmpImage of images) {
+        if (!tmpImage.nsfw) continue
+        if (tmpImage.related?.includes(image.id)) return true
+    }
+    return false
+}
+
 let images: ImageExport[]
 $: images = imagesForCategory(refImageCategory)
-    .filter(image => {
-        if (nsfwEnabled) return true
+    .filter((image, index, images) => {
+        if (nsfwEnabled) return !isSfwAndHasNsfwVersion(image, images)
         return !image.nsfw
     })
 
