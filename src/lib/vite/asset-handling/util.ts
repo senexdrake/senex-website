@@ -100,3 +100,4 @@ function createPlainTextRenderer() {
 export const plainTextRenderer = createPlainTextRenderer()
 
 export const timeLog = chalk.green
+export const fileSizeLog = chalk.yellow

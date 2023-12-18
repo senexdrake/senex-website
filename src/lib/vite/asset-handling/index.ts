@@ -15,7 +15,7 @@ import {
     fileNameFromImage,
     fileNameHash, formattedDuration, plainTextRenderer,
     replaceExtension, timeLog,
-    addTrailingSlash, chalk, formatBytes, pathExists
+    addTrailingSlash, chalk, formatBytes, pathExists, fileSizeLog
 } from "./util"
 import { promisify } from "util"
 import path from "path"
@@ -126,6 +126,9 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         }
         console.log(timeLog(
             timeLogPrefix, `Fetched ${fetchedImages.length} images in`, formattedDuration(start)
+        ))
+        console.log(chalk.bold(
+            "Size of fetched assets:", fileSizeLog(formatBytes(await dirSize(tmpDir)))
         ))
 
         start = Date.now()
@@ -463,8 +466,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         console.log('Copied icon catalogue to', makeRelative(iconCatalogueTargetPath))
     }
 
-    async function galleryAssetsSize() {
-        const directory = imageOutputDir
+    async function dirSize(directory: string) {
         const files = await readdir( directory )
         const stats = await Promise.all(files.map( file => stat( path.join( directory, file ) ) ))
 
@@ -494,7 +496,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         timeLogPrefix, "Image handling took", timeInSeconds
     ))
     console.log(chalk.bold(
-        "Total size of gallery assets:", chalk.yellow(formatBytes(await galleryAssetsSize()))
+        "Total size of gallery assets:", fileSizeLog(formatBytes(await dirSize(imageOutputDir)))
     ))
 
 }
