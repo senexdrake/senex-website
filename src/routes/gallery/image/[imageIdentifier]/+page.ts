@@ -1,4 +1,4 @@
-import type {ImagePageMetadata, Metadata, PageLoadData, MetadataImage, ImageExport, ImageSrc} from "$lib/model/types"
+import type {ImagePageMetadata, Metadata, PageLoadData, MetadataImage, ImageExport} from "$lib/model/types"
 import { dev } from "$app/environment"
 import { error } from '@sveltejs/kit';
 import {categories, getImage, imagesForCategory} from "$lib/model/gallery";

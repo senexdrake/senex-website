@@ -37,7 +37,7 @@ beforeUpdate(() => {
     <hr>
     {/if}
     {#if titleAboveImage}
-        <div id="title-above" class="text-center">
+        <div class="text-center title-above">
             <GalleryImageTitle image={image} large={true}></GalleryImageTitle>
         </div>
     {/if}
@@ -68,7 +68,7 @@ beforeUpdate(() => {
         </a>
     </div>
     {#if !titleAboveImage}
-        <div id="title" class:compact={compact}>
+        <div class="title" class:compact={compact}>
             <GalleryImageTitle image={image} large={singleView}></GalleryImageTitle>
         </div>
     {/if}
@@ -91,11 +91,11 @@ beforeUpdate(() => {
     margin: 0 0 $hr-margin;
   }
 
-  #title-above {
+  .title-above {
     margin-bottom: 1em;
   }
 
-  #title {
+  .title {
     margin: 1.5em 0 .5em;
     &.compact {
       margin: 1em 0 0;

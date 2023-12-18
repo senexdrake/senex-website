@@ -8,9 +8,9 @@ let image: ImageExport
 $: image = $page.data.galleryImage
 
 let relatedImages: ImageExport[]
-$: relatedImages = image.related.map(id => {
+$: relatedImages = (image.related?.map(id => {
     return allImages.get(id)
-}).filter(image => image !== undefined)
+}).filter(image => image !== undefined) as ImageExport[]|undefined) ?? []
 
 let categories: ImageCategory[]
 $: categories = (imageCategories.get(image.id) ?? []).filter(category => category.show)
