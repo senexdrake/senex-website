@@ -25,6 +25,8 @@ export const categories = new Map<string, ImageCategory>(
     }
 ))
 
+export const categoryNames = new Set(categories.keys())
+
 const profileImages = categoryImageMap.get('profile') ?? []
 export const profileBanner: ImageExport = profileImages[0]
 

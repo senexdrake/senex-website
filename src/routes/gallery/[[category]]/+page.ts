@@ -1,5 +1,6 @@
 import type {GalleryMetadata, ImageCategory, Metadata, PageLoadData} from "$lib/model/types";
-import {categories, defaultCategory, nsfwSuffix} from "$lib/model/gallery";
+import {categories, categoryNames, defaultCategory, nsfwSuffix} from "$lib/model/gallery";
+import {error} from "@sveltejs/kit";
 
 export const csr = true
 const categorySeperator = '-'
@@ -10,12 +11,15 @@ export function load(data: PageLoadData) : Metadata|GalleryMetadata {
 
     const lastPart = categoryParts.pop()
     const nsfw = lastPart === 'nsfw'
+    const sfw = lastPart === 'sfw'
 
     // If it's not NSFW, the last part of the category name is actually valid
     // so we have to add it back in
-    if (!nsfw && lastPart) categoryParts.push(lastPart)
+    if (lastPart && !nsfw && !sfw) categoryParts.push(lastPart)
 
     const categoryName = categoryParts.join(categorySeperator)
+
+    if (!categoryNames.has(categoryName)) error(404)
 
     return {
         category: categoryName,
