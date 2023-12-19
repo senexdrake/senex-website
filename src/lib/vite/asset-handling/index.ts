@@ -82,6 +82,26 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         await clearPath(path.join(tmpDir, metaPath))
     }
 
+    async function parseImageList(): Promise<ImageRaw[]> {
+        const filePath = await fetchMeta('images.yml')
+        const imagesRaw = parseYaml((await readFile(filePath)).toString()) as ImageRaw[]
+
+        const ids = new Set<number>()
+        const filteredImages: ImageRaw[] = []
+
+        for (const image of imagesRaw) {
+            if (ids.has(image.id)) throw new Error('Encountered repeated id ' + image.id)
+            ids.add(image.id)
+
+            // Filter images that have been marked as "skip"
+            if (image.skip) continue
+
+            filteredImages.push(image)
+        }
+
+        return filteredImages
+    }
+
     async function runImageCatalogueProcessing() {
         let start = Date.now()
         authors.clear()
@@ -101,15 +121,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         })
         categoriesRaw.filter(cat => !cat.show).forEach(cat => hiddenCategories.add(cat.name))
 
-        const imagesRaw: ImageRaw[] = parseYaml((await readFile(
-            await fetchMeta('images.yml')
-        )).toString(fileEncoding))
-
-        const ids = new Set<number>()
-        imagesRaw.forEach(image => {
-            if (ids.has(image.id)) throw new Error('Encountered repeated id ' + image.id)
-            ids.add(image.id)
-        })
+        const imagesRaw = await parseImageList()
 
         console.log(timeLog(
             timeLogPrefix, "Meta fetched in", formattedDuration(start)

@@ -46,6 +46,7 @@ export interface ImageRaw {
     description: string,
     author: string,
     nsfw: boolean,
+    skip?: boolean
     src?: string,
     format?: string,
     categories?: string[],
