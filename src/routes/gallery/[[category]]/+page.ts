@@ -2,13 +2,21 @@ import type {GalleryMetadata, ImageCategory, Metadata, PageLoadData} from "$lib/
 import {categories, defaultCategory, nsfwSuffix} from "$lib/model/gallery";
 
 export const csr = true
+const categorySeperator = '-'
 
 export function load(data: PageLoadData) : Metadata|GalleryMetadata {
     const rawCategory = data.params["category"] as string ?? defaultCategory
-    const categoryParts = rawCategory.split('-')
+    const categoryParts = rawCategory.split(categorySeperator)
 
-    const categoryName = categoryParts[0]
-    const nsfw = categoryParts[1] === 'nsfw'
+    const lastPart = categoryParts.pop()
+    const nsfw = lastPart === 'nsfw'
+
+    // If it's not NSFW, the last part of the category name is actually valid
+    // so we have to add it back in
+    if (!nsfw && lastPart) categoryParts.push(lastPart)
+
+    const categoryName = categoryParts.join(categorySeperator)
+
     return {
         category: categoryName,
         nsfw: nsfw,
