@@ -21,10 +21,10 @@ import { promisify } from "util"
 import path from "path"
 import * as stream from "stream"
 import {
-    allowEnlargementFor, defaultCategory,
+    allowEnlargementFor, debug, defaultCategory,
     defaultFaviconFormat, defaultFaviconSize,
     defaultImageType,
-    fileEncoding,
+    fileEncoding, metaMaxDimension, originalMaxDimension,
     originalTransformQuality,
     processingRules,
 } from "./config"
@@ -144,6 +144,9 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         ))
 
         start = Date.now()
+        console.log(chalk.bold(
+            "Starting processing..."
+        ))
         const images = await Promise.all(
             fetchedImages.map(({rawImage, sourceFilePath}) => processImage(rawImage, sourceFilePath))
         )
@@ -231,7 +234,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
     async function processImage(rawImage: ImageRaw, sourceFilePath: string) : Promise<ImageExport> {
         checkAuthor(rawImage.author, authors)
-        console.log("Processing", makeRelative(sourceFilePath, tmpDir))
+        if (debug) console.debug("Processing", makeRelative(sourceFilePath, tmpDir))
         let originalName = fileNameFromImage(rawImage)
         const sharp = createSharp()
         createReadStream(sourceFilePath).pipe(sharp)
@@ -267,7 +270,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             const processedTargetPath = path.join(imageOutputDir, targetImageName)
             await copyFile(tmpFilePath, processedTargetPath)
 
-            console.debug("Wrote processed image to", makeRelative(processedTargetPath))
+            if (debug) console.debug("Wrote processed image to", makeRelative(processedTargetPath))
 
             return <ImageSrc>{
                 src: targetImageName,
@@ -278,30 +281,49 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         })
 
         const sources = await Promise.all(processingPromises)
-        let originalPath = sourceFilePath
-        let originalFormat = rawImage.format ?? defaultImageType
 
-        if (!originalName.endsWith(defaultImageType)) {
-            originalFormat = defaultImageType
-            originalName = replaceExtension(originalName, originalFormat)
-            originalPath = path.join(tmpDir, originalName)
-            // Process the original as well
-            await sharp.clone()
-                .toFormat(defaultImageType, { quality: originalTransformQuality })
-                .toFile(originalPath)
+        originalName = replaceExtension(originalName, defaultImageType)
+        const originalPath = path.join(tmpDir, originalName)
+        const originalFormat = rawImage.format ?? defaultImageType
+        let needsResize = (heightLimited && originalHeight > originalMaxDimension) || originalWidth > originalMaxDimension
+        needsResize = needsResize && !rawImage.noResize
+
+        const original: ImageSrc = {
+            width: originalWidth,
+            height: originalHeight,
+            format: originalFormat,
+            src: originalName
         }
 
+        if (originalFormat !== defaultImageType || needsResize) {
+            // Process the original as well
+            let clonedSharp = sharp.clone()
+
+            if (!rawImage.noResize) clonedSharp = clonedSharp.resize({
+                height: heightLimited ? originalMaxDimension : undefined,
+                width: heightLimited ? undefined : originalMaxDimension,
+                withoutEnlargement: true
+            })
+
+            const originalOutput = await clonedSharp
+                .toFormat(defaultImageType, { quality: originalTransformQuality })
+                .toFile(originalPath)
+
+            original.width = originalOutput.width
+            original.height = originalOutput.height
+            original.format = originalOutput.format
+        }
 
         const originalTargetPath = path.join(imageOutputDir, originalName)
         await copyFile(originalPath, originalTargetPath)
-        console.debug("Wrote original image to", makeRelative(originalTargetPath))
+        if (debug) console.debug("Wrote original image to", makeRelative(originalTargetPath))
 
         // --- Metadata Version ---
 
         const metadataVersionFormat = "png"
         const metadataVersionName = nameWithoutExtension + '-meta.' + metadataVersionFormat
         const metadataVersionPath = path.join(tmpDir, metadataVersionName)
-        const metadataMaxDimension = 1000
+        const metadataMaxDimension = metaMaxDimension
         const metadataVersionResult = await sharp.clone()
             .resize({
                 height: heightLimited ? metadataMaxDimension : undefined,
@@ -321,7 +343,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             src: metadataVersionName
         }
 
-        console.debug("Wrote metadata image to", makeRelative(metadataVersionTargetPath))
+        if (debug) console.debug("Wrote metadata image to", makeRelative(metadataVersionTargetPath))
 
         // --- Done ---
 
@@ -343,6 +365,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const relatedImages = (rawImage.related ?? []).sort((a, b) => a - b)
         if (relatedImages.includes(rawImage.id)) throw Error(`Image ${rawImage.id} contains image relation to itself!`)
 
+        console.log("Processed", makeRelative(sourceFilePath, tmpDir), "->", original.src)
+
         return {
             id: rawImage.id,
             name: rawImage.name,
@@ -355,12 +379,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             src: sources,
             categories: categories,
             related: relatedImages,
-            original: {
-                width: originalWidth,
-                height: originalHeight,
-                src: originalName,
-                format: originalFormat
-            },
+            original: original,
             metadataSrc: metadataVersion
         }
     }

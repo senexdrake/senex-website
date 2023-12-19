@@ -1,5 +1,6 @@
 import type {ProcessingRule} from "./types";
 
+export const debug = false
 export const defaultImageType = 'webp'
 export const fileEncoding = 'utf-8'
 
@@ -9,11 +10,11 @@ export const allowEnlargementFor: string[] = []
 const defaultEnlargementRule: 'allow'|'deny' = "deny"
 
 const defaultRules: ProcessingRule[] = [
-    { maxDimension: 600, quality: 65, format: defaultImageType },
+    //{ maxDimension: 600, quality: 65, format: defaultImageType },
     { maxDimension: 900, quality: 65, format: defaultImageType },
     { maxDimension: 1200, quality: 65, format: defaultImageType },
     { maxDimension: 2400, quality: 65, format: defaultImageType },
-    { maxDimension: 4000, quality: 90, format: defaultImageType }
+    { maxDimension: 3000, quality: 90, format: defaultImageType }
 ]
 export const processingRules = defaultRules.map(rule => {
     if (rule.withoutEnlargement === undefined) {
@@ -22,7 +23,9 @@ export const processingRules = defaultRules.map(rule => {
     return rule
 })
 
+export const originalMaxDimension = 4000
 export const originalTransformQuality = 95
+export const metaMaxDimension = 1200
 
 export const defaultFaviconSize = 192
 export const defaultFaviconFormat = 'png'
