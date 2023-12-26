@@ -26,8 +26,32 @@ export const categories = new Map<string, ImageCategory>(
 ))
 
 export const categoryNames = new Set(categories.keys())
+export function isChristmas(): boolean {
+    const christmasEndDay = 7
+    const christmasStartDay = 25
 
-const profileImages = categoryImageMap.get('profile') ?? []
+    const now = new Date()
+
+    switch (now.getMonth()) {
+        // Keep it around till january at the specified date
+        case 0:
+            return now.getDate() <= christmasEndDay
+        // Start early in november
+        case 10:
+            return now.getDate() >= christmasStartDay
+        // It's always Christmas in december
+        case 11:
+            return true
+    }
+
+    return false
+}
+
+let profileImages = categoryImageMap.get('profile') ?? []
+const christmasImages = profileImages.filter(image => image.name.includes("christmas"))
+
+if (isChristmas() && christmasImages.length > 0) profileImages = christmasImages
+
 export const profileBanner: ImageExport = profileImages[0]
 
 const oldestFirst = ['references', 'refsheets']

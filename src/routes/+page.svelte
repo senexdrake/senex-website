@@ -75,7 +75,8 @@
 			//border-radius: 50%;
 			//background: black;
 			//border: 2px solid black;
-			max-height: 25rem;
+			// Profile banner should be width limited anyway
+			max-height: 100vh;
 		}
 	}
 
