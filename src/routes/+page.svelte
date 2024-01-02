@@ -29,7 +29,7 @@
 	</div>
 	<hr class="default">
 	<div id="about-me" class="text-center">
-		<p>Hey, I'm <span class="font-weight-bold">Senex</span>, also known as ArisenDrake in my... eh... non-furry related activities!</p>
+		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Senex (my sona's name) or ArisenDrake.</p>
 		<p>
 			This is a small overview page for me and my fursona, a pretty big (and massive) dragon. There's also a small
 			<a href="/gallery">Gallery</a> featuring some of my favorite artworks that I've commissioned over the years.

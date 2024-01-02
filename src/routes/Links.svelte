@@ -1,23 +1,34 @@
 <script lang="ts">
     import type {LinkItem} from "$model/types";
+    import {stripTrailingSlash} from "$lib/util-shared";
 
+    const shortLinkBase = "https://zdrake.eu"
+    
+    const addBaseUrl = (target: string) => stripTrailingSlash(shortLinkBase) + target
+    const processLinkTarget = (item: LinkItem) => {
+        if (!item.target.startsWith("/")) return
+        item.target = addBaseUrl(item.target)
+    }
+    
     const bigLinks: LinkItem[] = [
-        { name: 'Twitter', target: 'https://senex.link/tw-fur', order: 1 },
-        { name: 'Itaku', target: 'https://senex.link/itaku', order: 2 },
-        { name: 'FurAffinity', target: 'https://senex.link/fa', order: 3 },
-        { name: 'Mastodon', target: 'https://senex.link/mastodon', order: 4 },
-        { name: 'BlueSky', target: 'https://senex.link/bsky-fur', order: 5 },
-        { name: 'Telegram', target: 'https://senex.link/telegram', order: 8 },
-        { name: 'Character References', target: 'https://senex.link/senex-refs', order: 100 }
+        { name: 'Twitter', target: '/tw-fur', order: 1 },
+        { name: 'Itaku', target: '/itaku', order: 2 },
+        { name: 'FurAffinity', target: '/fa', order: 3 },
+        { name: 'Mastodon', target: '/mastodon', order: 4 },
+        { name: 'BlueSky', target: '/bsky-fur', order: 5 },
+        { name: 'Telegram', target: '/telegram', order: 8 },
+        { name: 'Character References', target: '/senex-refs', order: 100 }
     ]
 
     const smallLinks: LinkItem[] = [
-        { name: 'Steam', target: 'https://senex.link/steam', order: 10 },
-        { name: 'E-Mail', target: 'mailto:furry@arisendrake.de', order: 11 },
-        { name: 'Furry Network', target: 'https://senex.link/fn', order: 12 },
+        { name: 'Steam', target: '/steam', order: 10 },
+        { name: 'E-Mail', target: 'mailto:furry@zdrake.eu', order: 11 },
+        { name: 'Furry Network', target: '/fn', order: 12 },
     ]
 
     const allLinks = bigLinks.concat(smallLinks).sort((a, b) => a.order - b.order)
+
+    allLinks.forEach(processLinkTarget)
 
     const discordName = "@arisendrake"
 

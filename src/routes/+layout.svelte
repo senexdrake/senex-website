@@ -27,7 +27,7 @@
 
 	<footer>
 		<div class="text-center">
-			© {currentYear.toString()} Senex / ArisenDrake,
+			© {currentYear.toString()} ZenDrake,
 			Version
 			{#if linkToRepo}
 				<a href={versionLink}>{appVersionTrimmed}</a>
