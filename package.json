@@ -15,7 +15,6 @@
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.0.8",
-		"@neoconfetti/svelte": "^1.0.0",
 		"@rollup/plugin-dynamic-import-vars": "^2.0.5",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-static": "^3.0.0",
