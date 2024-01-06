@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Links from "./Links.svelte";
 	import {profileBanner} from "$model/gallery";
-	import type {ImageExport} from "$model/types.d";
+	import type {ImageAuthor, ImageExport} from "$model/types.d";
 	import { galleryAssetBaseUrl } from '../config'
 	import {validSources} from "$lib/imageHelper";
 
@@ -16,6 +16,7 @@
 
 	const senexProfileFallback = profileBanner.src.sort((a, b) => b.width - a.width)[0]
 	const senexProfileIcons = profileBanner
+	const senexProfileAuthor: ImageAuthor|undefined = profileBanner.author
 </script>
 
 <section id="home">
@@ -23,12 +24,17 @@
 		<a href="{galleryAssetBaseUrl}{profileBanner.original.src}">
 			<picture id="profile-pic">
 				<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
-				<img src="{galleryAssetBaseUrl}{senexProfileFallback.src}" alt="Senex profile" fetchpriority="high" />
+				<img src="{galleryAssetBaseUrl}{senexProfileFallback.src}" alt="Senex profile banner" fetchpriority="high" />
 			</picture>
 		</a>
 	</div>
 	<hr class="default">
 	<div id="about-me" class="text-center">
+		{#if senexProfileAuthor}
+			<p id="banner-description">
+				(Original banner image by <a href={senexProfileAuthor.url}>{senexProfileAuthor.name}</a>, edited by me)
+			</p>
+		{/if}
 		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Senex (my sona's name) or ArisenDrake.</p>
 		<p>
 			This is a small overview page for me and my fursona, a pretty big (and massive) dragon. There's also a small
@@ -46,6 +52,21 @@
 <style lang="scss">
 	@use "$styles/variables" as *;
 	@use "$styles/mixins";
+
+	#banner-description {
+		--text-color: #676767;
+		font-size: .75em;
+		font-style: italic;
+		color: var(--text-color);
+
+		@include mixins.whenDark() {
+			--text-color: grey;
+		}
+
+		* {
+			color: var(--text-color)
+		}
+	}
 
 	#home {
 		flex: 1;
