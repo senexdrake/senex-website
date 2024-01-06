@@ -6,7 +6,8 @@
 	import {appVersion} from "$lib/app-info"
 	import {repoUrl, linkToRepo} from "$/config"
 
-	$: maxWidth = $page.data.width ?? '50rem'
+	$: width = $page.data.width ?? '50rem'
+	$: maxWidth = $page.data.maxWidth ?? '3000px'
 	const currentYear = new Date().getFullYear()
 
 	const maxVersionLength = 8
@@ -21,7 +22,7 @@
 	<MetaData />
 	<Header />
 
-	<main style="--width: {maxWidth}" id="main">
+	<main style="--width: {width}; --max-width: {maxWidth}" id="main">
 		<slot />
 	</main>
 
@@ -51,10 +52,12 @@
 	}
 
 	main {
-		max-width: var(--width);
+		--width: 100%;
+		--max-width: 100%;
+		max-width: var(--max-width);
 		display: flex;
 		flex-direction: column;
-		width: 100%;
+		width: var(--width);
 		margin: 1.5rem auto 0;
 		justify-content: center;
 		align-items: center;

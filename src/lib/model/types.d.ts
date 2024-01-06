@@ -20,7 +20,8 @@ export interface Metadata {
     image?: MetadataImage,
     images?: MetadataImage[],
     cardType?: string,
-    width?: string
+    width?: string,
+    maxWidth?: string
 }
 
 export interface GalleryMetadata {

@@ -192,6 +192,10 @@
 	@use "$styles/variables" as *;
 	@use "$styles/mixins";
 
+	section {
+		width: 100%;
+	}
+
 	#header {
 		display: grid;
 		grid-template-columns: 1fr;
