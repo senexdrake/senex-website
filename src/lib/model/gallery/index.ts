@@ -27,18 +27,18 @@ export const categories = new Map<string, ImageCategory>(
 
 export const categoryNames = new Set(categories.keys())
 export function isChristmas(): boolean {
-    const christmasEndDay = 7
+    const christmasEndDay = 5
     const christmasStartDay = 25
 
     const now = new Date()
 
-    switch (now.getMonth()) {
+    switch (now.getUTCMonth()) {
         // Keep it around till january at the specified date
         case 0:
-            return now.getDate() <= christmasEndDay
+            return now.getUTCDate() <= christmasEndDay
         // Start early in november
         case 10:
-            return now.getDate() >= christmasStartDay
+            return now.getUTCDate() >= christmasStartDay
         // It's always Christmas in december
         case 11:
             return true
