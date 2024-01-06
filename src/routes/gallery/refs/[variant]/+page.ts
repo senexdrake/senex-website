@@ -3,6 +3,7 @@ import type {
     PageLoadData,
     RefPageMetadata
 } from "$lib/model/types"
+import {fullSizeMaxWidth} from '$/config'
 
 export const csr = true
 
@@ -19,7 +20,7 @@ export function load(data: PageLoadData) : Metadata|RefPageMetadata {
         nsfw: nsfw,
         title: `Senex's Gallery - ${title}`,
         description: description,
-        width: "100%"
+        maxWidth: fullSizeMaxWidth
     }
 }
 

@@ -6,8 +6,8 @@
 	import {appVersion} from "$lib/app-info"
 	import {repoUrl, linkToRepo} from "$/config"
 
-	$: width = $page.data.width ?? '50rem'
-	$: maxWidth = $page.data.maxWidth ?? '3000px'
+	$: width = $page.data.width ?? '100%'
+	$: maxWidth = $page.data.maxWidth ?? '50rem'
 	const startYear = 2023
 	const currentYear = new Date().getFullYear()
 

@@ -1,6 +1,7 @@
 import type {GalleryMetadata, ImageCategory, Metadata, PageLoadData} from "$lib/model/types";
 import {categories, categoryNames, defaultCategory, nsfwSuffix} from "$lib/model/gallery";
 import {error} from "@sveltejs/kit";
+import {fullSizeMaxWidth} from '$/config'
 
 export const csr = true
 const categorySeperator = '-'
@@ -27,7 +28,7 @@ export function load(data: PageLoadData) : Metadata|GalleryMetadata {
         title: "Senex's Gallery",
         description: "This little site contains a select collection of artworks (specially Refsheets) " +
             "I've commissioned over the past years for my fursona.",
-        width: '100%'
+        maxWidth: fullSizeMaxWidth
     }
 }
 
