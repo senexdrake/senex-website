@@ -8,6 +8,7 @@
 
 	$: width = $page.data.width ?? '50rem'
 	$: maxWidth = $page.data.maxWidth ?? '3000px'
+	const startYear = 2023
 	const currentYear = new Date().getFullYear()
 
 	const maxVersionLength = 8
@@ -28,7 +29,7 @@
 
 	<footer>
 		<div class="text-center">
-			© {currentYear.toString()} ZenDrake,
+			© {startYear}-{currentYear} ZenDrake,
 			Version
 			{#if linkToRepo}
 				<a href={versionLink}>{appVersionTrimmed}</a>
