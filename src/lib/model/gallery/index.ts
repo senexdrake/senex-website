@@ -76,6 +76,8 @@ export function getImage(name: string): ImageExport|undefined {
     return allImages.get(id)
 }
 
-export function linkToImagePage(image: ImageExport): string {
-    return `/gallery/image/${image.nameUnique}#main`
+export function linkToImagePage(image: ImageExport, addMainElementFragment = false): string {
+    let link = `/gallery/image/${image.nameUnique}`
+    if (addMainElementFragment) link += '#main'
+    return link
 }
