@@ -75,9 +75,9 @@
         <meta property="og:image:type" content={image.type} />
     {/each}
 
-    <meta property="profile:first_name" content="Senex" />
+    <meta property="profile:first_name" content="ZenDrake" />
     <meta property="profile:last_name" content="the Dragon" />
-    <meta property="profile:username" content="senex" />
+    <meta property="profile:username" content="ZenDrake" />
     <meta property="profile:gender" content="male" />
 
     <meta name="twitter:title" content={title} />
