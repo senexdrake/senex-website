@@ -24,7 +24,7 @@ import {
     allowEnlargementFor, debug, defaultCategory,
     defaultFaviconFormat, defaultFaviconSize,
     defaultImageType,
-    fileEncoding, metaMaxDimension, originalMaxDimension,
+    fileEncoding, metaMaxHeight, metaMaxWidth, originalMaxDimension,
     originalTransformQuality,
     processingRules,
 } from "./config"
@@ -323,13 +323,14 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         const metadataVersionFormat = "png"
         const metadataVersionName = nameWithoutExtension + '-meta.' + metadataVersionFormat
         const metadataVersionPath = path.join(tmpDir, metadataVersionName)
-        const metadataMaxDimension = metaMaxDimension
         const metadataVersionResult = await sharp.clone()
             .resize({
-                height: heightLimited ? metadataMaxDimension : undefined,
-                width: heightLimited ? undefined : metadataMaxDimension,
-                withoutEnlargement: true
+                height: metaMaxHeight,
+                width: metaMaxWidth,
+                fit: "cover",
+                position: "attention"
             })
+
             .toFormat(metadataVersionFormat, { quality: originalTransformQuality })
             .toFile(metadataVersionPath)
 

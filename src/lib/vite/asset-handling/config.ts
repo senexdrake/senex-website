@@ -25,7 +25,9 @@ export const processingRules = defaultRules.map(rule => {
 
 export const originalMaxDimension = 4000
 export const originalTransformQuality = 95
-export const metaMaxDimension = 1200
+
+export const metaMaxHeight = 1000
+export const metaMaxWidth = metaMaxHeight * 1.91
 
 export const defaultFaviconSize = 192
 export const defaultFaviconFormat = 'png'
