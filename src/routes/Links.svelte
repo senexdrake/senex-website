@@ -17,20 +17,21 @@
         { name: 'Mastodon', target: '/mastodon', order: 4 },
         { name: 'BlueSky', target: '/bsky-fur', order: 5 },
         { name: 'Telegram', target: '/telegram', order: 8 },
-        { name: 'Character References', target: '/senex-refs', order: 100 }
+        { name: 'Character References', target: '/senex-refs', order: 1001 },
+        //{ name: "Discord", target: "/discord", order: 10 },
     ]
 
     const smallLinks: LinkItem[] = [
-        { name: 'Steam', target: '/steam', order: 10 },
-        { name: 'E-Mail', target: 'mailto:furry@zdrake.eu', order: 11 },
-        { name: 'Furry Network', target: '/fn', order: 12 },
+        { name: 'Steam', target: '/steam', order: 100 },
+        { name: 'E-Mail', target: 'mailto:furry@zdrake.eu', order: 110 },
+        { name: 'Furry Network', target: '/fn', order: 120 },
     ]
 
     const allLinks = bigLinks.concat(smallLinks).sort((a, b) => a.order - b.order)
 
     allLinks.forEach(processLinkTarget)
 
-    const discordName = "@arisendrake"
+    const discordName = "@zen.drake"
 
 </script>
 
@@ -53,8 +54,8 @@
 <!--        {/each}-->
 <!--    </div>-->
     <div class="text-center" id="discord">
-        Or contact me on Discord: <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
-        (please, Discord, give us a linkable URL...)
+        Or contact me on Discord: <span class="font-weight-bold" id="discord-name"><a href={addBaseUrl("/discord")}>{discordName}</a></span><br>
+        (please, Discord, give us a good linkable URL...)
     </div>
 </section>
 
