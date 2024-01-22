@@ -127,16 +127,17 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             timeLogPrefix, "Meta fetched in", formattedDuration(start)
         ))
 
+        // ------- FETCHING
+
+        console.log(chalk.bold(
+            `Fetching ${imagesRaw.length} images in ${Math.ceil(imagesRaw.length / imageFetchChunkSize)} chunks (chunk size: ${imageFetchChunkSize})...`
+        ))
+
         start = Date.now()
         const fetchedImages: {rawImage: ImageRaw, sourceFilePath: string}[] = []
 
-        if (debug) console.debug(chalk.grey(
-            `Images will be fetched in ${Math.ceil(imagesRaw.length / imageFetchChunkSize)} chunks`
-        ))
-
-        let chunkCounter = 1
-
         for (let i = 0; i < imagesRaw.length; i += imageFetchChunkSize) {
+            const currentChunk = Math.floor(i / imageFetchChunkSize) + 1
             const chunk = imagesRaw.slice(i, i + imageFetchChunkSize)
             const chunkPromises = chunk.map(async (image) => {
                 fetchedImages.push({
@@ -148,10 +149,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             await Promise.all(chunkPromises)
 
             if (debug) console.debug(chalk.grey(
-                "Finished chunk", chunkCounter
+                "Finished chunk", currentChunk
             ))
-
-            chunkCounter++
         }
 
         console.log(timeLog(
