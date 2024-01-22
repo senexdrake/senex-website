@@ -134,19 +134,26 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         ))
 
         start = Date.now()
-        const fetchedImages: {rawImage: ImageRaw, sourceFilePath: string}[] = []
+
+        interface FetchedImage {
+            rawImage: ImageRaw,
+            sourceFilePath: string
+        }
+
+        const fetchedImages: FetchedImage[] = []
 
         for (let i = 0; i < imagesRaw.length; i += imageFetchChunkSize) {
             const currentChunk = Math.floor(i / imageFetchChunkSize) + 1
             const chunk = imagesRaw.slice(i, i + imageFetchChunkSize)
             const chunkPromises = chunk.map(async (image) => {
-                fetchedImages.push({
+                return <FetchedImage>{
                     rawImage: image,
                     sourceFilePath: await fetchRemoteImage(image)
-                })
+                }
             })
 
             await Promise.all(chunkPromises)
+                .then(images => images.forEach(image => fetchedImages.push(image)))
 
             if (debug) console.debug(chalk.grey(
                 "Finished chunk", currentChunk
