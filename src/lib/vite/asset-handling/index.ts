@@ -24,7 +24,7 @@ import {
     allowEnlargementFor, debug, defaultCategory,
     defaultFaviconFormat, defaultFaviconSize,
     defaultImageType,
-    fileEncoding, metaMaxHeight, metaMaxWidth, originalMaxDimension,
+    fileEncoding, imageFetchChunkSize, metaMaxHeight, metaMaxWidth, originalMaxDimension,
     originalTransformQuality,
     processingRules,
 } from "./config"
@@ -130,12 +130,30 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         start = Date.now()
         const fetchedImages: {rawImage: ImageRaw, sourceFilePath: string}[] = []
 
-        for (const image of imagesRaw) {
-            fetchedImages.push({
-                rawImage: image,
-                sourceFilePath: await fetchRemoteImage(image)
+        if (debug) console.debug(chalk.grey(
+            `Images will be fetched in ${Math.ceil(imagesRaw.length / imageFetchChunkSize)} chunks`
+        ))
+
+        let chunkCounter = 1
+
+        for (let i = 0; i < imagesRaw.length; i += imageFetchChunkSize) {
+            const chunk = imagesRaw.slice(i, i + imageFetchChunkSize)
+            const chunkPromises = chunk.map(async (image) => {
+                fetchedImages.push({
+                    rawImage: image,
+                    sourceFilePath: await fetchRemoteImage(image)
+                })
             })
+
+            await Promise.all(chunkPromises)
+
+            if (debug) console.debug(chalk.grey(
+                "Finished chunk", chunkCounter
+            ))
+
+            chunkCounter++
         }
+
         console.log(timeLog(
             timeLogPrefix, `Fetched ${fetchedImages.length} images in`, formattedDuration(start)
         ))

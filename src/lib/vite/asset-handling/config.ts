@@ -23,6 +23,8 @@ export const processingRules = defaultRules.map(rule => {
     return rule
 })
 
+export const imageFetchChunkSize = 10
+
 export const originalMaxDimension = 4000
 export const originalTransformQuality = 95
 
