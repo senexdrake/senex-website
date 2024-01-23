@@ -65,7 +65,7 @@ export function webmanifest() : Plugin {
             const displayModes: DisplayModeType[] = ['minimal-ui', 'browser']
 
             const webmanifest: CustomWebAppManifest = {
-                id: 'senex-gallery',
+                id: 'zendrake-website',
                 orientation: 'any',
                 lang: 'en',
                 background_color: '#424242',
