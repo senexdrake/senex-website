@@ -31,8 +31,13 @@ $: images = imagesForCategory(refImageCategory)
         return !image.nsfw
     })
 
+const minElementsPerRow = 4
 
-$: elements = Math.ceil(images.length / 2)
+function viewAdjustedElements(elementCount: number) {
+    return Math.max(Math.ceil(elementCount / 2), minElementsPerRow)
+}
+
+$: elements = viewAdjustedElements(images.length)
 
 </script>
 
