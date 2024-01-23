@@ -2,7 +2,7 @@
     import type {LinkItem} from "$model/types";
     import {stripTrailingSlash} from "$lib/util-shared";
 
-    const shortLinkBase = "https://zdrake.eu"
+    const shortLinkBase = "https://zdrake.net"
     
     const addBaseUrl = (target: string) => stripTrailingSlash(shortLinkBase) + target
     const processLinkTarget = (item: LinkItem) => {
@@ -23,7 +23,7 @@
 
     const smallLinks: LinkItem[] = [
         { name: 'Steam', target: '/steam', order: 100 },
-        { name: 'E-Mail', target: 'mailto:furry@zdrake.eu', order: 110 },
+        { name: 'E-Mail', target: 'mailto:furry@zdrake.net', order: 110 },
         { name: 'Furry Network', target: '/fn', order: 120 },
     ]
 
