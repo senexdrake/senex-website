@@ -12,7 +12,10 @@
     $: normalFavIcons = faviconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width))
     $: appleFavIcon = faviconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width))
 
-    const mastodonLink = "https://meow.social/@senex"
+    const mastodonLinks = [
+        "https://wobbl.xyz/@zdrake",
+        "https://meow.social/@senex"
+    ]
     const basePath = PUBLIC_BASE_PATH
     const url = basePath + $page.url.pathname
     const baseImagePath = galleryAssetBaseUrl
@@ -56,7 +59,9 @@
     {#each appleFavIcon as icon}
         <link rel="apple-touch-icon" href="/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
-    <link rel="me" href={mastodonLink}>
+    {#each mastodonLinks as mastodonLink}
+        <link rel="me" href={mastodonLink}>
+    {/each}
     <link rel="canonical" href={url}>
     <meta name="description" content={description} />
 
