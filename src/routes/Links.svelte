@@ -31,7 +31,7 @@
 
     allLinks.forEach(processLinkTarget)
 
-    const discordName = "@zen.drake"
+    const discordName = "@zdrakee"
 
 </script>
 
