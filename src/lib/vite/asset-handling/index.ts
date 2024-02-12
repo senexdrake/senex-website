@@ -352,6 +352,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 variantSources.push(src)
             }
 
+            variantSources.sort((a, b) => a.width - b.width)
+
             exportedImages.push({
                 id: image.id,
                 name: image.name,
