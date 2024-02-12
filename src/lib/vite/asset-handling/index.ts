@@ -381,7 +381,13 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     const hiddenCategories = new Set<number>(Array.from(categories.values()).filter(c => c.show !== true).map(c => c.id))
     const nonImageCategories = new Set<number>(Array.from(categories.values()).filter(c => c.name == "favicon").map(c => c.id))
     const authors =  await fetchAuthors()
-    const images = await fetchImagesMeta()
+    const images = (await fetchImagesMeta()).sort((a, b) => {
+        if (a.sortIndex !== undefined && b.sortIndex !== undefined) {
+            return a.sortIndex - b.sortIndex
+        }
+
+        return a.id - b.id
+    })
     const exportedImages = await fetchImageAssets(images)
     const icons = await fetchIcons()
 

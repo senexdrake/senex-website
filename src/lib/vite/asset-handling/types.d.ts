@@ -97,6 +97,7 @@ export interface FetchedImage {
     noResize: boolean
     ignoreAuthorName: string
     authorId: number
+    sortIndex?: number
     categories?: number[]
     variants?: FetchedImageVariant[]
     related?: number[]
