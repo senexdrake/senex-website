@@ -212,6 +212,25 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
         return stats.reduce((accumulator, { size }) => accumulator + size, 0);
     }
 
+    async function fetchDefaultIcon() {
+        const name = "favicon.ico"
+        const targetPath = path.join(tmpDir, name)
+        const url = addTrailingSlash(assetsServerBasePath) + "icons/" + name
+        const writer = createWriteStream(targetPath)
+
+
+        return axiosInstance({
+            method: 'GET',
+            url: url,
+            responseType: 'stream'
+        }).then(async (response) => {
+            response.data.pipe(writer);
+            await finished(writer);
+            if (debug) console.debug("Fetched asset", makeRelative(targetPath, tmpDir))
+            return targetPath
+        })
+    }
+
     async function fetchIcon(icon: FetchedIcon): Promise<string> {
         const assetPath = icon.fileName
         const targetPath = path.join(tmpDir, assetPath)
@@ -365,6 +384,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     const images = await fetchImagesMeta()
     const exportedImages = await fetchImageAssets(images)
     const icons = await fetchIcons()
+
+    await fetchDefaultIcon()
 
     const imageCatalogueTargetPath = path.join(imageOutputDir, imageCatalogueName)
     await writeFile(imageCatalogueTargetPath, JSON.stringify(exportedImages))
