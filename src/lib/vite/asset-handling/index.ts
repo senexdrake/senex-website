@@ -128,6 +128,10 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
             iconMap.set(i.type, mappedIcons)
         })
 
+        Array.from(iconMap.values()).forEach(icons => {
+            icons.sort((a, b) => a.width - b.width)
+        })
+
         const defaultFavicons = (iconMap.get("favicon") ?? []).filter(i => i.defaultIcon).map(async (icon) => {
             const newFilename = "favicon." + icon.format
             await copyFile(path.join(tmpDir, icon.fileName), path.join(tmpDir, newFilename))
