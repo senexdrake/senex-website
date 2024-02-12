@@ -81,6 +81,7 @@ export interface ImageCategory {
 }
 
 export interface IconExport {
+    type: string,
     name: string,
     width: number,
     height: number,

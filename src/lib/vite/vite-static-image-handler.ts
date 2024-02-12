@@ -40,7 +40,7 @@ export function staticImageHandler() : Plugin {
                     imageOutputPrefix: galleryAssetPrefix,
                     targetDir: viteConfig.publicDir,
                     metaOutputDir: imageMetaDir,
-                    remoteAssetsBaseUrl: remoteAssetBaseUrl,
+                    assetsServer: remoteAssetBaseUrl,
                     faviconDir: viteConfig.publicDir
                 })
                 onFinished()

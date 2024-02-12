@@ -13,7 +13,7 @@ export interface AssetHandlingConfig {
     imageOutputPrefix: string,
     metaOutputDir: string,
     assetOutputPrefix: string
-    remoteAssetsBaseUrl: string,
+    assetsServer: string,
     faviconDir?: string,
     templateFolder?: string,
     targetDir: string
@@ -61,6 +61,57 @@ export interface CategoryRaw {
     description: string,
     show?: boolean,
     nsfw?: boolean
+}
+
+export interface FetchedAuthor {
+    id: number
+    name: string
+    url: string
+}
+
+export interface FetchedCategory {
+    id: number
+    name: string
+    displayName: string
+    description: string
+    show?: boolean
+    nsfw?: boolean
+}
+
+export interface FetchedIcon {
+    height: number
+    width: number
+    format: webp
+    fileName: string
+    type: string
+    defaultIcon: boolean
+}
+
+export interface FetchedImage {
+    id: number
+    name: string
+    title: string
+    description: string
+    nsfw: boolean
+    format: string
+    noResize: boolean
+    ignoreAuthorName: string
+    authorId: number
+    categories?: number[]
+    variants?: FetchedImageVariant[]
+    related?: number[]
+}
+
+export interface FetchedImageVariant {
+    height: number,
+    width: number,
+    format: string,
+    fileName: string,
+    quality: string,
+    name: string,
+    suffix?: string,
+    original?: boolean,
+    imageId: number
 }
 
 export interface LinkDefinition {

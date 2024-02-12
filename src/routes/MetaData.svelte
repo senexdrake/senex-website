@@ -28,7 +28,7 @@
     $: description = pageData?.description ?? defaultDescription
 
 
-    const defaultImages = iconCatalogue.filter(icon => icon.name.startsWith('senex-profile')).map((icon) => {
+    const defaultImages = iconCatalogue.filter(icon => icon.type.includes('profile')).map((icon) => {
         return <MetadataImage>{
             height: icon.height,
             width: icon.width,
