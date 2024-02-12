@@ -268,6 +268,8 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     }
 
     async function fetchImageVariantsChunked(variants: FetchedImageVariant[]) {
+        const chunkCount = Math.ceil(variants.length / imageFetchChunkSize)
+        console.log(`Fetching ${chunkCount} chunks with chunk size ${imageFetchChunkSize}`)
         for (let i = 0; i < variants.length; i += imageFetchChunkSize) {
             const currentChunk = Math.floor(i / imageFetchChunkSize) + 1
             const chunk = variants.slice(i, i + imageFetchChunkSize)
@@ -276,22 +278,23 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
             await Promise.all(chunkPromises)
 
-            if (debug) console.debug(chalk.grey(
+            console.log(chalk.grey(
                 "Finished chunk", currentChunk
             ))
         }
+        console.log(`Fetched ${variants.length} variants`)
     }
 
     async function fetchImageAssets(images: FetchedImage[]): Promise<ImageExport[]> {
-        const variantsPerImage = new Map<number, number>
-        images.forEach(i => variantsPerImage.set(i.id, 0))
-
         const exportedImages: ImageExport[] = []
+        const allVariants = images
+            .map(i => i.variants)
+            .filter((variants): variants is FetchedImageVariant[] => !!variants)
+            .flat()
 
         for (const image of images) {
             const variants = image.variants
             if (variants == undefined || variants.length == 0) continue
-            await fetchImageVariantsChunked(variants)
             const fetchedAuthor = authors.get(image.authorId)
             const author: ImageAuthor = {
                 name: fetchedAuthor?.name ?? "",
@@ -364,9 +367,10 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
                 nsfw: image.nsfw,
                 related: image.related
             })
-            console.log(`Fetched ${variants.length} variants for image ${image.name}`)
+            console.log(`Fetching ${variants.length} variants for image ${image.name}`)
         }
 
+        await fetchImageVariantsChunked(allVariants)
         return exportedImages
     }
 
