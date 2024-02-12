@@ -4,7 +4,7 @@ import {staticAssetsPrefix, galleryAssetPrefix, galleryAssetDir, imageMetaDir} f
 import * as path from "path";
 import {chalk, pathExists} from "../util";
 import {runAssetHandling} from "./asset-handling"
-import {remoteAssetBaseUrl} from "./asset-handling/config";
+import {assetsServerPath} from "./asset-handling/config";
 
 function onFinished() {
     console.log(chalk.bold(
@@ -40,7 +40,7 @@ export function staticImageHandler() : Plugin {
                     imageOutputPrefix: galleryAssetPrefix,
                     targetDir: viteConfig.publicDir,
                     metaOutputDir: imageMetaDir,
-                    assetsServer: remoteAssetBaseUrl,
+                    assetsServer: assetsServerPath,
                     faviconDir: viteConfig.publicDir
                 })
                 onFinished()

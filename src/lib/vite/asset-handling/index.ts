@@ -68,7 +68,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
     const tmpDir = path.join(process.cwd(), "./.tmp-asset-handling")
     const { metaOutputDir } = config
 
-    const assetsServerBasePath = stripTrailingSlash(config.assetsServer) + "/export"
+    const assetsServerBasePath = stripTrailingSlash(config.assetsServer)
 
     const assetOutputDir = path.join(config.targetDir, config.assetOutputPrefix)
     const imageOutputDir = path.join(assetOutputDir, config.imageOutputPrefix)

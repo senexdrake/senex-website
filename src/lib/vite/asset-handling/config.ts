@@ -2,7 +2,8 @@ export const debug = false
 export const defaultImageType = 'webp'
 export const fileEncoding = 'utf-8'
 
-export const remoteAssetBaseUrl = (process.env.ASSETS_SERVER ?? "https://pics.zdrake.net") + '/'
+export const assetsServer = (process.env.ASSETS_SERVER ?? "https://pics.zdrake.net")
+export const assetsServerPath = (process.env.ASSETS_SERVER_PATH ?? assetsServer) + '/'
 
 export const imageFetchChunkSize = 10
 
