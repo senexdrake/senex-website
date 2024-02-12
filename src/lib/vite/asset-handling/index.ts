@@ -147,7 +147,7 @@ export async function runAssetHandling(config: AssetHandlingConfig) {
 
         await Promise.all(defaultFavicons).then(icons => icons.forEach(icon => {
             const favicons = iconMap.get("favicon") ?? []
-            favicons.push(icon)
+            favicons.unshift(icon)
             iconMap.set("favicon", favicons)
         }))
 
