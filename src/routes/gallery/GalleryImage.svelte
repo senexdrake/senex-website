@@ -56,7 +56,7 @@ beforeUpdate(() => {
                 <img
                         src="{imageBaseUrl}{largestVariant.src}"
                         height={largestVariant.height}
-                        width={largestVariant.height}
+                        width={largestVariant.width}
                         alt={image.title}
                         loading={lazyLoad ? 'lazy' : 'eager'}
                         class:limit-height={!singleView}
