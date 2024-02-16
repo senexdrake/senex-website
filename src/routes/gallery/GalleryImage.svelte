@@ -1,15 +1,18 @@
 <script lang="ts">
 import {validSources} from "$lib/imageHelper";
 import type {ImageExport, ImageSrc} from "$model/types.d";
-import { galleryAssetBaseUrl as imageBaseUrl } from '$/config'
+import { galleryAssetBaseUrl as imageBaseUrl, alwaysLinkToImageDirectly } from '$/config'
 import {beforeUpdate} from "svelte";
 import GalleryImageTitle from "./GalleryImageTitle.svelte";
+import {linkToImagePage} from "$lib/model/gallery";
 
 export let image: ImageExport
 export let singleView = false
 export let titleAboveImage = false
 export let lazyLoad = !singleView
 export let compact = false
+export let directImageLink = singleView || alwaysLinkToImageDirectly
+export let hrefTarget: '_blank'|'_self' = directImageLink ? "_blank" : "_self"
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
@@ -19,6 +22,11 @@ let description = image.description
 
 $: sourceSet = (src: ImageSrc) => {
     return `${imageBaseUrl}${src.src} ${src.width}w`
+}
+
+$: imageLink = () => {
+    if (directImageLink) return imageBaseUrl + image.original.src
+    return linkToImagePage(image)
 }
 
 beforeUpdate(() => {
@@ -42,7 +50,7 @@ beforeUpdate(() => {
         </div>
     {/if}
     <div class="img-container img-format">
-        <a href="{imageBaseUrl}{image.original.src}" target="_blank">
+        <a href={imageLink()} target={hrefTarget}>
             <picture>
                 {#each validSources(image.src) as source}
                     <source srcset={sourceSet(source)}
@@ -63,7 +71,11 @@ beforeUpdate(() => {
                 >
             </picture>
             <div class="img-overlay text-center">
-                Open full picture
+                {#if singleView}
+                    View full picture
+                {:else}
+                    View Picture
+                {/if}
             </div>
         </a>
     </div>

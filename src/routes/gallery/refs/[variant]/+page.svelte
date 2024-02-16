@@ -56,7 +56,7 @@ $: elements = viewAdjustedElements(images.length)
     <hr>
     <div class="images text-center" style="--elements: {elements}">
         {#each images as image (image.id)}
-            <GalleryImage image={image} compact={true}></GalleryImage>
+            <GalleryImage image={image} compact={true} directImageLink={true}></GalleryImage>
         {/each}
     </div>
 </section>

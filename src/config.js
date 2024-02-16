@@ -14,6 +14,7 @@ export const defaultDescription = "An overview of ways to find, contact and find
 
 export const redirectToNsfw = false
 export const linkToRepo = true
+export const alwaysLinkToImageDirectly = false
 export const fullSizeMaxWidth = '3500px'
 export const repoUrl = "https://github.com/senexdrake/senex-website"
 export const versionEnvironmentName = "CF_PAGES_COMMIT_SHA"
