@@ -1,6 +1,8 @@
 <script lang="ts">
-import {validSources} from "$lib/imageHelper";
 import type {ImageExport, ImageSrc} from "$model/types.d";
+import type {HTMLAttributeAnchorTarget} from "svelte/elements";
+
+import {validSources} from "$lib/imageHelper";
 import { galleryAssetBaseUrl as imageBaseUrl, alwaysLinkToImageDirectly } from '$/config'
 import {beforeUpdate} from "svelte";
 import GalleryImageTitle from "./GalleryImageTitle.svelte";
@@ -12,7 +14,7 @@ export let titleAboveImage = false
 export let lazyLoad = !singleView
 export let compact = false
 export let directImageLink = singleView || alwaysLinkToImageDirectly
-export let hrefTarget: '_blank'|'_self' = directImageLink ? "_blank" : "_self"
+export let hrefTarget: HTMLAttributeAnchorTarget = directImageLink ? "_blank" : "_self"
 
 let largestVariant: ImageSrc
 $: largestVariant = validSources(image.src).pop() || image.src[0]
@@ -71,7 +73,7 @@ beforeUpdate(() => {
                 >
             </picture>
             <div class="img-overlay text-center">
-                {#if singleView}
+                {#if directImageLink}
                     View full picture
                 {:else}
                     View Picture
