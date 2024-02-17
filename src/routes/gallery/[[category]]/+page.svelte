@@ -141,7 +141,7 @@
 <section>
 	<div id="header">
 		<div>
-			<label for="nsfw-toggle">NSFW Content</label>
+			<label for="nsfw-toggle">NSFW / Adult Content</label>
 			<button id="nsfw-toggle" class="button" on:click={toggleNsfw}>{showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}</button>
 		</div>
 		<div>
@@ -165,7 +165,7 @@
 		(<span class="font-weight-bold">{imagesSfw.length}</span> <span class="font-italic">SFW</span> and
 		<span class="font-weight-bold">{imagesNsfw.length}</span> <span class="font-italic">NSFW</span>)
 		in this category.<br>
-		Clicking on an image will open the full resolution version. Clicking on the title will open a singular image page.
+		Clicking on an image will open a detailed view of the image.
 	</p>
 
 	{#if loading}
