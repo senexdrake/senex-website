@@ -81,3 +81,7 @@ export function linkToImagePage(image: ImageExport, addMainElementFragment = fal
     if (addMainElementFragment) link += '#main'
     return link
 }
+
+export function imageRatingDisplayName(image: ImageExport): string {
+    return image.nsfw ? 'NSFW / Adult' : 'SFW / General'
+}

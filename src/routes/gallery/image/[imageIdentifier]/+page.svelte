@@ -2,7 +2,7 @@
 import { page } from "$app/stores";
 import type {ImageCategory, ImageExport} from "$model/types";
 import GalleryImage from "../../GalleryImage.svelte";
-import {imageCategories, nsfwSuffix, allImages, linkToImagePage} from "$model/gallery";
+import {imageCategories, nsfwSuffix, allImages, linkToImagePage, imageRatingDisplayName} from "$model/gallery";
 
 let image: ImageExport
 $: image = $page.data.galleryImage
@@ -30,6 +30,9 @@ function relatedImageUrl(image: ImageExport): string {
 
 <section id="image">
     <GalleryImage image={image} singleView={true}></GalleryImage>
+    <div>
+        Marked as <span class="font-weight-bold rating" class:rating-nsfw={image.nsfw}>{imageRatingDisplayName(image)}</span>
+    </div>
     <hr>
     {#if relatedImages.length > 0}
         <span class="font-weight-bold">Related Images:</span>
@@ -47,3 +50,21 @@ function relatedImageUrl(image: ImageExport): string {
     {/each}
     </ul>
 </section>
+
+<style lang="scss">
+    @use "$styles/mixins";
+
+    .rating {
+        color: #006900;
+        @include mixins.whenDark() {
+            color: #4fff4f;
+        }
+    }
+
+    .rating-nsfw {
+        color: #960000;
+        @include mixins.whenDark() {
+            color: #fd2e2e;
+        }
+    }
+</style>
