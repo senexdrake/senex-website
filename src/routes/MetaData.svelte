@@ -27,15 +27,17 @@
     let description: string
     $: description = pageData?.description ?? defaultDescription
 
-
-    const defaultImages = iconCatalogue.filter(icon => icon.type.includes('profile')).map((icon) => {
-        return <MetadataImage>{
-            height: icon.height,
-            width: icon.width,
-            alt: "Senex's Profile",
-            url: stripTrailingSlash(PUBLIC_BASE_PATH) + baseImagePath + icon.name,
-            type: "image/" + icon.format
-        }
+    const defaultImages = iconCatalogue
+        .filter(icon => icon.type.includes('profile'))
+        .filter(icon => icon.format == 'png')
+        .map((icon) => {
+            return <MetadataImage>{
+                height: icon.height,
+                width: icon.width,
+                alt: "Senex's Profile",
+                url: stripTrailingSlash(PUBLIC_BASE_PATH) + baseImagePath + icon.name,
+                type: "image/" + icon.format
+            }
     })
 
     let images: MetadataImage[]
