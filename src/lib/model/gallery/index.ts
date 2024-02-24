@@ -85,3 +85,14 @@ export function linkToImagePage(image: ImageExport, addMainElementFragment = fal
 export function imageRatingDisplayName(image: ImageExport): string {
     return image.nsfw ? 'NSFW / Adult' : 'SFW / General'
 }
+
+export function linkToImageCategory(categoryName: string|undefined = undefined, nsfw = false): string {
+    const url = "/gallery"
+    if (!categoryName) {
+        if (!nsfw) return url
+        categoryName = defaultCategory
+    }
+    if (nsfw) categoryName += nsfwSuffix
+    return url + "/" + categoryName
+
+}

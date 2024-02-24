@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { imagesForCategory, categories, nsfwSuffix, defaultCategory } from '$lib/model/gallery'
+    import { imagesForCategory, categories, defaultCategory, linkToImageCategory } from '$lib/model/gallery'
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation"
 	import { redirectToNsfw } from "$/config"
@@ -44,8 +44,8 @@
 
 	async function gotoCategory(categoryName = '', nsfw: boolean = showNsfw, keepHash: boolean = false) {
 		loading = true
-		if (nsfw) categoryName += nsfwSuffix
-		let url = `/gallery/${categoryName}`
+		if (categoryName == '') categoryName = undefined
+		let url = linkToImageCategory(categoryName, nsfw)
 		if (browser && keepHash) url += location.hash
 		await goto(url)
 		if (currentCategory !== undefined) {

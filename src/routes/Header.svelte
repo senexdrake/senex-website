@@ -1,5 +1,10 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
+	import { userSettings } from "$lib/stores/userSettings"
+	import {linkToImageCategory} from "../lib/model/gallery";
+
+	let galleryPath: string
+	$: galleryPath = linkToImageCategory(undefined, $userSettings.showNsfw)
 </script>
 
 <header>
@@ -16,7 +21,7 @@
 				<a href="/">Home</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/gallery') ? 'page' : undefined}>
-				<a href="/gallery">Gallery</a>
+				<a href={galleryPath}>Gallery</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
