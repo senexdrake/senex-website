@@ -94,7 +94,7 @@
 		return nsfwResponse
 	}
 
-	function disableNsfw() {
+	function disableNsfw(replaceState = false) {
 		let redirectToDefault = false
 
 		if (currentCategory?.nsfw) {
@@ -106,12 +106,14 @@
 		$userSettings.showNsfw = false
 		if (redirectToDefault) {
 			gotoCategory({
-				nsfw: false
+				nsfw: false,
+				replaceState: replaceState
 			})
 		} else {
 			gotoCategory({
 				categoryName: currentCategory?.name,
-				nsfw: false
+				nsfw: false,
+				replaceState: replaceState
 			})
 		}
 	}
