@@ -1,7 +1,5 @@
 import type {GalleryMetadata, ImageCategory, Metadata, PageLoadData} from "$lib/model/types";
-import type {UserSettings} from "$lib/stores/userSettings"
 import {categories, categoryNames, defaultCategory, nsfwSuffix} from "$lib/model/gallery";
-import {userSettings} from "$lib/stores/userSettings"
 import {error} from "@sveltejs/kit";
 import {fullSizeMaxWidth} from '$/config'
 
@@ -9,11 +7,6 @@ export const csr = true
 const categorySeparator = '-'
 
 export function load(data: PageLoadData) : Metadata|GalleryMetadata {
-    let nsfwEnabled = false
-    userSettings.subscribe((us: UserSettings) => {
-        nsfwEnabled = us.showNsfw
-    })
-
     const rawCategory = data.params["category"] as string ?? defaultCategory
     const categoryParts = rawCategory.split(categorySeparator)
 
@@ -31,7 +24,7 @@ export function load(data: PageLoadData) : Metadata|GalleryMetadata {
 
     return {
         category: categoryName,
-        nsfw: nsfw || nsfwEnabled,
+        nsfw: nsfw,
         title: "Senex's Gallery",
         description: "This little site contains a select collection of artworks (specially Refsheets) " +
             "I've commissioned over the past years for my fursona.",

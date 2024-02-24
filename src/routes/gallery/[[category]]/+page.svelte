@@ -1,5 +1,10 @@
 <script lang="ts">
-    import { imagesForCategory, categories, defaultCategory, linkToImageCategory } from '$lib/model/gallery'
+	import {
+		imagesForCategory,
+		categories,
+		defaultCategory,
+		linkToImageCategory
+	} from '$lib/model/gallery'
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation"
 	import { redirectToNsfw } from "$/config"
@@ -12,7 +17,7 @@
 	import GalleryImage from "../GalleryImage.svelte";
 	import {browser} from "$app/environment";
 
-	$: showNsfw = $page.data.nsfw
+	$: showNsfw = $page.data.nsfw || $userSettings.showNsfw
 	$: allowNsfw = $userSettings.allowNsfw
 	$: needsNsfwConsent = showNsfw && !allowNsfw
 
@@ -42,12 +47,20 @@
 
 	let loading = false
 
-	async function gotoCategory(categoryName = '', nsfw: boolean = showNsfw, keepHash: boolean = false) {
+	async function gotoCategory(opts: {
+		categoryName?: string
+		nsfw?: boolean
+		keepHash?: boolean
+		replaceState?: boolean
+	}) {
 		loading = true
+		let categoryName = opts?.categoryName
+		const nsfw = opts?.nsfw ?? showNsfw
+		const replaceState = opts?.replaceState ?? false
 		if (categoryName == '') categoryName = undefined
 		let url = linkToImageCategory(categoryName, nsfw)
-		if (browser && keepHash) url += location.hash
-		await goto(url)
+		if (browser && opts.keepHash) url += location.hash
+		await goto(url, { replaceState: replaceState })
 		if (currentCategory !== undefined) {
 			selectedCategory = currentCategory.name
 		}
@@ -55,11 +68,11 @@
 	}
 
 	async function onCategoryChange() {
-		await gotoCategory(selectedCategory)
+		await gotoCategory({ categoryName: selectedCategory })
 	}
 
 
-	function enableNsfw() : boolean {
+	function enableNsfw(replaceState = false) : boolean {
 		const nsfwResponse = allowNsfw ? true : confirm('Do you want to enable NSFW content?')
 
 		let categoryTarget = currentCategory?.name ?? ''
@@ -73,7 +86,11 @@
 		if (nsfwResponse && categoryTarget.length == 0)
 			categoryTarget = defaultCategory
 
-		gotoCategory(categoryTarget, nsfwResponse, nsfwResponse)
+		gotoCategory({
+			categoryName: categoryTarget,
+			nsfw: nsfwResponse,
+			replaceState: replaceState
+		})
 		return nsfwResponse
 	}
 
@@ -88,9 +105,14 @@
 
 		$userSettings.showNsfw = false
 		if (redirectToDefault) {
-			gotoCategory('', false)
+			gotoCategory({
+				nsfw: false
+			})
 		} else {
-			gotoCategory(currentCategory?.name, false)
+			gotoCategory({
+				categoryName: currentCategory?.name,
+				nsfw: false
+			})
 		}
 	}
 
@@ -110,7 +132,7 @@
 	onMount(() => {
 		// Redirect to NSFW page when last NSFW setting was set to show
 		if (redirectToNsfw && $userSettings.showNsfw && !$page.data.nsfw) {
-			enableNsfw()
+			enableNsfw(true)
 		}
 
 		if (needsNsfwConsent) {

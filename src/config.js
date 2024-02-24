@@ -12,7 +12,7 @@ export const galleryAssetBaseUrl = '/' + galleryAssetDir
 export const defaultTitle = "ZenDrake, the big Dragon"
 export const defaultDescription = "An overview of ways to find, contact and find out more about the big Dragon!"
 
-export const redirectToNsfw = false
+export const redirectToNsfw = true
 export const linkToRepo = true
 export const alwaysLinkToImageDirectly = false
 export const fullSizeMaxWidth = '3500px'
