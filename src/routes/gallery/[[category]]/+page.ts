@@ -6,7 +6,7 @@ import {error} from "@sveltejs/kit";
 import {fullSizeMaxWidth} from '$/config'
 
 export const csr = true
-const categorySeperator = '-'
+const categorySeparator = '-'
 
 export function load(data: PageLoadData) : Metadata|GalleryMetadata {
     let nsfwEnabled = false
@@ -15,7 +15,7 @@ export function load(data: PageLoadData) : Metadata|GalleryMetadata {
     })
 
     const rawCategory = data.params["category"] as string ?? defaultCategory
-    const categoryParts = rawCategory.split(categorySeperator)
+    const categoryParts = rawCategory.split(categorySeparator)
 
     const lastPart = categoryParts.pop()
     const nsfw = lastPart === 'nsfw'
@@ -25,7 +25,7 @@ export function load(data: PageLoadData) : Metadata|GalleryMetadata {
     // so we have to add it back in
     if (lastPart && !nsfw && !sfw) categoryParts.push(lastPart)
 
-    const categoryName = categoryParts.join(categorySeperator)
+    const categoryName = categoryParts.join(categorySeparator)
 
     if (!categoryNames.has(categoryName)) error(404)
 
