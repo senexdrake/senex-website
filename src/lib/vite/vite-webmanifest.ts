@@ -46,7 +46,7 @@ export function webmanifest() : Plugin {
             })
 
             const normalIcons = iconCatalogue
-                .filter(icon => icon.name.startsWith("favicon-"))
+                .filter(icon => icon.name.startsWith("favicon_"))
                 .map(icon => {
                     return iconToImage(icon)
             })
