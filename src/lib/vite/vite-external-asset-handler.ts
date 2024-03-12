@@ -77,6 +77,7 @@ export function assetHandler() : Plugin {
 
             await clearPath(tmpDir)
             await clearPath(publicAssetPath)
+            await clearPath(metadataDir)
 
             const profileBannerName = "profile-banner.webp"
             const faviconName = "favicon.webp"
