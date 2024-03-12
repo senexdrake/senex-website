@@ -108,6 +108,7 @@ img {
 	&:hover {
 		@include mixins.input-styling-hover;
 	}
+	flex-direction: row;
 }
 
 .select {

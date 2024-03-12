@@ -5,7 +5,8 @@ export interface LinkItem {
     name: string,
     order: number
     icon?: string,
-    linkType?: LinkType
+    linkType?: LinkType,
+    fullWidth?: boolean
 }
 
 export interface ImageAuthor {

@@ -15,6 +15,8 @@
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^5.0.8",
+		"@iconify-json/dashicons": "^1.1.8",
+		"@iconify-json/simple-icons": "^1.1.95",
 		"@rollup/plugin-dynamic-import-vars": "^2.0.5",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-static": "^3.0.0",
@@ -40,6 +42,7 @@
 		"svelte-check": "^3.4.3",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
+		"unplugin-icons": "^0.18.5",
 		"vite": "^5.0.0",
 		"yaml": "^2.4.1"
 	},
