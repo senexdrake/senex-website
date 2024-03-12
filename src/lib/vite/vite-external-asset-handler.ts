@@ -80,28 +80,40 @@ export function assetHandler() : Plugin {
             await clearPath(publicAssetPath)
             await clearPath(metadataDir)
 
-            const {profileBanner, favicon} = await fetchMeta(addTrailingSlash(assetsServerPath) + "meta.yml")
+            const {profileBanner, favicon} = await fetchMeta(assetsServerPath + "meta.yml")
 
             await fetchAssets(assetsServerPath, [profileBanner.file, favicon.file, favicon.icoFile], assetDir)
 
-            const processedProfileBanner = await processProfileBanner({
+
+            const processProfileBannerJob = processProfileBanner({
                 src: assetDir + profileBanner.file,
                 author: profileBanner.author
-            }, publicAssetPath)
+            }, publicAssetPath).then(
+                result => writeFile(path.join(metadataDir, "profileBanner.json"), JSON.stringify(result))
+            )
+            .catch(error => {
+                console.error("Error processing profile banner:", error)
+            })
 
-            await writeFile(path.join(metadataDir, "profileBanner.json"), JSON.stringify(processedProfileBanner))
 
-
-            const processedIcons = await processIcons({
+            const processIconsJob = processIcons({
                 defaultSource: assetDir + favicon.icoFile,
                 source: assetDir + favicon.file,
                 variants: iconVariants,
                 quality: 95
-            }, publicAssetPath)
+            }, publicAssetPath).then(result => {
+                return Promise.all([
+                    writeFile(path.join(metadataDir, "icons.json"), JSON.stringify(result)),
+                    copyFaviconsToFaviconDir(publicAssetPath, viteConfig.publicDir)
+                ])
+            }).catch(error => {
+                console.error("Error processing icons:", error)
+            })
 
-            await writeFile(path.join(metadataDir, "icons.json"), JSON.stringify(processedIcons))
-
-            await copyFaviconsToFaviconDir(publicAssetPath, viteConfig.publicDir)
+            await Promise.all([
+                processProfileBannerJob,
+                processIconsJob
+            ])
 
             await onFinished()
         }
