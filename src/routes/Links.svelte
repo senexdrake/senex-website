@@ -9,7 +9,7 @@
     import IconEmail from '~icons/dashicons/email-alt'
     import IconMastodon from '~icons/simple-icons/mastodon'
     import IconBluesky from '~icons/simple-icons/bluesky'
-    import IconFuraffinity from '~icons/simple-icons/furaffinity'
+    import IconFuraffinity from '~icons/local/furaffinity'
     import IconSteam from '~icons/simple-icons/steam'
     import IconItaku from '~icons/local/itaku'
     // ----- END ICONS -----
