@@ -136,7 +136,7 @@
 
 
         .link-icon {
-            font-size: 1.2em;
+            font-size: 1.3em;
             height: 100%;
             align-items: center;
             display: flex;
