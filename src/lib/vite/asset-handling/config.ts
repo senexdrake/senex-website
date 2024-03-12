@@ -5,8 +5,8 @@ export const debug = false
 export const defaultImageType = 'webp'
 export const fileEncoding = 'utf-8'
 
-export const assetsServer = (process.env.ASSETS_SERVER ?? "https://pics-managed-cdn.zdrake.net")
-export const assetsServerPath = (process.env.ASSETS_SERVER_PATH ?? addTrailingSlash(assetsServer) + "export") + '/'
+export const assetsServer = (process.env.ASSETS_SERVER ?? "https://pics.zdrake.net")
+export const assetsServerPath = addTrailingSlash(process.env.ASSETS_SERVER_PATH ?? assetsServer)
 
 export const imageFetchChunkSize = 20
 

@@ -1,14 +1,15 @@
 import type {Plugin, ResolvedConfig} from "vite";
-import {addTrailingSlash, chalk, clearPath, pathExists} from "../util";
+import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists} from "../util";
 import {createReadStream} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
-import type {IconExport, ImageExport, ImageSrc, ProfileBannerExport} from "../model/types";
+import type {IconExport, ImageSrc, ProfileBannerExport} from "../model/types";
 import type {FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
 import path from "path";
 import {fileNameHash, replaceExtension} from "./asset-handling/util";
 import {copyFile, readdir, writeFile} from "fs/promises";
 import {
+    assetsServerPath,
     defaultImageType, metaMaxHeight, metaMaxWidth,
     originalMaxDimension,
     originalTransformQuality,
@@ -16,10 +17,21 @@ import {
 } from "./asset-handling/config";
 import {glob} from "glob";
 import {staticAssetsPrefix} from "../../config"
+import axios from "axios";
+import * as https from "https";
+import {createWriteStream} from "node:fs";
+import {promisify} from "node:util";
+import * as stream from "stream";
+const finished = promisify(stream.finished)
 
-const tmpDir = "./_tmp/"
-const assetDir = "./resources/assets/"
+const tmpDir = "./.tmp-asset-handling"
+const assetDir = addTrailingSlash(path.join(tmpDir, "fetched"))
 const metadataDir = "./src/lib/data/gallery"
+
+const axiosInstance = axios.create({
+    timeout: 30000,
+    httpsAgent: new https.Agent({keepAlive: true})
+})
 
 const pwaBackground = '#4376C6'
 
@@ -59,15 +71,21 @@ export function assetHandler() : Plugin {
                 console.log(chalk.greenBright(
                     `Skipping asset handling because ${publicAssetPath} is not empty!`
                 ))
-                onFinished()
+                await onFinished()
                 return
             }
 
             await clearPath(tmpDir)
             await clearPath(publicAssetPath)
 
+            const profileBannerName = "profile-banner.webp"
+            const faviconName = "favicon.webp"
+            const defaultFaviconName = "favicon.ico"
+
+            await fetchAssets(assetsServerPath, [profileBannerName, faviconName, defaultFaviconName], assetDir)
+
             const processedProfileBanner = await processProfileBanner({
-                src: assetDir + "profile-banner.webp",
+                src: assetDir + profileBannerName,
                 author: {
                     name: "Cringeworthington",
                     url: "https://www.furaffinity.net/user/cringeworthington"
@@ -78,8 +96,8 @@ export function assetHandler() : Plugin {
 
 
             const processedIcons = await processIcons({
-                defaultSource: assetDir + "favicon.ico",
-                source: assetDir + "favicon.webp",
+                defaultSource: assetDir + defaultFaviconName,
+                source: assetDir + faviconName,
                 variants: iconVariants,
                 quality: 95
             }, publicAssetPath)
@@ -88,7 +106,7 @@ export function assetHandler() : Plugin {
 
             await copyFaviconsToFaviconDir(publicAssetPath, viteConfig.publicDir)
 
-            onFinished()
+            await onFinished()
         }
     }
 }
@@ -294,7 +312,31 @@ async function copyFaviconsToFaviconDir(assetPath: string, targetPath: string) :
     }))
 }
 
-function onFinished() {
+async function fetchAssets(sourceUrl: string, assetNames: Array<string>, target: string) {
+    await ensurePathExists(target)
+    const assetPromises = assetNames.map(assetName => {
+        const assetSource = addTrailingSlash(sourceUrl) + assetName
+        return fetchAsset(assetSource, path.join(target, assetName))
+    })
+    return await Promise.all(assetPromises)
+}
+
+async function fetchAsset(sourceUrl: string, target: string) {
+    const writer = createWriteStream(target)
+
+    return axiosInstance({
+        method: 'GET',
+        url: sourceUrl,
+        responseType: 'stream'
+    }).then(async (response) => {
+        response.data.pipe(writer);
+        await finished(writer);
+        return target
+    })
+}
+
+async function onFinished() {
+    await clearPath(tmpDir)
     console.log(chalk.bold(
         "-- Asset handler done --"
     ))
