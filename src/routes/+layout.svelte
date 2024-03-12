@@ -49,7 +49,7 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		padding: 0 1rem;
+		padding: 1rem;
 	}
 
 	main {
@@ -59,7 +59,7 @@
 		display: flex;
 		flex-direction: column;
 		width: var(--width);
-		margin: 1.5rem auto 0;
+		margin: 0 auto;
 		justify-content: center;
 		align-items: center;
 		box-sizing: border-box;
