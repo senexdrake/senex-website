@@ -10,16 +10,6 @@ import {
 } from "sharp";
 import {ImageAuthor} from "../../model/types";
 
-export interface AssetHandlingConfig {
-    imageOutputPrefix: string,
-    metaOutputDir: string,
-    assetOutputPrefix: string
-    assetsServer: string,
-    faviconDir?: string,
-    templateFolder?: string,
-    targetDir: string
-}
-
 export interface ProcessingRule {
     maxDimension: number,
     quality: number,
@@ -63,64 +53,10 @@ export interface ImageRaw {
     ignoreAuthorName?: boolean
 }
 
-export interface CategoryRaw {
-    name: string,
-    displayName: string,
-    description: string,
-    show?: boolean,
-    nsfw?: boolean
-}
 
-export interface FetchedAuthor {
-    id: number
-    name: string
-    url: string
-}
-
-export interface FetchedCategory {
-    id: number
-    name: string
-    displayName: string
-    description: string
-    show?: boolean
-    nsfw?: boolean
-}
-
-export interface FetchedIcon {
-    height: number
-    width: number
-    format: webp
-    fileName: string
-    type: string
-    defaultIcon: boolean
-}
-
-export interface FetchedImage {
-    id: number
-    name: string
-    title: string
-    description: string
-    nsfw: boolean
-    format: string
-    noResize: boolean
-    ignoreAuthorName: string
-    authorId: number
-    sortIndex?: number
-    categories?: number[]
-    variants?: FetchedImageVariant[]
-    related?: number[]
-}
-
-export interface FetchedImageVariant {
-    height: number,
-    width: number,
-    format: string,
-    fileName: string,
-    quality: string,
-    name: string,
-    suffix?: string,
-    original?: boolean,
-    imageId: number
+export interface FetchedMeta {
+    profileBannerAuthor: ImageAuthor,
+    faviconAuthor?: ImageAuthor
 }
 
 export interface LinkDefinition {

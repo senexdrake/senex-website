@@ -4,7 +4,7 @@ import {createReadStream} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
 import type {IconExport, ImageSrc, ProfileBannerExport} from "../model/types";
-import type {FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
+import type {FetchedMeta, FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
 import path from "path";
 import {fileNameHash, replaceExtension} from "./asset-handling/util";
 import {copyFile, readdir, writeFile} from "fs/promises";
@@ -22,6 +22,7 @@ import * as https from "https";
 import {createWriteStream} from "node:fs";
 import {promisify} from "node:util";
 import * as stream from "stream";
+import { parse as parseYaml } from "yaml"
 const finished = promisify(stream.finished)
 
 const tmpDir = "./.tmp-asset-handling"
@@ -79,6 +80,8 @@ export function assetHandler() : Plugin {
             await clearPath(publicAssetPath)
             await clearPath(metadataDir)
 
+            const meta = await fetchMeta(addTrailingSlash(assetsServerPath) + "meta.yml")
+
             const profileBannerName = "profile-banner.webp"
             const faviconName = "favicon.webp"
             const defaultFaviconName = "favicon.ico"
@@ -87,10 +90,7 @@ export function assetHandler() : Plugin {
 
             const processedProfileBanner = await processProfileBanner({
                 src: assetDir + profileBannerName,
-                author: {
-                    name: "Cringeworthington",
-                    url: "https://www.furaffinity.net/user/cringeworthington"
-                }
+                author: meta.profileBannerAuthor
             }, publicAssetPath)
 
             await writeFile(path.join(metadataDir, "profileBanner.json"), JSON.stringify(processedProfileBanner))
@@ -110,6 +110,18 @@ export function assetHandler() : Plugin {
             await onFinished()
         }
     }
+}
+
+async function fetchMeta(url: string): Promise<FetchedMeta> {
+    const extension = path.extname(url)
+    const isYaml = ['.yml', '.yaml'].includes(extension)
+    const response = await axiosInstance.get(url)
+
+    if (response.status != 200) throw Error("Error fetching image metadata")
+
+    const data = response.data
+    if (!isYaml) return data as FetchedMeta
+    return parseYaml(data) as FetchedMeta
 }
 
 async function processIcons(icons: IconsRaw, iconTargetPath: string): Promise<IconExport[]> {

@@ -35,15 +35,16 @@
 		"marked": "^12.0.0",
 		"mustache": "^4.2.0",
 		"sass": "^1.66.1",
+		"sharp": "^0.33.2",
 		"svelte": "^4.0.5",
 		"svelte-check": "^3.4.3",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
-		"vite": "^5.0.0"
+		"vite": "^5.0.0",
+		"yaml": "^2.4.1"
 	},
 	"type": "module",
 	"dependencies": {
-		"@fontsource/open-sans": "^5.0.11",
-		"sharp": "^0.33.2"
+		"@fontsource/open-sans": "^5.0.11"
 	}
 }
