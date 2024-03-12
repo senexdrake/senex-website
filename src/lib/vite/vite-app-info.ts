@@ -4,7 +4,8 @@ import {dataDir, appInfoFile} from "../../config"
 import {appVersion, ensurePathExists} from "../util";
 
 export interface AppInfo {
-    version: string
+    version: string,
+    publicUrl: string
 }
 
 export interface AppInfoConfig {
@@ -15,6 +16,12 @@ export interface AppInfoConfig {
 const defaultConfig: AppInfoConfig = {
     tryGit: true,
     versionEnvironmentName: "VERSION_HASH"
+}
+
+function publicUrl() {
+    let url = process.env.PUBLIC_BASE_PATH
+    if (!url) url = process.env.CF_PAGES_URL
+    return url ?? "https://me.zdrake.net"
 }
 
 export function appInfo(_config?: AppInfoConfig) : Plugin {
@@ -32,9 +39,12 @@ export function appInfo(_config?: AppInfoConfig) : Plugin {
                 config.tryGit
             ) ?? "unknown"
 
+
             await ensurePathExists(dataDir)
+
             await writeFile(appInfoFile, JSON.stringify(<AppInfo>{
-                version: version
+                version: version,
+                publicUrl: publicUrl()
             }))
         }
     }

@@ -3,8 +3,8 @@
     import { galleryAssetBaseUrl, defaultTitle, defaultDescription } from "../config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
-    import {PUBLIC_BASE_PATH} from "$env/static/public";
     import {stripTrailingSlash} from "$lib/util-shared";
+    import {publicUrl} from "../lib/app-info";
 
     $: pageData = $page.data as Metadata|undefined
 
@@ -16,7 +16,7 @@
         "https://wobbl.xyz/@zdrake",
         "https://meow.social/@senex"
     ]
-    const basePath = PUBLIC_BASE_PATH
+    const basePath = publicUrl
     let url: string
     $: url = basePath + $page.url.pathname
     const baseImagePath = galleryAssetBaseUrl
@@ -35,7 +35,7 @@
                 height: icon.height,
                 width: icon.width,
                 alt: "Senex's Profile",
-                url: stripTrailingSlash(PUBLIC_BASE_PATH) + baseImagePath + icon.name,
+                url: stripTrailingSlash(publicUrl) + baseImagePath + icon.name,
                 type: "image/" + icon.format
             }
     })
