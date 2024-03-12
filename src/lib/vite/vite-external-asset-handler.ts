@@ -80,25 +80,21 @@ export function assetHandler() : Plugin {
             await clearPath(publicAssetPath)
             await clearPath(metadataDir)
 
-            const meta = await fetchMeta(addTrailingSlash(assetsServerPath) + "meta.yml")
+            const {profileBanner, favicon} = await fetchMeta(addTrailingSlash(assetsServerPath) + "meta.yml")
 
-            const profileBannerName = "profile-banner.webp"
-            const faviconName = "favicon.webp"
-            const defaultFaviconName = "favicon.ico"
-
-            await fetchAssets(assetsServerPath, [profileBannerName, faviconName, defaultFaviconName], assetDir)
+            await fetchAssets(assetsServerPath, [profileBanner.file, favicon.file, favicon.icoFile], assetDir)
 
             const processedProfileBanner = await processProfileBanner({
-                src: assetDir + profileBannerName,
-                author: meta.profileBannerAuthor
+                src: assetDir + profileBanner.file,
+                author: profileBanner.author
             }, publicAssetPath)
 
             await writeFile(path.join(metadataDir, "profileBanner.json"), JSON.stringify(processedProfileBanner))
 
 
             const processedIcons = await processIcons({
-                defaultSource: assetDir + defaultFaviconName,
-                source: assetDir + faviconName,
+                defaultSource: assetDir + favicon.icoFile,
+                source: assetDir + favicon.file,
                 variants: iconVariants,
                 quality: 95
             }, publicAssetPath)

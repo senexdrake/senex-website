@@ -53,10 +53,14 @@ export interface ImageRaw {
     ignoreAuthorName?: boolean
 }
 
+export interface ImageMeta {
+    file: string
+    author: ImageAuthor
+}
 
 export interface FetchedMeta {
-    profileBannerAuthor: ImageAuthor,
-    faviconAuthor?: ImageAuthor
+    profileBanner: ImageMeta
+    favicon: ImageMeta & { icoFile: string }
 }
 
 export interface LinkDefinition {
