@@ -76,7 +76,7 @@
     <meta property="og:description" content={description} />
 
     {#each images as image}
-        <meta property="og:image" content="{image.url}" />
+        <meta property="og:image" content={image.url} />
         <meta property="og:image:alt" content={image.alt} />
         <meta property="og:image:width" content={image.width.toString()} />
         <meta property="og:image:height" content={image.height.toString()} />
@@ -90,7 +90,7 @@
 
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="{primaryImage.url}" />
+    <meta name="twitter:image" content={primaryImage.url} />
     <meta name="twitter:image:alt" content={primaryImage.alt} />
     <meta name="twitter:site" content={creator} />
     <meta name="twitter:creator" content={creator} />
