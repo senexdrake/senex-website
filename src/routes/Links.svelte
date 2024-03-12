@@ -3,7 +3,7 @@
     import {stripTrailingSlash} from "$lib/util-shared";
 
     // ----- ICONS -----
-    import IconTwitter from '~icons/simple-icons/twitter'
+    import IconX from '~icons/simple-icons/x'
     import IconTelegram from '~icons/simple-icons/telegram'
     import IconArt from '~icons/dashicons/art'
     import IconEmail from '~icons/dashicons/email-alt'
@@ -23,7 +23,7 @@
     }
     
     const bigLinks: LinkItem[] = [
-        { name: 'X (Twitter)', target: '/tw-fur', icon: IconTwitter, order: 1 },
+        { name: 'X (Twitter)', target: '/tw-fur', icon: IconX, order: 1 },
         { name: 'Itaku', target: '/itaku', icon: IconItaku, order: 2 },
         { name: 'FurAffinity', target: '/fa', icon: IconFuraffinity, order: 3 },
         { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 4 },
