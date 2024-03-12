@@ -8,6 +8,7 @@ import {
     PngOptions, TiffOptions,
     WebpOptions
 } from "sharp";
+import {ImageAuthor} from "../../model/types";
 
 export interface AssetHandlingConfig {
     imageOutputPrefix: string,
@@ -30,13 +31,20 @@ export interface IconVariant {
     size: number,
     format: (keyof FormatEnum | AvailableFormatInfo)|(keyof FormatEnum | AvailableFormatInfo)[],
     name?: string
-    quality: number,
+    quality?: number,
     background?: string
 }
+
 export interface IconsRaw {
+    defaultSource: string,
     source: string,
     variants: IconVariant[],
     quality: number
+}
+
+export interface ProfileBanner {
+    src: string,
+    author: ImageAuthor
 }
 
 export interface ImageRaw {

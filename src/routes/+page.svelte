@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Links from "./Links.svelte";
-	import {profileBanner} from "$model/gallery";
+	import {profileBanner} from "$model";
 	import type {ImageAuthor, ImageExport} from "$model/types.d";
 	import { galleryAssetBaseUrl } from '../config'
 	import {validSources} from "$lib/imageHelper";
@@ -37,8 +37,7 @@
 		{/if}
 		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Senex (my sona's name) or ArisenDrake.</p>
 		<p>
-			This is a small overview page for me and my fursona, a pretty big (and massive) dragon. There's also a small
-			<a href="/gallery">Gallery</a> featuring some of my favorite artworks that I've commissioned over the years.
+			This is a small overview page for me and my fursona, a pretty big (and massive) dragon.
 		</p>
 		<p>
 			Don't have much to say here, except that I <span class="font-italic">LOVE</span> big fellas, especially dragons.

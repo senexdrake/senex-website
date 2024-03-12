@@ -56,6 +56,13 @@ export interface ImageSrc {
     format: string
 }
 
+export interface ProfileBannerExport {
+    author: ImageAuthor,
+    src: ImageSrc[],
+    original: ImageSrc,
+    metadataSrc: ImageSrc
+}
+
 export interface ImageExport {
     id: number,
     name: string,

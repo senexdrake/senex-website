@@ -82,24 +82,6 @@ export function webmanifest() : Plugin {
                         name: "Home",
                         url: "/",
                         description: "Home page, featuring a description of the big Dragon as well as contact links"
-                    },
-                    {
-                        icons: shortcutIcons,
-                        name: "Gallery",
-                        url: "/gallery",
-                        description: "A gallery showcasing the big Dragon"
-                    },
-                    {
-                        icons: shortcutIcons,
-                        name: "References",
-                        url: "/gallery/refs/sfw",
-                        description: "A selection of images that should serve as references of the big Dragon"
-                    },
-                    {
-                        icons: shortcutIcons,
-                        name: "References (NSFW)",
-                        url: "/gallery/refs/nsfw",
-                        description: "A selection of images that should serve as references of the big Dragon - NSFW Warning!"
                     }
                 ]
             }

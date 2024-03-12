@@ -7,7 +7,7 @@ export const galleryAssetPrefix = 'gallery/'
 
 export const galleryAssetDir = staticAssetsPrefix + galleryAssetPrefix
 export const imageMetaDir = "./src/lib/data/gallery"
-export const galleryAssetBaseUrl = '/' + galleryAssetDir
+export const galleryAssetBaseUrl = '/' + staticAssetsPrefix
 
 export const defaultTitle = "ZenDrake, the big Dragon"
 export const defaultDescription = "An overview of ways to find, contact and find out more about the big Dragon!"
@@ -18,3 +18,5 @@ export const alwaysLinkToImageDirectly = false
 export const fullSizeMaxWidth = '3500px'
 export const repoUrl = "https://github.com/senexdrake/senex-website"
 export const versionEnvironmentName = "CF_PAGES_COMMIT_SHA"
+
+export const galleryEnabled = true
