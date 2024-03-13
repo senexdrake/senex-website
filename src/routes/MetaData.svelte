@@ -1,6 +1,6 @@
 <script lang="ts">
     import {faviconCatalogue, iconCatalogue} from "$model";
-    import { galleryAssetBaseUrl, defaultTitle, defaultDescription } from "../config";
+    import { galleryAssetBaseUrl, defaultTitle, defaultDescription, pwaThemeColor } from "../config";
     import {page} from "$app/stores";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
     import {stripTrailingSlash} from "$lib/util-shared";
@@ -67,6 +67,8 @@
     {/each}
     <link rel="canonical" href={url}>
     <meta name="description" content={description} />
+
+    <meta name="theme-color" content={pwaThemeColor}>
 
     <meta property="og:url" content={url} />
     <meta property="og:site_name" content={title} />
