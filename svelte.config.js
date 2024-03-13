@@ -3,8 +3,6 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import {dataDir, remoteAssetsRelative, versionEnvironmentName} from "./src/config.js";
 import {appVersion} from "./helpers.js";
 
-const dev = true
-
 const version = await appVersion(versionEnvironmentName)
 const timestampedVersion = `${version}-${Date.now()}`
 
@@ -14,6 +12,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
+		inlineStyleThreshold: 50 * 1024, // 50KiB
 		version: {
 			name: timestampedVersion
 		},
@@ -36,7 +35,7 @@ const config = {
 			$data: dataDir,
 			$remoteAssets: remoteAssetsRelative
 		}
-	}
+	},
 };
 
 export default config;
