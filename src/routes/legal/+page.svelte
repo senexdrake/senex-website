@@ -34,23 +34,36 @@
     <a href="mailto:{contactEmail}">{contactEmail}</a>
     <hr class="default">
     <h2>Copyright Notices</h2>
-    <p>
+    <div class="copyright-section">
         <span class="font-weight-bold">Used Images</span>
+        <div id="image-credits">
         {#each imageCredits as imageCredit}
-            <div><a href={imageCredit.link}>{imageCredit.name}</a> - made by <a href={imageCredit.author.url}>{imageCredit.author.name}</a></div>
+            <div><a href={imageCredit.link}>{imageCredit.name}</a></div>
+            <div>- original made by <a href={imageCredit.author.url}>{imageCredit.author.name}</a></div>
         {/each}
-    </p>
-    <p>
+        </div>
+    </div>
+    <div class="copyright-section">
         <span class="font-weight-bold">Used Iconsets</span>
         {#each iconCredits as iconCredit}
             <div><a href={iconCredit.url}>{iconCredit.name}</a></div>
         {/each}
-    </p>
+    </div>
     <hr class="default">
 </div>
 
 <style lang="scss">
+    #image-credits {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        column-gap: 1rem;
+    }
+
     .content {
         width: 100%
+    }
+
+    .copyright-section {
+        margin: 1rem 0;
     }
 </style>
