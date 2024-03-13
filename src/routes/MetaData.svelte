@@ -77,6 +77,7 @@
 
     {#each images as image}
         <meta property="og:image" content={image.url} />
+        <meta property="og:image:secure_url" content={image.url} />
         <meta property="og:image:alt" content={image.alt} />
         <meta property="og:image:width" content={image.width.toString()} />
         <meta property="og:image:height" content={image.height.toString()} />
