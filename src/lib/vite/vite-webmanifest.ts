@@ -3,7 +3,7 @@ import type {IconExport, IconMeta} from "../model/types";
 import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manifest";
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
-import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl } from "../../config"
+import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl, pwaThemeColor, pwaBackgroundColor } from "../../config"
 
 interface CustomWebAppManifest extends WebAppManifest {
     display_override?: DisplayModeType[]
@@ -68,8 +68,8 @@ export function webmanifest() : Plugin {
                 id: 'zendrake-website',
                 orientation: 'any',
                 lang: 'en',
-                background_color: '#424242',
-                theme_color: '#4075a6',
+                background_color: pwaBackgroundColor,
+                theme_color: pwaThemeColor,
                 name: defaultTitle,
                 description: defaultDescription,
                 start_url: "/",

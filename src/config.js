@@ -22,3 +22,6 @@ export const versionEnvironmentName = "CF_PAGES_COMMIT_SHA"
 export const galleryEnabled = true
 
 export const contactEmail = "furry@zdrake.net"
+
+export const pwaThemeColor = "#4075a6"
+export const pwaBackgroundColor = "#424242"
