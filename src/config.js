@@ -20,3 +20,5 @@ export const repoUrl = "https://github.com/senexdrake/senex-website"
 export const versionEnvironmentName = "CF_PAGES_COMMIT_SHA"
 
 export const galleryEnabled = true
+
+export const contactEmail = "furry@zdrake.net"

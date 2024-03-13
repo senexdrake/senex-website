@@ -1,6 +1,7 @@
 <script lang="ts">
     import type {LinkItem} from "$model/types";
     import {stripTrailingSlash} from "$lib/util-shared";
+    import {contactEmail} from "$/config"
 
     // ----- ICONS -----
     import IconX from '~icons/simple-icons/x'
@@ -35,7 +36,7 @@
 
     const smallLinks: LinkItem[] = [
         { name: 'Steam', target: '/steam', icon: IconSteam, order: 100 },
-        { name: 'E-Mail', target: 'mailto:furry@zdrake.net', icon: IconEmail, order: 110 },
+        { name: 'E-Mail', target: `mailto:${contactEmail}`, icon: IconEmail, order: 110 },
         //{ name: 'Furry Network', target: '/fn', order: 120 },
     ]
 

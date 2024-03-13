@@ -38,12 +38,20 @@
 			{/if}
 			- made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>!
 		</div>
+		<div id="legal-footer" class="text-center">
+			<a class="font-weight-bold" href="/legal">Legal stuff</a>
+		</div>
 	</footer>
 </div>
 
 <style lang="scss">
 	@use "$styles/variables" as *;
 	@use "$styles/mixins";
+
+	#legal-footer {
+		margin-top: .2rem;
+		text-decoration: underline;
+	}
 
 	.app {
 		display: flex;

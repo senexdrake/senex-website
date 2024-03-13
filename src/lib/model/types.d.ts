@@ -96,6 +96,11 @@ export interface IconExport {
     format: string
 }
 
+export interface IconMeta {
+    author: ImageAuthor,
+    icons: IconExport[]
+}
+
 export interface ImageOutputMetadata {
     src: string // URL of the generated image
     width: number // Width of the image

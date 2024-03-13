@@ -3,7 +3,7 @@ import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists} from "
 import {createReadStream} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
-import type {IconExport, ImageSrc, ProfileBannerExport} from "../model/types";
+import type {IconExport, IconMeta, ImageSrc, ProfileBannerExport} from "../model/types";
 import type {FetchedMeta, FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
 import path from "path";
 import {fileNameHash, replaceExtension} from "./asset-handling/util";
@@ -103,7 +103,10 @@ export function assetHandler() : Plugin {
                 quality: 95
             }, publicAssetPath).then(result => {
                 return Promise.all([
-                    writeFile(path.join(metadataDir, "icons.json"), JSON.stringify(result)),
+                    writeFile(path.join(metadataDir, "icons.json"), JSON.stringify(<IconMeta>{
+                        author: favicon.author,
+                        icons: result
+                    })),
                     copyFaviconsToFaviconDir(publicAssetPath, viteConfig.publicDir)
                 ])
             }).catch(error => {

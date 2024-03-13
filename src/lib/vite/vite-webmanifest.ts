@@ -1,5 +1,5 @@
 import type {Plugin, ResolvedConfig} from "vite";
-import type {IconExport} from "../model/types";
+import type {IconExport, IconMeta} from "../model/types";
 import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manifest";
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
@@ -37,11 +37,11 @@ export function webmanifest() : Plugin {
         },
         async buildEnd() {
             const iconPath = path.join(imageMetaDir, 'icons.json')
-            const iconCatalogueRaw = await readFile(iconPath)
+            const iconCatalogueRaw: IconMeta = JSON.parse((await readFile(iconPath)).toString())
 
             const validSizes = [96, 192, 512]
 
-            const iconCatalogue = (JSON.parse(iconCatalogueRaw.toString()) as IconExport[]).filter(icon => {
+            const iconCatalogue = iconCatalogueRaw.icons.filter(icon => {
                 return validSizes.includes(icon.width)
             })
 
