@@ -57,7 +57,10 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		padding: 1rem;
+		padding: .5rem;
+		@include mixins.breakpoint($big-links-breakpoint) {
+			padding: 1rem;
+		}
 	}
 
 	main {
