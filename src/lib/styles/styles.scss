@@ -45,27 +45,6 @@ body {
 	background-image: var(--bg-image);
 }
 
-
-pre {
-	font-size: 16px;
-	font-family: var(--font-mono);
-	background-color: rgba(255, 255, 255, 0.45);
-	border-radius: 3px;
-	box-shadow: 2px 2px 6px rgb(255 255 255 / 25%);
-	padding: 0.5em;
-	overflow-x: auto;
-	color: var(--color-text);
-}
-
-.text-column {
-	display: flex;
-	max-width: 48rem;
-	flex: 0.6;
-	flex-direction: column;
-	justify-content: center;
-	margin: 0 auto;
-}
-
 input,
 button {
 	font-size: inherit;
@@ -96,13 +75,6 @@ hr.default {
 	margin: $hr-margin 0;
 }
 
-img {
-	display: block;
-	width: 100%;
-}
-
-
-
 .button {
 	@include mixins.input-styling;
 	&:hover {
@@ -119,20 +91,4 @@ img {
 		background-color: var(--dropdown-bg-color);
 		color: var(--color-text);
 	}
-}
-
-.img-format {
-	--shadow-color: #{$img-shadow-color};
-
-	@include mixins.whenDark() {
-		--shadow-color: #{$img-shadow-color-dark};
-	}
-
-	border-radius: $img-border-radius;
-	box-shadow: 0 0 20px 10px var(--shadow-color);
-	position: relative;
-	overflow: hidden;
-	width: fit-content;
-	margin-left: auto;
-	margin-right: auto;
 }
