@@ -87,7 +87,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		padding: 12px;
+		padding-top: 12px;
 		color: var(--footer-text-color);
 
 		a {
@@ -98,12 +98,6 @@
 
 		@include mixins.whenDark() {
 			--footer-text-color: #9d9d9d;
-		}
-	}
-
-	@include mixins.breakpoint('xs') {
-		footer {
-			padding: 12px 0;
 		}
 	}
 </style>
