@@ -99,7 +99,10 @@
 			//background: black;
 			//border: 2px solid black;
 			// Profile banner should be width limited anyway
-			max-height: 100vh;
+			display: block;
+			width: 100%;
+			height: 100%;
+			max-height: 80vh;
 		}
 	}
 
