@@ -13,6 +13,7 @@
     import IconFuraffinity from '~icons/local/furaffinity'
     import IconSteam from '~icons/simple-icons/steam'
     import IconItaku from '~icons/local/itaku'
+    import IconDiscord from '~icons/simple-icons/discord'
     // ----- END ICONS -----
 
     const shortLinkBase = "https://zdrake.net"
@@ -73,7 +74,7 @@
 <!--        {/each}-->
 <!--    </div>-->
     <div class="text-center" id="discord">
-        Or contact me on Discord: <span class="font-weight-bold" id="discord-name"><a href={addBaseUrl("/discord")}>{discordName}</a></span><br>
+        Or contact me on Discord <span id="discord-icon"><IconDiscord /></span>: <span class="font-weight-bold" id="discord-name"><a href={addBaseUrl("/discord")}>{discordName}</a></span><br>
         (please, Discord, give us a good linkable URL...)
     </div>
 </section>
@@ -98,6 +99,13 @@
 
     #discord-name {
         line-height: 2em;
+    }
+
+    #discord-icon {
+      display: inline-flex;
+      font-size: 1.1em;
+      vertical-align: text-bottom;
+      align-items: center;
     }
 
     //#small-links {
