@@ -99,11 +99,17 @@
 			//background: black;
 			//border: 2px solid black;
 			// Profile banner should be width limited anyway
+			--brightness: 1.15;
+
 			display: block;
 			width: 100%;
 			height: 100%;
 			max-height: 80vh;
-			filter: drop-shadow(0 0 10px #000000);
+			filter: drop-shadow(0 0 10px #000000) brightness(var(--brightness));
+
+			@include mixins.whenDark() {
+				--brightness: 1.05;
+			}
 		}
 	}
 
