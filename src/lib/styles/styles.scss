@@ -3,7 +3,6 @@
 @use "mixins";
 
 :root {
-	--font-body: #{font.$font-body};
 	--font-mono: 'Fira Mono', monospace;
 	--color-bg-card: #{$color-bg-card};
 	--color-bg-0: #{$color-bg-0};
@@ -29,7 +28,7 @@
 		--bg-image: #{$bg-image-dark};
 	}
 
-	font-family: var(--font-body);
+	@include font.font-definition();
 	color: var(--color-text);
 }
 
@@ -60,7 +59,7 @@ button:focus:not(:focus-visible) {
 }
 
 .font-weight-bold {
-	font-weight: bold;
+	font-weight: font.$font-weight-bold;
 }
 
 .font-italic {

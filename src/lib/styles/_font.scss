@@ -1,4 +1,16 @@
+@use "@fontsource-variable/open-sans" as font-variable;
 @use "@fontsource/open-sans/400.css" as font-normal;
 @use "@fontsource/open-sans/700.css" as font-bold;
 
-$font-body: 'Open Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+$font-weight-default: 400;
+$font-weight-bold: 700;
+
+@mixin font-definition {
+  font-family: 'Open Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight: $font-weight-default;
+
+  @supports (font-variation-settings: normal) {
+    font-family: 'Open Sans Variable', 'Segoe UI', Roboto, Arial, sans-serif;
+    font-weight: $font-weight-default;
+  }
+}
