@@ -103,6 +103,7 @@
 			width: 100%;
 			height: 100%;
 			max-height: 80vh;
+			filter: drop-shadow(0 0 10px #000000);
 		}
 	}
 
