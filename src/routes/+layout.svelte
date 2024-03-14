@@ -77,6 +77,8 @@
 		box-shadow: 0 0 25px 2px #000;
 		border-radius: $main-border-radius;
 		background-color: var(--color-bg-card);
+		backdrop-filter: blur(10px);
+
 
 		padding: 1rem 1rem;
 		@include mixins.breakpoint($big-links-breakpoint) {
