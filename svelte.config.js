@@ -12,7 +12,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
-		inlineStyleThreshold: 50 * 1024, // 50KiB
+		//inlineStyleThreshold: 50 * 1024, // 50KiB
 		version: {
 			name: timestampedVersion
 		},
