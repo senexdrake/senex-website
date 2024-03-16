@@ -8,6 +8,10 @@ import {assetHandler} from "./src/lib/vite/vite-external-asset-handler";
 import {FileSystemIconLoader} from "unplugin-icons/loaders";
 
 export default defineConfig({
+	build: {
+		// Inline all assets up to 5 KiB
+		assetsInlineLimit: 5 * 1024,
+	},
 	plugins: [
 		assetHandler(),
 		appInfo({
