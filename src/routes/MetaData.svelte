@@ -2,9 +2,10 @@
     import {faviconCatalogue, iconCatalogue} from "$model";
     import { galleryAssetBaseUrl, defaultTitle, defaultDescription, pwaThemeColor } from "../config";
     import {page} from "$app/stores";
+    import {base} from "$app/paths";
     import type {IconExport, Metadata, MetadataImage} from "$model/types";
     import {stripTrailingSlash} from "$lib/util-shared";
-    import {publicUrl} from "../lib/app-info";
+    import {publicUrl} from "$lib/app-info";
 
     $: pageData = $page.data as Metadata|undefined
 
@@ -35,7 +36,7 @@
                 height: icon.height,
                 width: icon.width,
                 alt: "Senex's Profile",
-                url: stripTrailingSlash(publicUrl) + baseImagePath + icon.name,
+                url: stripTrailingSlash(publicUrl) + base + baseImagePath + icon.name,
                 type: "image/" + icon.format
             }
     })
@@ -56,11 +57,17 @@
 
 <svelte:head>
     <title>{title}</title>
+
+    <link rel="manifest" href="{base}/app.webmanifest">
+
+    <link rel="icon" href="{base}/favicon.ico" />
+    <link rel="icon" href="{base}/favicon.png" />
+
     {#each normalFavIcons as icon}
-        <link rel="icon" href="/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
     {#each appleFavIcon as icon}
-        <link rel="apple-touch-icon" href="/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="apple-touch-icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
     {#each mastodonLinks as mastodonLink}
         <link rel="me" href={mastodonLink}>

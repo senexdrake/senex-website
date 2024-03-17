@@ -3,6 +3,7 @@
 	import Header from './Header.svelte';
 	import MetaData from "./MetaData.svelte";
 	import {page} from "$app/stores";
+	import {base} from "$app/paths";
 	import {appVersion} from "$lib/app-info"
 	import {repoUrl, linkToRepo} from "$/config"
 
@@ -39,7 +40,7 @@
 			- made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>!
 		</div>
 		<div id="legal-footer" class="text-center">
-			<a class="font-weight-bold" href="/legal">Legal stuff</a>
+			<a class="font-weight-bold" href="{base}/legal">Legal stuff</a>
 		</div>
 	</footer>
 </div>

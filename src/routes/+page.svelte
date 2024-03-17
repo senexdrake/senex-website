@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {base} from "$app/paths";
 	import Links from "./Links.svelte";
 	import {profileBanner} from "$model";
 	import type {ImageAuthor, ProfileBannerExport} from "$model/types.d";
@@ -9,7 +10,7 @@
 		let sourceSet = ""
 		for (const src of validSources(image.src)) {
 			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${galleryAssetBaseUrl}${src.src} ${src.width}w`
+			sourceSet += `${base}${galleryAssetBaseUrl}${src.src} ${src.width}w`
 		}
 		return sourceSet
 	}
@@ -21,11 +22,11 @@
 
 <section id="home">
 	<div class="img-format">
-		<a href="{galleryAssetBaseUrl}{profileBanner.original.src}">
+		<a href={base + galleryAssetBaseUrl + profileBanner.original.src}>
 			<picture id="profile-pic">
 				<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
 				<img
-						src={galleryAssetBaseUrl + senexProfileFallback.src}
+						src={base + galleryAssetBaseUrl + senexProfileFallback.src}
 						width={senexProfileFallback.width} height={senexProfileFallback.height}
 						alt="Senex profile banner" fetchpriority="high" />
 			</picture>

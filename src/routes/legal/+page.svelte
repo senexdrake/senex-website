@@ -1,4 +1,5 @@
 <script lang="ts">
+    import {base} from "$app/paths";
     import {iconMeta, profileBanner} from "$lib/model";
     import {galleryAssetBaseUrl, contactEmail} from "$/config";
     import type {ImageAuthor} from "$lib/model/types";
@@ -12,7 +13,10 @@
     const imageCredits = <ImageCredit[]>[
         { name: "Profile banner", link: galleryAssetBaseUrl + profileBanner.original.src, author: profileBanner.author },
         { name: "Favicon and derivatives", link: "/favicon.png", author: iconMeta.author }
-    ]
+    ].map(c => {
+        c.link = base + c.link
+        return c
+    })
 
     interface IconCredit {
         name: string,
@@ -27,7 +31,7 @@
 </script>
 
 <div class="content">
-    <a href="/" class="button">Back to home</a>
+    <a href="{base}/" class="button">Back to home</a>
     <hr class="default">
     <h2>Contact</h2>
     You can contact this site's administrator using the following email address:<br>
