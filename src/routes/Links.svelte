@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type {LinkItem} from "$model/types";
-    import {stripTrailingSlash} from "$lib/util-shared";
+    import type {LinkItem} from "$model/types"
+    import {stripTrailingSlash} from "$lib/util-shared"
     import {contactEmail} from "$/config"
 
     // ----- ICONS -----

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import '$styles/styles.scss';
-	import Header from './Header.svelte';
-	import MetaData from "./MetaData.svelte";
-	import {page} from "$app/stores";
-	import {base} from "$app/paths";
+	import '$styles/styles.scss'
+	import Header from './Header.svelte'
+	import MetaData from "./MetaData.svelte"
+	import {page} from "$app/stores"
+	import {base} from "$app/paths"
 	import {appVersion} from "$lib/app-info"
 	import {repoUrl, linkToRepo} from "$/config"
 

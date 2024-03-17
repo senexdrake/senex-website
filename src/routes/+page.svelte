@@ -1,10 +1,10 @@
 <script lang="ts">
-	import {base} from "$app/paths";
-	import Links from "./Links.svelte";
-	import {profileBanner} from "$model";
-	import type {ImageAuthor, ProfileBannerExport} from "$model/types.d";
+	import {base} from "$app/paths"
+	import Links from "./Links.svelte"
+	import {profileBanner} from "$model"
+	import type {ImageAuthor, ProfileBannerExport} from "$model/types.d"
 	import { galleryAssetBaseUrl } from '../config'
-	import {validSources} from "$lib/imageHelper";
+	import {validSources} from "$lib/imageHelper"
 
 	function iconToSourceSet(image: ProfileBannerExport): string {
 		let sourceSet = ""

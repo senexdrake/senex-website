@@ -1,8 +1,8 @@
 <script lang="ts">
-    import {base} from "$app/paths";
-    import {iconMeta, profileBanner} from "$lib/model";
-    import {galleryAssetBaseUrl, contactEmail} from "$/config";
-    import type {ImageAuthor} from "$lib/model/types";
+    import {base} from "$app/paths"
+    import {iconMeta, profileBanner} from "$lib/model"
+    import {galleryAssetBaseUrl, contactEmail} from "$/config"
+    import type {ImageAuthor} from "$lib/model/types"
 
     interface ImageCredit {
         name: string,
