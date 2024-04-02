@@ -74,7 +74,7 @@
 <!--        {/each}-->
 <!--    </div>-->
     <div class="text-center" id="discord">
-        Or contact me on Discord <span id="discord-icon"><IconDiscord /></span>: <span class="font-weight-bold" id="discord-name"><a href={addBaseUrl("/discord")}>{discordName}</a></span><br>
+        Or contact me on <a href={addBaseUrl("/discord")}>Discord <span id="discord-icon"><IconDiscord /></span></a>: <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
         (please, Discord, give us a good linkable URL...)
     </div>
 </section>
