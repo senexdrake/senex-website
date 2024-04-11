@@ -2,6 +2,10 @@
 /_assets/*
   Cache-Control: public, max-age=86400, immutable
 
+# Cache immutable app assets
+/_app/immutable/*
+  Cache-Control: public, max-age=86400, immutable
+
 /favicon*
   Cache-Control: public, max-age=86400, immutable
 
