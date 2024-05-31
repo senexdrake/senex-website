@@ -15,7 +15,7 @@ import {
     originalTransformQuality,
     processingRules
 } from "./asset-handling/config";
-import {glob} from "glob";
+import glob from "fast-glob";
 import {staticAssetsPrefix} from "../../config"
 import axios from "axios";
 import * as https from "https";
@@ -329,7 +329,7 @@ async function processProfileBanner(rawImage: ProfileBanner, target: string) : P
 }
 
 async function copyFaviconsToFaviconDir(assetPath: string, targetPath: string) : Promise<void> {
-    const favicons = await glob.glob(addTrailingSlash(assetPath) + 'favicon*')
+    const favicons = await glob(addTrailingSlash(assetPath) + 'favicon*')
     await Promise.all(favicons.map(iconPath => {
         const name = path.basename(iconPath)
         return copyFile(iconPath, path.join(targetPath, name))
