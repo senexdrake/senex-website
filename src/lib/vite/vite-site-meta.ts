@@ -17,7 +17,7 @@ interface SiteMap {
         url: string,
         lastModified: string,
         priority?: number,
-        changeFrequence?: "always"|"hourly"|"daily"|"weekly"|"monthly"|"yearly"|"never"
+        changeFrequency?: "always"|"hourly"|"daily"|"weekly"|"monthly"|"yearly"|"never"
     }>
 }
 
@@ -32,7 +32,7 @@ function sitemapXml(siteMap: SiteMap): string {
         urlset.ele('url')
             .ele('loc').txt(us.url).up()
             .ele('lastmod').txt(us.lastModified).up()
-            .ele('changefreq').txt(us.changeFrequence ?? "daily")
+            .ele('changefreq').txt(us.changeFrequency ?? "daily").up()
             .ele('priority').txt((us.priority ?? 0.5).toString())
     })
     return root.toString({format: "xml"})
