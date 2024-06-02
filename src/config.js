@@ -1,12 +1,14 @@
 export const remoteAssetsDir = "data/remote-assets"
 export const remoteAssetsRelative = './' + remoteAssetsDir
-export const dataDir = "./src/lib/data/"
+export const libDir = "./src/lib"
+export const libAssetDir = libDir + "/assets"
+export const dataDir = libDir + "/data/"
 export const appInfoFile = dataDir + "appInfo.json"
 export const staticAssetsPrefix = '_assets/'
 export const galleryAssetPrefix = 'gallery/'
 
 export const galleryAssetDir = staticAssetsPrefix + galleryAssetPrefix
-export const imageMetaDir = "./src/lib/data/gallery"
+export const imageMetaDir = dataDir + "gallery"
 export const galleryAssetBaseUrl = '/' + staticAssetsPrefix
 
 export const defaultTitle = "ZenDrake, the big Dragon"

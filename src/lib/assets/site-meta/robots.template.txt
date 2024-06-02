@@ -3,4 +3,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://me.zdrake.net/sitemap.xml
+Sitemap: {{PUBLIC_URL}}/sitemap.xml

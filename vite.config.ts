@@ -3,7 +3,7 @@ import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'vite';
 import {siteMeta} from "./src/lib/vite/vite-site-meta";
 import {appInfo} from "./src/lib/vite/vite-app-info";
-import {versionEnvironmentName} from "./src/config"
+import {versionEnvironmentName, libAssetDir} from "./src/config"
 import {assetHandler} from "./src/lib/vite/vite-external-asset-handler";
 import {FileSystemIconLoader} from "unplugin-icons/loaders";
 
@@ -23,7 +23,7 @@ export default defineConfig({
 			compiler: 'svelte',
 			customCollections: {
 				local: FileSystemIconLoader(
-					'./src/lib/assets/icons',
+					libAssetDir + '/icons',
 					svg => svg.replace(/^<svg /, '<svg fill="currentColor" '),
 				)
 			}
