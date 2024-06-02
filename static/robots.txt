@@ -2,3 +2,5 @@
 # Allow all robots to crawl everything
 User-agent: *
 Disallow:
+
+Sitemap: https://me.zdrake.net/sitemap.xml

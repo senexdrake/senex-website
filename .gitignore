@@ -19,3 +19,4 @@ tmp/
 .tmp/
 .tmp*/
 *.webmanifest
+/static/sitemap*

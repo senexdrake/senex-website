@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'vite';
-import {webmanifest} from "./src/lib/vite/vite-webmanifest";
+import {siteMeta} from "./src/lib/vite/vite-site-meta";
 import {appInfo} from "./src/lib/vite/vite-app-info";
 import {versionEnvironmentName} from "./src/config"
 import {assetHandler} from "./src/lib/vite/vite-external-asset-handler";
@@ -18,7 +18,7 @@ export default defineConfig({
 			versionEnvironmentName: versionEnvironmentName
 		}),
 		sveltekit(),
-		webmanifest(),
+		siteMeta(),
 		Icons({
 			compiler: 'svelte',
 			customCollections: {

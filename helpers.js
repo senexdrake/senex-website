@@ -14,3 +14,9 @@ export async function appVersion(versionEnvironmentName, tryGit) {
 
     return version
 }
+
+export function publicUrl() {
+    let url = process.env.PUBLIC_BASE_PATH
+    if (!url) url = process.env.CF_PAGES_URL
+    return url ?? "https://me.zdrake.net"
+}

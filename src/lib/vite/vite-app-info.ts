@@ -1,6 +1,7 @@
 import type {Plugin} from "vite";
 import {writeFile} from "fs/promises";
 import {dataDir, appInfoFile} from "../../config"
+import {publicUrl} from "../../../helpers"
 import {appVersion, ensurePathExists} from "../util";
 
 export interface AppInfo {
@@ -16,12 +17,6 @@ export interface AppInfoConfig {
 const defaultConfig: AppInfoConfig = {
     tryGit: true,
     versionEnvironmentName: "VERSION_HASH"
-}
-
-function publicUrl() {
-    let url = process.env.PUBLIC_BASE_PATH
-    if (!url) url = process.env.CF_PAGES_URL
-    return url ?? "https://me.zdrake.net"
 }
 
 export function appInfo(_config?: AppInfoConfig) : Plugin {
