@@ -21,11 +21,21 @@ const defaultRules: ProcessingRule[] = [
     { maxDimension: 2400, quality: 75, format: defaultImageType },
     { maxDimension: 3000, quality: 90, format: defaultImageType }
 ]
+
 export const processingRules = defaultRules.map(rule => {
     if (rule.withoutEnlargement === undefined) {
         rule.withoutEnlargement = defaultEnlargementRule === 'deny'
     }
     return rule
+})
+
+const profileBannerImageTypes = [defaultImageType, "png"]
+export const profileBannerProcessingRules: ProcessingRule[] = defaultRules.flatMap(rule => {
+    return profileBannerImageTypes.map(imageType => {
+        const newRule = Object.assign({}, rule)
+        newRule.format = imageType
+        return newRule
+    })
 })
 
 export const originalMaxDimension = 4000

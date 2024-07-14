@@ -2,20 +2,34 @@
 	import {base} from "$app/paths"
 	import Links from "./Links.svelte"
 	import {profileBanner} from "$model"
-	import type {ImageAuthor, ProfileBannerExport} from "$model/types.d"
+	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "$model/types.d"
 	import { galleryAssetBaseUrl } from '../config'
 	import {validSources} from "$lib/imageHelper"
 
-	function iconToSourceSet(image: ProfileBannerExport): string {
-		let sourceSet = ""
-		for (const src of validSources(image.src)) {
-			if (sourceSet.length !== 0) sourceSet += ', '
-			sourceSet += `${base}${galleryAssetBaseUrl}${src.src} ${src.width}w`
-		}
-		return sourceSet
+	function sourcesByFormat(image: ProfileBannerExport): Map<string, ImageSrc[]> {
+		const ret = new Map<string, ImageSrc[]>
+		validSources(image.src).forEach(src => {
+			if (!ret.has(src.format)) ret.set(src.format, [])
+			const sourcesForFormat = ret.get(src.format)
+			sourcesForFormat.push(src)
+		})
+		return ret
 	}
 
-	const senexProfileFallback = profileBanner.src.sort((a, b) => b.width - a.width)[0]
+	function imageSourceSets(image: ProfileBannerExport): Map<string, string> {
+		const sourceSetByFormat = new Map<string, string>
+		sourcesByFormat(image).forEach((value, key) => {
+			let sourceSet = ""
+			value.forEach(src => {
+				if (sourceSet.length !== 0) sourceSet += ', '
+				sourceSet += `${base}${galleryAssetBaseUrl}${src.src} ${src.width}w`
+			})
+			sourceSetByFormat.set(key, sourceSet)
+		})
+		return sourceSetByFormat
+	}
+
+	const senexProfileFallback = profileBanner.src.filter(src => src.format == "png").sort((a, b) => b.width - a.width)[0]
 	const senexProfileIcons = profileBanner
 	const senexProfileAuthor: ImageAuthor|undefined = profileBanner.author
 </script>
@@ -24,7 +38,9 @@
 	<div class="img-format">
 		<a href={base + galleryAssetBaseUrl + profileBanner.original.src}>
 			<picture id="profile-pic">
-				<source srcset="{iconToSourceSet(senexProfileIcons)}" type="image/webp">
+				{#each imageSourceSets(senexProfileIcons).entries() as [format, sourceSet]}
+					<source srcset={sourceSet} type="image/{format}">
+				{/each}
 				<img
 						src={base + galleryAssetBaseUrl + senexProfileFallback.src}
 						width={senexProfileFallback.width} height={senexProfileFallback.height}

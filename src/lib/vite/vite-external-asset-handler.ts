@@ -13,7 +13,7 @@ import {
     defaultImageType, metaMaxHeight, metaMaxWidth,
     originalMaxDimension,
     originalTransformQuality,
-    processingRules
+    profileBannerProcessingRules
 } from "./asset-handling/config";
 import glob from "fast-glob";
 import {staticAssetsPrefix} from "../../config"
@@ -225,7 +225,7 @@ async function processProfileBanner(rawImage: ProfileBanner, target: string) : P
     const heightLimited = (originalHeight ?? 0) > (originalWidth ?? 0)
     const nameWithoutExtension = originalName.substring(0, originalName.lastIndexOf('.'))
 
-    const processingPromises = processingRules.map(async (rule) => {
+    const processingPromises = profileBannerProcessingRules.map(async (rule) => {
         const resizeOptions: ResizeOptions = {
             height: heightLimited ? rule.maxDimension : undefined,
             width: heightLimited ? undefined : rule.maxDimension,
