@@ -108,14 +108,6 @@
       align-items: center;
     }
 
-    //#small-links {
-    //    display: flex;
-    //    flex-direction: row;
-    //    a {
-    //        border-radius: 50%;
-    //    }
-    //}
-
     .left, .right {
       flex: 1
     }
@@ -124,18 +116,17 @@
         margin: 0;
         padding: 0;
         display: grid;
-
         grid-template-columns: 1fr;
+        grid-auto-flow: dense;
+        align-items: start;
+        gap: 1rem;
+
         @include mixins.breakpoint($big-links-breakpoint) {
             grid-template-columns: 1fr 1fr;
             .full-width {
                 grid-column: 1/span 2;
             }
         }
-        grid-auto-flow: dense;
-        align-items: start;
-
-        gap: 1rem;
 
         .link {
             display: flex;

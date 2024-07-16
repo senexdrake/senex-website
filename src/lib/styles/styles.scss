@@ -15,6 +15,9 @@
 	--color-btn-2: #{$color-btn-2};
 	--bg-image: #{$bg-image};
 
+	color: var(--color-text);
+
+	@include font.font-definition();
 	@include mixins.whenDark() {
 		--color-bg-card: #{$color-bg-card-dark};
 		--color-bg-0: #{$color-bg-0-dark};
@@ -27,9 +30,6 @@
 		--color-btn-2: #{$color-btn-2-dark};
 		--bg-image: #{$bg-image-dark};
 	}
-
-	@include font.font-definition();
-	color: var(--color-text);
 }
 
 a {
@@ -76,10 +76,10 @@ hr.default {
 
 .button {
 	@include mixins.input-styling;
+	flex-direction: row;
 	&:hover {
 		@include mixins.input-styling-hover;
 	}
-	flex-direction: row;
 }
 
 .select {

@@ -7,13 +7,7 @@
 @mixin input-styling {
   box-sizing: border-box;
   background-color: var(--color-btn-1);
-  color: #fff;
-
-  @include darkmode.whenDark() {
-    color: $color-text-dark;
-  }
   border-style: none;
-
   cursor: pointer;
   width: 100%;
   background-image: linear-gradient(45deg, var(--color-btn-2) 0%, var(--color-btn-1) 75%);
@@ -28,6 +22,12 @@
   justify-content: center;
   border-radius: $btn-border-radius;
   transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+
+  color: #fff;
+
+  @include darkmode.whenDark() {
+    color: $color-text-dark;
+  }
 }
 
 @mixin input-styling-hover {
