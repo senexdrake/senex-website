@@ -3,17 +3,16 @@
 @use "mixins";
 
 :root {
-	--font-mono: 'Fira Mono', monospace;
-	--color-bg-card: #{$color-bg-card};
-	--color-bg-0: #{$color-bg-0};
-	--color-bg-1: #{$color-bg-1};
-	--color-bg-2: #{$color-bg-2};
-	--color-bg-page: #{$color-bg-page};
-	--color-theme-1: #{$color-theme-1};
-	--color-text: #{$color-text};
-	--color-btn-1: #{$color-btn-1};
-	--color-btn-2: #{$color-btn-2};
-	--bg-image: #{$bg-image};
+	--color-bg-card: #{$color-bg-card-light};
+	--color-bg-0: #{$color-bg-0-light};
+	--color-bg-1: #{$color-bg-1-light};
+	--color-bg-2: #{$color-bg-2-light};
+	--color-bg-page: #{$color-bg-page-light};
+	--color-theme-1: #{$color-theme-1-light};
+	--color-text: #{$color-text-light};
+	--color-btn-1: #{$color-btn-1-light};
+	--color-btn-2: #{$color-btn-2-light};
+	--bg-image: #{$bg-image-light};
 
 	color: var(--color-text);
 
