@@ -75,10 +75,13 @@ hr.default {
 
 .button {
 	@include mixins.input-styling;
-	flex-direction: row;
 	&:hover {
 		@include mixins.input-styling-hover;
 	}
+}
+
+.flex-row {
+	flex-direction: row;
 }
 
 .select {

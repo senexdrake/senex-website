@@ -53,7 +53,7 @@
     <ul id="big-links">
         {#each allLinks as link}
             <li class="link" class:full-width={link.fullWidth}>
-                <a href="{link.target}" class="button">
+                <a href="{link.target}" class="button flex-row">
                     {#if link.icon}
                         <span class="left link-icon"><svelte:component this={link.icon}/></span>
                     {:else}
