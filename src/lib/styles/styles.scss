@@ -45,9 +45,11 @@ body {
 }
 
 input,
-button {
-	font-size: inherit;
-	font-family: inherit;
+button,
+textarea {
+	font: inherit;
+	letter-spacing: inherit;
+	word-spacing: inherit;
 }
 
 button:focus:not(:focus-visible) {
