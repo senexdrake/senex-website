@@ -15,6 +15,7 @@
 	--bg-image: #{$bg-image-light};
 
 	color: var(--color-text);
+	font-size: 12pt;
 
 	@include font.font-definition();
 	@include mixins.whenDark() {
