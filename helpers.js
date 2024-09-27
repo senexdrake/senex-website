@@ -2,6 +2,12 @@ import {exec as origExec} from "child_process"
 import {promisify} from "util";
 const exec = promisify(origExec)
 
+/**
+ *
+ * @param {string} versionEnvironmentName
+ * @param {boolean} tryGit
+ * @returns {Promise<string>}
+ */
 export async function appVersion(versionEnvironmentName, tryGit) {
     if (tryGit === undefined) tryGit = true
     let version = process.env[versionEnvironmentName]
@@ -12,7 +18,7 @@ export async function appVersion(versionEnvironmentName, tryGit) {
         })
     }
 
-    return version
+    return version ?? "UNKNOWN"
 }
 
 export function publicUrl() {
