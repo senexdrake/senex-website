@@ -69,7 +69,7 @@
 </section>
 
 <style lang="scss">
-	@use "$styles/variables" as *;
+	@use "$styles/variables" as vars;
 	@use "$styles/mixins";
 
 	#banner-description {
@@ -97,16 +97,16 @@
 	}
 
 	#about-me {
-		margin: -$hr-margin 0;
+		margin: -(vars.$hr-margin) 0;
 	}
 
 	.img-format {
 		border-radius: 0;
 		box-shadow: none;
-		margin: 0 (-0.5rem) (-$hr-margin) (-0.5rem);
+		margin: 0 (-0.5rem) (-(vars.$hr-margin)) (-0.5rem);
 
-		@include mixins.breakpoint($big-links-breakpoint) {
-			margin: 0 0 (-$hr-margin) 0;
+		@include mixins.breakpoint(vars.$big-links-breakpoint) {
+			margin: 0 0 (-(vars.$hr-margin)) 0;
 		}
 	}
 

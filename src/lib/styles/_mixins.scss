@@ -1,7 +1,7 @@
 @forward "breakpoints";
 @forward "darkmode";
 
-@use "variables" as *;
+@use "variables" as vars;
 @use "darkmode";
 
 @mixin input-styling {
@@ -20,18 +20,18 @@
   font-size: 1.125em;
   flex-direction: row-reverse;
   justify-content: center;
-  border-radius: $btn-border-radius;
+  border-radius: vars.$btn-border-radius;
   transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
 
   color: #fff;
   @include darkmode.whenDark() {
-    color: $color-text-dark;
+    color: vars.$color-text-dark;
   }
 }
 
 @mixin input-styling-hover {
-  background-color: $color-btn-hover-light;
+  background-color: vars.$color-btn-hover-light;
   @include darkmode.whenDark() {
-    background-color: $color-btn-hover-dark;
+    background-color: vars.$color-btn-hover-dark;
   }
 }

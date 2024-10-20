@@ -80,7 +80,7 @@
 </section>
 
 <style lang="scss">
-    @use "$styles/variables" as *;
+    @use "$styles/variables" as vars;
     @use "$styles/mixins";
 
     section {
@@ -121,7 +121,7 @@
         align-items: start;
         gap: 1rem;
 
-        @include mixins.breakpoint($big-links-breakpoint) {
+        @include mixins.breakpoint(vars.$big-links-breakpoint) {
             grid-template-columns: 1fr 1fr;
             .full-width {
                 grid-column: 1/span 2;

@@ -1,12 +1,12 @@
 @use "sass:map";
 @use "sass:math";
-@use "variables" as *;
+@use "variables" as vars;
 
-@mixin breakpoint($breakpoint,$direction: $media-direction) {
+@mixin breakpoint($breakpoint,$direction: vars.$media-direction) {
   // Check if breakpoint identifier is in the breakpoints map
-  @if map.has-key($breakpoints, $breakpoint) {
+  @if map.has-key(vars.$breakpoints, $breakpoint) {
     // Apply breakpoint value
-    @media (#{$direction}-width: #{map-get($breakpoints, $breakpoint)}) {
+    @media (#{$direction}-width: #{map-get(vars.$breakpoints, $breakpoint)}) {
       @content;
     }
   }

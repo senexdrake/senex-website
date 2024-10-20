@@ -51,7 +51,7 @@
 </div>
 
 <style lang="scss">
-	@use "$styles/variables" as *;
+	@use "$styles/variables" as vars;
 	@use "$styles/mixins";
 
 	#legal-footer {
@@ -64,7 +64,7 @@
 		flex-direction: column;
 		min-height: 100vh;
 		padding: .5rem;
-		@include mixins.breakpoint($big-links-breakpoint) {
+		@include mixins.breakpoint(vars.$big-links-breakpoint) {
 			padding: 1rem;
 		}
 	}
@@ -81,13 +81,13 @@
 		align-items: center;
 		box-sizing: border-box;
 		box-shadow: 0 0 25px 2px #000;
-		border-radius: $main-border-radius;
+		border-radius: vars.$main-border-radius;
 		background-color: var(--color-bg-card);
 		backdrop-filter: blur(10px);
 
 
 		padding: 1rem 1rem;
-		@include mixins.breakpoint($big-links-breakpoint) {
+		@include mixins.breakpoint(vars.$big-links-breakpoint) {
 			padding: 2rem 2rem;
 		}
 	}
