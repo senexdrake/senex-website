@@ -1,7 +1,21 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import 'unplugin-icons/types/svelte'
+
+// Seems to be kinda buggy?
+//import "unplugin-icons/types/svelte"
+
+declare module 'virtual:icons/*' {
+	import type { Component } from 'svelte'
+	const icon: Component
+	export = icon
+}
+
+declare module '~icons/*' {
+	import type { Component } from 'svelte'
+	const icon: Component
+	export = icon
+}
 
 declare global {
 	namespace App {
@@ -12,4 +26,4 @@ declare global {
 	}
 }
 
-export {};
+export {}

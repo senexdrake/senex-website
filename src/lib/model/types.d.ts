@@ -1,10 +1,11 @@
 import type {LinkType} from "$model/LinkType";
+import type {Component} from "svelte";
 
 export interface LinkItem {
     target: string,
     name: string,
     order: number
-    icon?: string,
+    icon?: string|Component,
     linkType?: LinkType,
     fullWidth?: boolean
 }
