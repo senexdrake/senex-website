@@ -1,5 +1,5 @@
 import type {Plugin, ResolvedConfig} from "vite";
-import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists} from "../util";
+import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists, mapAsyncIter} from "../util";
 import {createReadStream} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
@@ -7,7 +7,8 @@ import type {IconExport, IconMeta, ImageSrc, ProfileBannerExport} from "../model
 import type {FetchedMeta, FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
 import path from "path";
 import {fileNameHash, replaceExtension} from "./asset-handling/util";
-import {copyFile, readdir, writeFile} from "fs/promises";
+import {copyFile, writeFile, readdir, glob} from "node:fs/promises";
+import fastGlob from "fast-glob";
 import {
     assetsServerPath,
     defaultImageType, metaMaxHeight, metaMaxWidth,
@@ -15,7 +16,6 @@ import {
     originalTransformQuality,
     profileBannerProcessingRules
 } from "./asset-handling/config";
-import glob from "fast-glob";
 import {staticAssetsPrefix} from "../../config"
 import axios from "axios";
 import * as https from "https";
@@ -24,6 +24,9 @@ import {promisify} from "node:util";
 import * as stream from "stream";
 import { parse as parseYaml } from "yaml"
 const finished = promisify(stream.finished)
+
+// FIXME: Enable Node's version of Glob once it's no longer experimental and drop the dependency on fast-glob
+const useNodeGlob = false
 
 const tmpDir = "./.tmp-asset-handling"
 const assetDir = addTrailingSlash(path.join(tmpDir, "fetched"))
@@ -36,20 +39,21 @@ const axiosInstance = axios.create({
 
 const pwaBackground = '#4376C6'
 
+const iconFormats = ['webp', 'png']
 const iconVariants: Array<IconVariant> = [
-    { size: 32, format: ['webp', 'png'] },
-    { size: 48, format: ['webp', 'png'] },
-    { size: 96, format: ['webp', 'png'] },
-    { size: 180, format: ['webp', 'png'] },
-    { size: 192, format: ['webp', 'png'] },
-    { size: 512, format: ['webp', 'png'] },
+    { size: 32, format: iconFormats },
+    { size: 48, format: iconFormats},
+    { size: 96, format: iconFormats },
+    { size: 180, format: iconFormats },
+    { size: 192, format: iconFormats },
+    { size: 512, format: iconFormats },
 
     // PWA-Icons
-    { size: 32, format: ['webp', 'png'], name: 'pwa-icon', background: pwaBackground },
-    { size: 512, format: ['webp', 'png'], name: 'pwa-icon', background: pwaBackground },
+    { size: 32, format: iconFormats, name: 'pwa-icon', background: pwaBackground },
+    { size: 512, format: iconFormats, name: 'pwa-icon', background: pwaBackground },
 
     // Profile
-    { size: 600, format: ['webp', 'png'], name: 'profile' },
+    { size: 600, format: iconFormats, name: 'profile' },
 ]
 
 export function assetHandler() : Plugin {
@@ -329,11 +333,20 @@ async function processProfileBanner(rawImage: ProfileBanner, target: string) : P
 }
 
 async function copyFaviconsToFaviconDir(assetPath: string, targetPath: string) : Promise<void> {
-    const favicons = await glob(addTrailingSlash(assetPath) + 'favicon*')
-    await Promise.all(favicons.map(iconPath => {
-        const name = path.basename(iconPath)
-        return copyFile(iconPath, path.join(targetPath, name))
-    }))
+    if (useNodeGlob) {
+        const faviconsIter = glob(addTrailingSlash(assetPath) + 'favicon*')
+        const mapPromise = await mapAsyncIter(faviconsIter, (iconPath) => {
+            const name = path.basename(iconPath)
+            return copyFile(iconPath, path.join(targetPath, name))
+        })
+        await Promise.all(mapPromise)
+    } else {
+        const favicons = await fastGlob(addTrailingSlash(assetPath) + 'favicon*')
+        await Promise.all(favicons.map(iconPath => {
+            const name = path.basename(iconPath)
+            return copyFile(iconPath, path.join(targetPath, name))
+        }))
+    }
 }
 
 async function fetchAssets(sourceUrl: string, assetNames: Array<string>, target: string) {
