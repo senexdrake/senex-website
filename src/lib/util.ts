@@ -14,7 +14,7 @@ export async function pathExists(path: PathLike) : Promise<boolean> {
     try {
         await access(path)
         return true
-    } catch (err: any) {
+    } catch (err) {
         if (err.code === 'ENOENT') return false
         throw err
     }
