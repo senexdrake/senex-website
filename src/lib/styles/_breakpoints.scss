@@ -1,8 +1,10 @@
+@use "sass:map";
+@use "sass:math";
 @use "variables" as *;
 
 @mixin breakpoint($breakpoint,$direction: $media-direction) {
   // Check if breakpoint identifier is in the breakpoints map
-  @if map-has-key($breakpoints, $breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
     // Apply breakpoint value
     @media (#{$direction}-width: #{map-get($breakpoints, $breakpoint)}) {
       @content;
@@ -11,7 +13,7 @@
 
   @else {
     // If the breakpoint value is unitless, assume it's px
-    @if unitless($breakpoint) {
+    @if math.is-unitless($breakpoint) {
       $breakpoint: $breakpoint + 0px;
     }
 
