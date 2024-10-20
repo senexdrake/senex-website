@@ -32,13 +32,13 @@
         .filter(icon => icon.type.includes('profile'))
         .filter(icon => icon.format == 'png')
         .map((icon) => {
-            return <MetadataImage>{
+            return {
                 height: icon.height,
                 width: icon.width,
                 alt: "Senex's Profile",
                 url: stripTrailingSlash(publicUrl) + base + baseImagePath + icon.name,
                 type: "image/" + icon.format
-            }
+            } as MetadataImage
     })
 
     let images: MetadataImage[]

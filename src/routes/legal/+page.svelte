@@ -10,7 +10,7 @@
         author: ImageAuthor
     }
 
-    const imageCredits = <ImageCredit[]>[
+    const imageCredits: ImageCredit[] = [
         { name: "Profile banner", link: galleryAssetBaseUrl + profileBanner.original.src, author: profileBanner.author },
         { name: "Favicon and derivatives", link: "/favicon.png", author: iconMeta.author }
     ].map(c => {
@@ -23,7 +23,7 @@
         url: string
     }
 
-    const iconCredits = <IconCredit[]>[
+    const iconCredits: IconCredit[] = [
         { name: "Simple Icons", url: "https://github.com/simple-icons/simple-icons/blob/master/LICENSE.md" },
         { name: "Dashicons", url: "https://github.com/WordPress/dashicons/blob/master/LICENSE" }
     ]
