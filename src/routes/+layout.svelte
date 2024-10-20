@@ -6,9 +6,14 @@
 	import {base} from "$app/paths"
 	import {appVersion} from "$lib/app-info"
 	import {repoUrl, linkToRepo} from "$/config"
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
 
-	$: width = $page.data.width ?? '100%'
-	$: maxWidth = $page.data.maxWidth ?? '50rem'
+	let { children }: Props = $props();
+
+	let width = $derived($page.data.width ?? '100%')
+	let maxWidth = $derived($page.data.maxWidth ?? '50rem')
 	const startYear = 2023
 	const currentYear = new Date().getFullYear()
 
@@ -25,7 +30,7 @@
 	<Header />
 
 	<main style="--width: {width}; --max-width: {maxWidth}" id="main">
-		<slot />
+		{@render children?.()}
 	</main>
 
 	<footer>

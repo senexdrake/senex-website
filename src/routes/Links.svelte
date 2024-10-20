@@ -25,19 +25,19 @@
     }
     
     const bigLinks: LinkItem[] = [
-        { name: 'X (Twitter)', target: '/tw-fur', icon: IconX, order: 1 },
-        { name: 'Itaku', target: '/itaku', icon: IconItaku, order: 2 },
-        { name: 'FurAffinity', target: '/fa', icon: IconFuraffinity, order: 3 },
-        { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 4 },
-        { name: 'BlueSky', target: '/bsky-fur', icon: IconBluesky, order: 5 },
-        { name: 'Telegram', target: '/telegram', icon: IconTelegram, order: 8 },
-        { name: 'Character References', target: '/senex-refs', icon: IconArt, fullWidth: true, order: 1001 },
+        { name: 'X (Twitter)', target: '/tw-fur', icon: IconX as string, order: 1 },
+        { name: 'Itaku', target: '/itaku', icon: IconItaku as string, order: 2 },
+        { name: 'FurAffinity', target: '/fa', icon: IconFuraffinity as string, order: 3 },
+        { name: 'Mastodon', target: '/mastodon', icon: IconMastodon as string, order: 4 },
+        { name: 'BlueSky', target: '/bsky-fur', icon: IconBluesky as string, order: 5 },
+        { name: 'Telegram', target: '/telegram', icon: IconTelegram as string, order: 8 },
+        { name: 'Character References', target: '/senex-refs', icon: IconArt as string, fullWidth: true, order: 1001 },
         //{ name: "Discord", target: "/discord", order: 10 },
     ]
 
     const smallLinks: LinkItem[] = [
-        { name: 'Steam', target: '/steam', icon: IconSteam, order: 100 },
-        { name: 'E-Mail', target: `mailto:${contactEmail}`, icon: IconEmail, order: 110 },
+        { name: 'Steam', target: '/steam', icon: IconSteam as string, order: 100 },
+        { name: 'E-Mail', target: `mailto:${contactEmail}`, icon: IconEmail as string, order: 110 },
         //{ name: 'Furry Network', target: '/fn', order: 120 },
     ]
 
@@ -55,7 +55,7 @@
             <li class="link" class:full-width={link.fullWidth}>
                 <a href="{link.target}" class="button flex-row">
                     {#if link.icon}
-                        <span class="left link-icon"><svelte:component this={link.icon}/></span>
+                        <span class="left link-icon"><link.icon/></span>
                     {:else}
                         <span class="left"></span>
                     {/if}

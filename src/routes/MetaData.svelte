@@ -1,32 +1,26 @@
 <script lang="ts">
     import {faviconCatalogue, iconCatalogue} from "$model"
-    import { galleryAssetBaseUrl, defaultTitle, defaultDescription, pwaThemeColor } from "../config"
+    import { galleryAssetBaseUrl, defaultTitle, defaultDescription, pwaThemeColor } from "$/config"
     import {page} from "$app/stores"
     import {base} from "$app/paths"
     import type {IconExport, Metadata, MetadataImage} from "$model/types"
     import {stripTrailingSlash} from "$lib/util-shared"
     import {publicUrl} from "$lib/app-info"
 
-    $: pageData = $page.data as Metadata|undefined
+    let pageData = $derived($page.data as Metadata|undefined)
 
-
-    $: normalFavIcons = faviconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width))
-    $: appleFavIcon = faviconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width))
+    let normalFavIcons = $derived(faviconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width)))
+    let appleFavIcon = $derived(faviconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width)))
 
     const mastodonLinks = [
         "https://wobbl.xyz/@zdrake",
         "https://meow.social/@senex"
     ]
+
     const basePath = publicUrl
-    let url: string
-    $: url = basePath + $page.url.pathname
+    let url: string = $derived(basePath + $page.url.pathname)
+    
     const baseImagePath = galleryAssetBaseUrl
-
-    let title: string
-    $: title = pageData?.title ?? defaultTitle
-
-    let description: string
-    $: description = pageData?.description ?? defaultDescription
 
     const defaultImages = iconCatalogue
         .filter(icon => icon.type.includes('profile'))
@@ -41,18 +35,13 @@
             } as MetadataImage
     })
 
-    let images: MetadataImage[]
-    $: images = pageData?.images ?? defaultImages
-
-
-    let primaryImage: MetadataImage
-    $: primaryImage = images.find((image) => image.type == "image/png") ?? images[images.length - 1]
-
-    let cardType: string
-    $: cardType = pageData?.cardType ?? "summary"
-
-    let creator: string
-    $: creator = pageData?.creator ?? "@senexAD"
+    let title: string               = $derived(pageData?.title ?? defaultTitle)
+    let description: string         = $derived(pageData?.description ?? defaultDescription)
+    let images: MetadataImage[]     = $derived(pageData?.images ?? defaultImages)
+    let primaryImage: MetadataImage = $derived(images.find((image) => image.type == "image/png") ?? images[images.length - 1])
+    let cardType: string            = $derived(pageData?.cardType ?? "summary")
+    let creator: string             = $derived(pageData?.creator ?? "@senexAD")
+    
 </script>
 
 <svelte:head>
