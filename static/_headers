@@ -1,9 +1,10 @@
+# Cache immutable app assets for 7 days
+# Their slug will change anyway if they get altered
+/_app/immutable/*
+  Cache-Control: public, max-age=604800, immutable
+
 # Cache all images and favicons
 /_assets/*
-  Cache-Control: public, max-age=86400, immutable
-
-# Cache immutable app assets
-/_app/immutable/*
   Cache-Control: public, max-age=86400, immutable
 
 /favicon*
