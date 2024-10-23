@@ -139,13 +139,11 @@ export function siteMeta() : Plugin {
             viteConfig = cfg
         },
         async buildEnd() {
-            const promises: Array<Promise<void>> = []
-
-            promises.push(webmanifest(viteConfig))
-            promises.push(sitemap(viteConfig))
-            promises.push(robots(viteConfig))
-
-            await Promise.all(promises)
+            await Promise.allSettled([
+                webmanifest(viteConfig),
+                sitemap(viteConfig),
+                robots(viteConfig)
+            ])
         }
     }
 }
