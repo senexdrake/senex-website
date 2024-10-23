@@ -26,8 +26,13 @@ const fileFormatMimeMapping = new Map(Object.entries({
 }))
 
 function sitemapXml(siteMap: SiteMap): string {
+    const namespace = "http://www.sitemaps.org/schemas/sitemap/0.9"
     const root = xml.create({ version: "1.0", encoding: "UTF-8" })
-    const urlset = root.ele('urlset', { xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9" })
+    const urlset = root.ele(namespace, 'urlset', {
+        // Validation info
+        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xsi:schemaLocation': `${namespace} ${namespace}/sitemap.xsd`
+    })
     siteMap.urlSet.forEach(us => {
         urlset.ele('url')
             .ele('loc').txt(us.url).up()
