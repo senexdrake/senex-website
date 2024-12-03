@@ -11,7 +11,7 @@
   Cache-Control: public, max-age=86400, immutable
 
 # Cache landing page for 6 hours
-/
+/*
   Cache-Control: public, max-age=21600
 
 /*.json
