@@ -11,8 +11,8 @@ export const galleryAssetDir = staticAssetsPrefix + galleryAssetPrefix
 export const imageMetaDir = dataDir + "gallery"
 export const galleryAssetBaseUrl = '/' + staticAssetsPrefix
 
-export const defaultTitle = "ZenDrake, the big Dragon"
-export const defaultDescription = "An overview of ways to find, contact and find out more about the big Dragon!"
+export const defaultTitle = "ZenDrake, the big Bull-Dragon"
+export const defaultDescription = "An overview of ways to find, contact and find out more about the big Bull-Dragon!"
 
 export const redirectToNsfw = true
 export const linkToRepo = true

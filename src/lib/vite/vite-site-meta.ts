@@ -103,7 +103,7 @@ async function webmanifest(viteConfig: ResolvedConfig) {
                 icons: shortcutIcons,
                 name: "Home",
                 url: "/",
-                description: "Home page, featuring a description of the big Dragon as well as contact links"
+                description: "Home page, featuring a description of the big Bull-Dragon as well as contact links"
             }
         ]
     }

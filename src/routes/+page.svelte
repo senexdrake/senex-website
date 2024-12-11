@@ -57,10 +57,10 @@
 		{/if}
 		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Senex (my sona's name) or ArisenDrake.</p>
 		<p>
-			This is a small overview page for me and my fursona, a pretty big (and massive) dragon.
+			This is a small overview page for me and my fursona, a pretty big (and massive) Bull-Dragon hybrid thing.
 		</p>
 		<p>
-			Don't have much to say here, except that I <span class="font-italic">LOVE</span> big fellas, especially dragons.
+			Don't have much to say here, except that I <span class="font-italic">LOVE</span> big fellas, especially dragons and bulls.
 			Also, please expect NSFW content on my art galleries.
 		</p>
 	</div>

@@ -83,7 +83,7 @@
     {/each}
 
     <meta property="profile:first_name" content="ZenDrake" />
-    <meta property="profile:last_name" content="the Dragon" />
+    <meta property="profile:last_name" content="the Bull-Dragon" />
     <meta property="profile:username" content="ZenDrake" />
     <meta property="profile:gender" content="male" />
 
