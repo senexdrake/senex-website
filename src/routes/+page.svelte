@@ -103,11 +103,11 @@
 	.img-format {
 		border-radius: 0;
 		box-shadow: none;
-		margin: 0 (-0.5rem) (-(vars.$hr-margin)) (-0.5rem);
+		margin: 0 0 (-(vars.$hr-margin)) 0;
 
-		@include mixins.breakpoint(vars.$big-links-breakpoint) {
-			margin: 0 0 (-(vars.$hr-margin)) 0;
-		}
+		//@include mixins.breakpoint(vars.$big-links-breakpoint) {
+		//	margin: 0 0 (-(vars.$hr-margin)) 0;
+		//}
 	}
 
 	#profile-pic {
@@ -116,7 +116,7 @@
 			//background: black;
 			//border: 2px solid black;
 			// Profile banner should be width limited anyway
-			--brightness: 1.15;
+			--brightness: 1.1;
 
 			display: block;
 			width: 100%;
@@ -125,7 +125,7 @@
 			filter: drop-shadow(0 0 10px #000000) brightness(var(--brightness));
 
 			@include mixins.whenDark() {
-				--brightness: 1.05;
+				--brightness: 1.0;
 			}
 		}
 	}
