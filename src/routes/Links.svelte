@@ -26,13 +26,14 @@
 
     const bigLinks: LinkItem[] = [
         { name: 'X (Twitter)', target: '/tw-fur', icon: IconX, order: 1 },
-        { name: 'Itaku', target: '/itaku', icon: IconItaku, order: 2 },
+        { name: 'Itaku', target: '/itaku', icon: IconItaku, order: 21 },
         { name: 'FurAffinity', target: '/fa', icon: IconFuraffinity, order: 3 },
-        { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 4 },
+        { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 20 },
         { name: 'BlueSky', target: '/bsky-fur', icon: IconBluesky, order: 5 },
         { name: 'Telegram', target: '/telegram', icon: IconTelegram, order: 8 },
         { name: 'Character References', target: '/senex-refs', icon: IconArt, fullWidth: true, order: 1001 },
         //{ name: "Discord", target: "/discord", order: 10 },
+        { name: "BARQ!", target: "/barq", order: 11 }
     ]
 
     const smallLinks: LinkItem[] = [
