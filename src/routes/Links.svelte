@@ -13,6 +13,7 @@
     import IconFuraffinity from 'virtual:icons/local/furaffinity'
     import IconSteam from 'virtual:icons/simple-icons/steam'
     import IconItaku from 'virtual:icons/local/itaku'
+    import IconBarq from 'virtual:icons/local/barq'
     import IconDiscord from 'virtual:icons/simple-icons/discord'
     // ----- END ICONS -----
 
@@ -31,9 +32,9 @@
         { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 20 },
         { name: 'BlueSky', target: '/bsky-fur', icon: IconBluesky, order: 5 },
         { name: 'Telegram', target: '/telegram', icon: IconTelegram, order: 8 },
-        { name: 'Character References', target: '/senex-refs', icon: IconArt, fullWidth: true, order: 1001 },
+        { name: 'Character Refs', target: '/senex-refs', icon: IconArt, fullWidth: false, order: 1001 },
         //{ name: "Discord", target: "/discord", order: 10 },
-        { name: "BARQ!", target: "/barq", order: 11 }
+        { name: "BARQ!", target: "/barq", order: 11, icon: IconBarq }
     ]
 
     const smallLinks: LinkItem[] = [
