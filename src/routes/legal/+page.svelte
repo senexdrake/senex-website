@@ -28,6 +28,12 @@
         { name: "Dashicons", url: "https://github.com/WordPress/dashicons/blob/master/LICENSE" }
     ]
 
+    const customIcons = [
+        'FurAffinity',
+        'Itaku',
+        'BARQ!'
+    ]
+
 </script>
 
 <div class="content">
@@ -52,6 +58,17 @@
         {#each iconCredits as iconCredit}
             <div><a href={iconCredit.url}>{iconCredit.name}</a></div>
         {/each}
+        <br>
+        <div>
+            The icons for the following pages have been taken from their respective websites.<br>
+            Please don't sue 😥
+            <ul>
+            {#each customIcons as icon}
+                <li>{icon}</li>
+            {/each}
+            </ul>
+
+        </div>
     </div>
     <hr class="default">
 </div>
