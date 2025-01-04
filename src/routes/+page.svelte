@@ -1,9 +1,10 @@
 <script lang="ts">
 	import {base} from "$app/paths"
 	import Links from "./Links.svelte"
+	import { page } from '$app/state';
 	import {profileBanner} from "$model"
 	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "$model/types.d"
-	import { galleryAssetBaseUrl } from '../config'
+	import { galleryAssetBaseUrl } from '$/config'
 	import {validSources} from "$lib/imageHelper"
 
 	function sourcesByFormat(image: ProfileBannerExport): Map<string, ImageSrc[]> {
@@ -65,7 +66,7 @@
 		</p>
 	</div>
 	<hr class="default">
-	<Links />
+	<Links links={page.data.links} />
 </section>
 
 <style lang="scss">

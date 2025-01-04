@@ -1,59 +1,15 @@
 <script lang="ts">
-    import type {LinkItem} from "$model/types"
-    import {stripTrailingSlash} from "$lib/util-shared"
-    import {contactEmail} from "$/config"
+    import {discordLink} from "$model/links";
+    import type {LinkItem} from "$model/types";
 
-    // ----- ICONS -----
-    import IconX from 'virtual:icons/simple-icons/x'
-    import IconTelegram from 'virtual:icons/simple-icons/telegram'
-    import IconArt from 'virtual:icons/dashicons/art'
-    import IconEmail from 'virtual:icons/dashicons/email-alt'
-    import IconMastodon from 'virtual:icons/simple-icons/mastodon'
-    import IconBluesky from 'virtual:icons/simple-icons/bluesky'
-    import IconFuraffinity from 'virtual:icons/local/furaffinity'
-    import IconSteam from 'virtual:icons/simple-icons/steam'
-    import IconItaku from 'virtual:icons/local/itaku'
-    import IconBarq from 'virtual:icons/local/barq'
-    import IconDiscord from 'virtual:icons/simple-icons/discord'
-    // ----- END ICONS -----
-
-    const shortLinkBase = "https://zdrake.net"
-    
-    const addBaseUrl = (target: string) => stripTrailingSlash(shortLinkBase) + target
-    const processLinkTarget = (item: LinkItem) => {
-        if (!item.target.startsWith("/")) return
-        item.target = addBaseUrl(item.target)
-    }
-
-    const bigLinks: LinkItem[] = [
-        { name: 'X (Twitter)', target: '/tw-fur', icon: IconX, order: 1 },
-        { name: 'Itaku', target: '/itaku', icon: IconItaku, order: 21 },
-        { name: 'FurAffinity', target: '/fa', icon: IconFuraffinity, order: 3 },
-        { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 20 },
-        { name: 'BlueSky', target: '/bsky-fur', icon: IconBluesky, order: 5 },
-        { name: 'Telegram', target: '/telegram', icon: IconTelegram, order: 8 },
-        { name: 'Character Refs', target: '/senex-refs', icon: IconArt, fullWidth: false, order: 1001 },
-        //{ name: "Discord", target: "/discord", order: 10 },
-        { name: "BARQ!", target: "/barq", order: 11, icon: IconBarq }
-    ]
-
-    const smallLinks: LinkItem[] = [
-        { name: 'Steam', target: '/steam', icon: IconSteam, order: 100 },
-        { name: 'E-Mail', target: `mailto:${contactEmail}`, icon: IconEmail, order: 110 },
-        //{ name: 'Furry Network', target: '/fn', order: 120 },
-    ]
-
-    const allLinks = bigLinks.concat(smallLinks).sort((a, b) => a.order - b.order)
-
-    allLinks.forEach(processLinkTarget)
+    let { links }: { links: LinkItem[] } = $props()
 
     const discordName = "@zdrakee"
-
 </script>
 
 <section>
     <ul id="big-links">
-        {#each allLinks as link}
+        {#each links as link}
             <li class="link" class:full-width={link.fullWidth}>
                 <a href="{link.target}" class="button flex-row">
                     {#if link.icon}
@@ -76,7 +32,7 @@
 <!--        {/each}-->
 <!--    </div>-->
     <div class="text-center" id="discord">
-        Or contact me on <a href={addBaseUrl("/discord")}>Discord <span id="discord-icon"><IconDiscord /></span></a>: <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
+        Or contact me on <a href={discordLink.target}>{discordLink.name} <span id="discord-icon"><discordLink.icon/></span></a>: <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
         (please, Discord, give us a good linkable URL...)
     </div>
 </section>

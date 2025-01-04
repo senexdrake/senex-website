@@ -10,6 +10,11 @@ export interface LinkItem {
     fullWidth?: boolean
 }
 
+export interface LinkData {
+    links: LinkItem[]
+    linkMap: Map<string, string>
+}
+
 export interface ImageAuthor {
     name: string,
     url: string
