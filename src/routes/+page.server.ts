@@ -8,7 +8,7 @@ const resolveParallel = true
 export async function load() {
     const resolveLinks = async (links: LinkItem[]): Promise<Map<string, string>> => {
         const linkMap = new Map<string, string>()
-        if (!toBoolean(RESOLVE_LINKS ?? false)) {
+        if (!toBoolean(RESOLVE_LINKS)) {
             console.log("Not resolving links")
             return linkMap
         }

@@ -10,7 +10,7 @@ const timestampedVersion = `${version}-${Date.now()}`
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+	preprocess: [vitePreprocess()],
 	kit: {
 		//inlineStyleThreshold: 50 * 1024, // 50KiB
 		version: {
