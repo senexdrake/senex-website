@@ -6,8 +6,8 @@ import {RESOLVE_LINKS} from "$env/static/private";
 const resolveParallel = true
 
 export async function load() {
-    const resolveLinks = async (links: LinkItem[]): Promise<LinkItem[]> => {
-        const linkMap = new Map<string, string|Promise<string>>()
+    const resolveLinks = async (links: LinkItem[]): Promise<Map<string, string>> => {
+        const linkMap = new Map<string, string>()
         if (!toBoolean(RESOLVE_LINKS ?? false)) {
             console.log("Not resolving links")
             return linkMap
