@@ -1,13 +1,14 @@
 <script lang="ts">
     import {faviconCatalogue, iconCatalogue} from "$model"
     import { galleryAssetBaseUrl, defaultTitle, defaultDescription, pwaThemeColor } from "$/config"
-    import {page} from "$app/stores"
+    import {page} from "$app/state"
     import {base} from "$app/paths"
     import type {IconExport, Metadata, MetadataImage} from "$model/types"
     import {stripTrailingSlash} from "$lib/util-shared"
     import {publicUrl} from "$lib/app-info"
 
-    let pageData = $derived($page.data as Metadata|undefined)
+    let pageData = $derived(page.data as Metadata|undefined)
+
 
     let normalFavIcons = $derived(faviconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width)))
     let appleFavIcon = $derived(faviconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width)))
@@ -18,7 +19,7 @@
     ]
 
     const basePath = publicUrl
-    let url: string = $derived(basePath + $page.url.pathname)
+    let url: string = $derived(basePath + page.url.pathname)
     
     const baseImagePath = galleryAssetBaseUrl
 
