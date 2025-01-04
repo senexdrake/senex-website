@@ -37,7 +37,7 @@ function sitemapXml(siteMap: SiteMap): string {
         urlset.ele('url')
             .ele('loc').txt(us.url).up()
             .ele('lastmod').txt(us.lastModified).up()
-            .ele('changefreq').txt(us.changeFrequency ?? "daily").up()
+            .ele('changefreq').txt(us.changeFrequency ?? "weekly").up()
             .ele('priority').txt((us.priority ?? 0.5).toString())
     })
     return root.toString({format: "xml"})
