@@ -20,6 +20,7 @@ export const resolveLink = async (link: string): Promise<string> => {
 }
 
 export const toBoolean = (input: unknown): boolean => {
+    if (typeof input == 'boolean') return input
     if (input == 1) return true
     if (typeof input == 'string') {
         const inputLower = input.toLowerCase()
