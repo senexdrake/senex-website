@@ -1,6 +1,6 @@
-import type {LinkItem} from "$model/types";
-import {stripTrailingSlash} from "$lib/util-shared";
-import {contactEmail} from "$/config";
+import type {LinkItem} from "$model/types"
+import {stripTrailingSlash} from "$lib/util-shared"
+import {contactEmail} from "$/config"
 
 // ----- ICONS -----
 import IconX from 'virtual:icons/simple-icons/x'
@@ -14,6 +14,7 @@ import IconSteam from 'virtual:icons/simple-icons/steam'
 import IconItaku from 'virtual:icons/local/itaku'
 import IconBarq from 'virtual:icons/local/barq'
 import IconDiscord from 'virtual:icons/simple-icons/discord'
+import {LinkType} from "$model/LinkType"
 // ----- END ICONS -----
 
 const shortLinkBase = "https://zdrake.net"
@@ -30,17 +31,19 @@ export const bigLinks: LinkItem[] = [
     //{ name: "Discord", target: "/discord", order: 10 },
     { name: "BARQ!", target: "/barq", order: 11, icon: IconBarq }
 ]
+bigLinks.forEach(link => link.linkType = LinkType.BUTTON)
 
 export const smallLinks: LinkItem[] = [
     { name: 'Steam', target: '/steam', icon: IconSteam, order: 100 },
     { name: 'E-Mail', target: `mailto:${contactEmail}`, icon: IconEmail, order: 110 },
     //{ name: 'Furry Network', target: '/fn', order: 120 },
 ]
+smallLinks.forEach(link => link.linkType = LinkType.BUTTON_SMALL)
 
 export const allLinks: LinkItem[] = [...bigLinks, ...smallLinks].sort((a, b) => a.order - b.order)
 export const allLinksCopy = () => allLinks.map(link => Object.assign({}, link))
 
-export const discordLink: LinkItem = { name: 'Discord', target: '/discord', order: 10000, icon: IconDiscord }
+export const discordLink: LinkItem = { name: 'Discord', target: '/discord', order: 10000, icon: IconDiscord, linkType: LinkType.SPECIAL }
 export const processLinkTarget = (link: LinkItem) => {
     if (link.target.startsWith("/"))
         link.target = addBaseUrl(link.target)

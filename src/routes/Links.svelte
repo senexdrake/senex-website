@@ -4,6 +4,10 @@
 
     let { links }: { links: LinkItem[] } = $props()
 
+    //let bigLinks = links.filter(link => link.linkType === LinkType.BUTTON)
+    //let smallLinks = links.filter(link => link.linkType === LinkType.BUTTON_SMALL)
+
+
     const discordName = "@zdrakee"
 </script>
 
