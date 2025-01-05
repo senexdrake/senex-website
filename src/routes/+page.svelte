@@ -30,35 +30,35 @@
 		return sourceSetByFormat
 	}
 
-	const senexProfileFallback = profileBanner.src.filter(src => src.format == "png").sort((a, b) => b.width - a.width)[0]
-	const senexProfileIcons = profileBanner
-	const senexProfileAuthor: ImageAuthor|undefined = profileBanner.author
+	const profileFallback = profileBanner.src.filter(src => src.format == "png").sort((a, b) => b.width - a.width)[0]
+	const profileIcons = profileBanner
+	const profileAuthor: ImageAuthor|undefined = profileBanner.author
 </script>
 
 <section id="home">
 	<div class="img-format">
 		<a href={base + galleryAssetBaseUrl + profileBanner.original.src}>
 			<picture id="profile-pic">
-				{#each imageSourceSets(senexProfileIcons).entries() as [format, sourceSet]}
+				{#each imageSourceSets(profileIcons).entries() as [format, sourceSet]}
 					<source srcset={sourceSet} type="image/{format}">
 				{/each}
 				<img
-						src={base + galleryAssetBaseUrl + senexProfileFallback.src}
-						width={senexProfileFallback.width} height={senexProfileFallback.height}
-						alt="Senex profile banner" fetchpriority="high" />
+						src={base + galleryAssetBaseUrl + profileFallback.src}
+						width={profileFallback.width} height={profileFallback.height}
+						alt="Drake profile banner" fetchpriority="high" />
 			</picture>
 		</a>
 	</div>
 	<hr class="default">
 	<div id="about-me" class="text-center">
-		{#if senexProfileAuthor}
+		{#if profileAuthor}
 			<p id="banner-description">
-				(Original banner image by <a href={senexProfileAuthor.url}>{senexProfileAuthor.name}</a>, edited by me)
+				(Original banner image by <a href={profileAuthor.url}>{profileAuthor.name}</a>, edited by me)
 			</p>
 		{/if}
-		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Senex (my sona's name) or ArisenDrake.</p>
+		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Drake (my sona's name) or ArisenDrake.</p>
 		<p>
-			This is a small overview page for me and my fursona, a pretty big (and massive) Bull-Dragon hybrid thing.
+			This is a small overview page for me and my fursona, a pretty big (and massive) Bull-Dragon hybrid thing called Drake (peak creativity, I know).
 		</p>
 		<p>
 			Don't have much to say here, except that I <span class="font-italic">LOVE</span> big fellas, especially dragons and bulls.

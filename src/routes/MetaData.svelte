@@ -30,7 +30,7 @@
             return {
                 height: icon.height,
                 width: icon.width,
-                alt: "Senex's Profile",
+                alt: "Drake's Profile",
                 url: stripTrailingSlash(publicUrl) + base + baseImagePath + icon.name,
                 type: "image/" + icon.format
             } as MetadataImage

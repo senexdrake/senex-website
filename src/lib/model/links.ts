@@ -27,7 +27,7 @@ export const bigLinks: LinkItem[] = [
     { name: 'Mastodon', target: '/mastodon', icon: IconMastodon, order: 20 },
     { name: 'BlueSky', target: '/bsky-fur', icon: IconBluesky, order: 5 },
     { name: 'Telegram', target: '/telegram', icon: IconTelegram, order: 8 },
-    { name: 'Character Refs', target: '/senex-refs', icon: IconArt, fullWidth: false, order: 1001 },
+    { name: 'Character Refs', target: '/drake-refs', icon: IconArt, fullWidth: false, order: 1001 },
     //{ name: "Discord", target: "/discord", order: 10 },
     { name: "BARQ!", target: "/barq", order: 11, icon: IconBarq }
 ]
