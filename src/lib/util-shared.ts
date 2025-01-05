@@ -9,9 +9,12 @@ export const stripTrailingSlash = (input: string) => input.substring(0, input.le
 export const resolveLink = async (link: string): Promise<string> => {
     console.log('Resolving link:', link)
     const response = await fetch(link, {
-        method: 'HEAD',
+        method: 'GET',
         redirect: 'manual'
     })
+    if (response.status >= 400) {
+        console.warn('Failed to resolve link:', link, response.status)
+    }
     const locationHeader = response.headers.get('Location')
     if (locationHeader) {
         return resolveLink(locationHeader)
