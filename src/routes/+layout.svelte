@@ -2,18 +2,19 @@
 	import '$styles/styles.scss'
 	import Header from './Header.svelte'
 	import MetaData from "./MetaData.svelte"
+	import type {Snippet} from "svelte";
 	import {page} from "$app/state"
 	import {base} from "$app/paths"
 	import {appVersion} from "$lib/app-info"
 	import {repoUrl, linkToRepo} from "$/config"
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
 
-	let { children }: Props = $props();
+	let { children }: {
+		children?: Snippet
+	} = $props();
 
 	let width = $derived(page.data.width ?? '100%')
 	let maxWidth = $derived(page.data.maxWidth ?? '50rem')
+
 	const startYear = 2023
 	const currentYear = new Date().getFullYear()
 
