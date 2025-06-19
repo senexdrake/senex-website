@@ -27,3 +27,4 @@ export const contactEmail = "furry@zdrake.net"
 
 export const pwaThemeColor = "#4075a6"
 export const pwaBackgroundColor = "#424242"
+export const linkResolverUserAgent = "curl/7.88.1"
