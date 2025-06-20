@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 	import {profileBanner} from "$model"
 	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "$model/types.d"
-	import { galleryAssetBaseUrl } from '$/config'
+	import {galleryAssetBaseUrl, linkToProfileBanner} from '$/config'
 	import {validSources} from "$lib/imageHelper"
 
 	function sourcesByFormat(image: ProfileBannerExport): Map<string, ImageSrc[]> {
@@ -33,11 +33,12 @@
 	const profileFallback = profileBanner.src.filter(src => src.format == "png").sort((a, b) => b.width - a.width)[0]
 	const profileIcons = profileBanner
 	const profileAuthor: ImageAuthor|undefined = profileBanner.author
+	const profileLink = linkToProfileBanner ? base + galleryAssetBaseUrl + profileBanner.original.src : undefined
 </script>
 
 <section id="home">
 	<div class="img-format">
-		<a href={base + galleryAssetBaseUrl + profileBanner.original.src}>
+		<a href={profileLink}>
 			<picture id="profile-pic">
 				{#each imageSourceSets(profileIcons).entries() as [format, sourceSet] (format)}
 					<source srcset={sourceSet} type="image/{format}">

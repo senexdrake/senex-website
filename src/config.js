@@ -14,17 +14,13 @@ export const galleryAssetBaseUrl = '/' + staticAssetsPrefix
 export const defaultTitle = "ZenDrake, the big Bull-Dragon"
 export const defaultDescription = "An overview of ways to find, contact and find out more about the big Bull-Dragon!"
 
-export const redirectToNsfw = true
 export const linkToRepo = true
-export const alwaysLinkToImageDirectly = false
-export const fullSizeMaxWidth = '3500px'
 export const repoUrl = "https://github.com/senexdrake/senex-website"
 export const versionEnvironmentName = "CF_PAGES_COMMIT_SHA"
-
-export const galleryEnabled = true
 
 export const contactEmail = "furry@zdrake.net"
 
 export const pwaThemeColor = "#4075a6"
 export const pwaBackgroundColor = "#424242"
 export const linkResolverUserAgent = "curl/7.88.1"
+export const linkToProfileBanner = true
