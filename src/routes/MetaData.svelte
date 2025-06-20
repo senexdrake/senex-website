@@ -53,13 +53,13 @@
     <link rel="icon" href="{base}/favicon.ico" />
     <link rel="icon" href="{base}/favicon.png" />
 
-    {#each normalFavIcons as icon}
+    {#each normalFavIcons as icon (icon.name)}
         <link rel="icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
-    {#each appleFavIcon as icon}
+    {#each appleFavIcon as icon (icon.name)}
         <link rel="apple-touch-icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
     {/each}
-    {#each mastodonLinks as mastodonLink}
+    {#each mastodonLinks as mastodonLink (mastodonLink)}
         <link rel="me" href={mastodonLink}>
     {/each}
     <link rel="canonical" href={url}>
@@ -74,7 +74,7 @@
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
 
-    {#each images as image}
+    {#each images as image (image.url)}
         <meta property="og:image" content={image.url} />
         <meta property="og:image:secure_url" content={image.url} />
         <meta property="og:image:alt" content={image.alt} />

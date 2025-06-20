@@ -13,7 +13,7 @@
 
 <section>
     <ul id="big-links">
-        {#each links as link}
+        {#each links as link (link.name)}
             <li class="link" class:full-width={link.fullWidth}>
                 <a href="{link.target}" class="button flex-row">
                     {#if link.icon}

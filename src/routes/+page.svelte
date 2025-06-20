@@ -39,7 +39,7 @@
 	<div class="img-format">
 		<a href={base + galleryAssetBaseUrl + profileBanner.original.src}>
 			<picture id="profile-pic">
-				{#each imageSourceSets(profileIcons).entries() as [format, sourceSet]}
+				{#each imageSourceSets(profileIcons).entries() as [format, sourceSet] (format)}
 					<source srcset={sourceSet} type="image/{format}">
 				{/each}
 				<img
