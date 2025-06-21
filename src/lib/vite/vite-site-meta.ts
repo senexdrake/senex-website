@@ -8,10 +8,6 @@ import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl, pw
 import {stripTrailingSlash} from "../util-shared";
 import {publicUrl} from "../../../helpers"
 
-interface CustomWebAppManifest extends WebAppManifest {
-    display_override?: DisplayModeType[]
-}
-
 interface SiteMap {
     urlSet: Array<{
         url: string,
@@ -86,7 +82,7 @@ async function webmanifest(viteConfig: ResolvedConfig) {
 
     const displayModes: DisplayModeType[] = ['minimal-ui', 'browser']
 
-    const webmanifest: CustomWebAppManifest = {
+    const webmanifest: WebAppManifest = {
         id: 'zendrake-website',
         orientation: 'any',
         lang: 'en',
@@ -96,7 +92,8 @@ async function webmanifest(viteConfig: ResolvedConfig) {
         description: defaultDescription,
         start_url: "/",
         display_override: displayModes,
-        categories: ['gallery', 'blog', 'personal'],
+        // @ts-expect-error includes custom categories
+        categories: ['entertainment', 'social', 'blog', 'personal', 'art'],
         icons: icons,
         shortcuts: [
             {
@@ -104,6 +101,12 @@ async function webmanifest(viteConfig: ResolvedConfig) {
                 name: "Home",
                 url: "/",
                 description: "Home page, featuring a description of the big Bull-Dragon as well as contact links"
+            },
+            {
+                icons: shortcutIcons,
+                name: "Legal",
+                url: "/legal",
+                description: "Some minor legal stuff that might be interesting"
             }
         ]
     }
