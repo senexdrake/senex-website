@@ -36,7 +36,7 @@ function sitemapXml(siteMap: SiteMap): string {
             .ele('changefreq').txt(us.changeFrequency ?? "weekly").up()
             .ele('priority').txt((us.priority ?? 0.5).toString())
     })
-    return root.toString({format: "xml"})
+    return root.end({format: "xml", prettyPrint: true})
 }
 
 function iconMimeType(icon: IconExport) : string {
@@ -126,7 +126,8 @@ async function sitemap(viteConfig: ResolvedConfig) {
             { url: publicUrlString + "/legal", lastModified: lastMod }
         ]}
     const filePath = path.join(viteConfig.publicDir, "sitemap.xml")
-    return writeFile(filePath, sitemapXml(siteMap))
+    const xml = sitemapXml(siteMap)
+    return writeFile(filePath, xml)
 }
 
 async function robots(viteConfig: ResolvedConfig) {
@@ -147,7 +148,7 @@ export function siteMeta() : Plugin {
             viteConfig = cfg
         },
         async buildEnd() {
-            await Promise.allSettled([
+            await Promise.all([
                 webmanifest(viteConfig),
                 sitemap(viteConfig),
                 robots(viteConfig)
