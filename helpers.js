@@ -8,8 +8,7 @@ const exec = promisify(origExec)
  * @param {boolean} tryGit
  * @returns {Promise<string>}
  */
-export async function appVersion(versionEnvironmentName, tryGit) {
-    if (tryGit === undefined) tryGit = true
+export async function appVersion(versionEnvironmentName, tryGit = true) {
     let version = process.env[versionEnvironmentName]
     if (!version && tryGit) {
         const gitCommand = "git rev-parse HEAD"
