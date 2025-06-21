@@ -1,5 +1,6 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists, mapAsyncIter} from "../util";
+import {useFetch} from "../util-shared";
 import {createReadStream} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
@@ -17,13 +18,9 @@ import {
     profileBannerProcessingRules
 } from "./asset-handling/config";
 import {staticAssetsPrefix} from "../../config"
-import axios from "axios";
-import * as https from "https";
 import {createWriteStream} from "node:fs";
-import {promisify} from "node:util";
-import * as stream from "stream";
 import { parse as parseYaml } from "yaml"
-const finished = promisify(stream.finished)
+import { Writable } from "node:stream";
 
 // FIXME: Enable Node's version of Glob once it's no longer experimental and drop the dependency on fast-glob
 const useNodeGlob = false
@@ -31,11 +28,6 @@ const useNodeGlob = false
 const tmpDir = "./.tmp-asset-handling"
 const assetDir = addTrailingSlash(path.join(tmpDir, "fetched"))
 const metadataDir = "./src/lib/data/gallery"
-
-const axiosInstance = axios.create({
-    timeout: 30000,
-    httpsAgent: new https.Agent({keepAlive: true})
-})
 
 const pwaBackground = '#4376C6'
 
@@ -88,7 +80,6 @@ export function assetHandler() : Plugin {
 
             await fetchAssets(assetsServerPath, [profileBanner.file, favicon.file, favicon.icoFile], assetDir)
 
-
             const processProfileBannerJob = processProfileBanner({
                 src: assetDir + profileBanner.file,
                 author: profileBanner.author
@@ -130,13 +121,12 @@ export function assetHandler() : Plugin {
 async function fetchMeta(url: string): Promise<FetchedMeta> {
     const extension = path.extname(url)
     const isYaml = ['.yml', '.yaml'].includes(extension)
-    const response = await axiosInstance.get(url)
+    const response = await useFetch(url)
 
     if (response.status != 200) throw Error("Error fetching image metadata")
 
-    const data = response.data
-    if (!isYaml) return data as FetchedMeta
-    return parseYaml(data) as FetchedMeta
+    if (!isYaml) return await response.json()
+    return parseYaml(await response.text())
 }
 
 async function processIcons(icons: IconsRaw, iconTargetPath: string): Promise<IconExport[]> {
@@ -359,17 +349,12 @@ async function fetchAssets(sourceUrl: string, assetNames: Array<string>, target:
 }
 
 async function fetchAsset(sourceUrl: string, target: string) {
-    const writer = createWriteStream(target)
-
-    return axiosInstance({
-        method: 'GET',
-        url: sourceUrl,
-        responseType: 'stream'
-    }).then(async (response) => {
-        response.data.pipe(writer);
-        await finished(writer);
-        return target
-    })
+    const res = await useFetch(sourceUrl)
+    const body = res.body
+    if (body === null) throw Error("Body is null when trying to fetch asset: " + sourceUrl)
+    const writeStream = createWriteStream(target)
+    const writable = Writable.toWeb(writeStream)
+    await body.pipeTo(writable)
 }
 
 async function onFinished() {
