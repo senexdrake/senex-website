@@ -100,6 +100,7 @@ export interface IconExport {
     width: number,
     height: number,
     format: string
+    mime?: string
 }
 
 export interface IconMeta {

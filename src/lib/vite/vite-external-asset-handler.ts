@@ -1,6 +1,6 @@
 import type {Plugin, ResolvedConfig} from "vite";
 import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists, mapAsyncIter} from "../util";
-import {useFetch} from "../util-shared";
+import {mimeFromIcon, useFetch} from "../util-shared";
 import {createReadStream} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
@@ -204,6 +204,10 @@ async function processIcons(icons: IconsRaw, iconTargetPath: string): Promise<Ic
     await copyFile(path.join(iconTargetPath, defaultIconTemplate.name), path.join(iconTargetPath, defaultIcon.name))
 
     processedIcons.push(defaultIcon)
+
+    processedIcons.forEach(icon => {
+        icon.mime = mimeFromIcon(icon)
+    })
 
     return processedIcons
 }

@@ -1,4 +1,5 @@
 import {linkResolverUserAgent} from "./../config.js";
+import type {IconExport} from "$model/types";
 
 export const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
 
@@ -59,4 +60,25 @@ export const useFetch = (
         mergedInit.signal = AbortSignal.timeout(timeout)
     }
     return fetch(input, mergedInit)
+}
+
+const mimeMap = new Map<string, string>([
+    ['jpg', 'image/jpeg'],
+    ['jpeg', 'image/jpeg'],
+    ['png', 'image/png'],
+    ['gif', 'image/gif'],
+    ['webp', 'image/webp'],
+    ['svg', 'image/svg+xml'],
+    ['ico', 'image/x-icon'],
+    ['mp4', 'video/mp4'],
+    ['webm', 'video/webm'],
+])
+
+export const mimeFromIcon = (icon: IconExport) => mimeFromIconFormat(icon.format)
+export const mimeFromIconFormat = (format: string) => {
+    const mime = mimeMap.get(format)
+    if (mime) return mime
+    const fallback = `image/${format}`
+    console.warn('Unknown icon format', format, '- using fallback', fallback)
+    return fallback
 }

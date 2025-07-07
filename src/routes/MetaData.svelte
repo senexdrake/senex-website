@@ -4,7 +4,7 @@
     import {page} from "$app/state"
     import {base} from "$app/paths"
     import type {IconExport, Metadata, MetadataImage} from "$model/types"
-    import {stripTrailingSlash} from "$lib/util-shared"
+    import {mimeFromIconFormat, stripTrailingSlash} from "$lib/util-shared"
     import {publicUrl} from "$lib/app-info"
 
     let pageData = $derived(page.data as Metadata|undefined)
@@ -12,6 +12,8 @@
 
     let normalFavIcons = $derived(faviconCatalogue.filter((icon: IconExport) => [32, 48, 96, 192, 512].includes(icon.width)))
     let appleFavIcon = $derived(faviconCatalogue.filter((icon: IconExport) => [167, 180].includes(icon.width)))
+
+    const iconType = (icon: IconExport) => icon.mime ?? mimeFromIconFormat(icon.format)
 
     const mastodonLinks = [
         "https://wobbl.xyz/@zdrake",
@@ -50,14 +52,14 @@
 
     <link rel="manifest" href="{base}/app.webmanifest">
 
-    <link rel="icon" href="{base}/favicon.ico" />
-    <link rel="icon" href="{base}/favicon.png" />
+    <link rel="icon" href="{base}/favicon.ico" type={mimeFromIconFormat("ico")} />
+    <link rel="icon" href="{base}/favicon.png" type={mimeFromIconFormat("png")} />
 
     {#each normalFavIcons as icon (icon.name)}
-        <link rel="icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
     {/each}
     {#each appleFavIcon as icon (icon.name)}
-        <link rel="apple-touch-icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type="image/{icon.format}">
+        <link rel="apple-touch-icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
     {/each}
     {#each mastodonLinks as mastodonLink (mastodonLink)}
         <link rel="me" href={mastodonLink}>
