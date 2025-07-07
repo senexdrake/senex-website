@@ -51,9 +51,6 @@
 
     <link rel="manifest" href="{base}/app.webmanifest">
 
-    <link rel="icon" href="{base}/favicon.ico" type={mimeFromIconFormat("ico")} />
-    <link rel="icon" href="{base}/favicon.png" type={mimeFromIconFormat("png")} />
-
     {#each normalFavIcons as icon (icon.name)}
         <link rel="icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
     {/each}
