@@ -20,8 +20,7 @@
         "https://meow.social/@senex"
     ]
 
-    const basePath = publicUrl
-    let url: string = $derived(basePath + page.url.pathname)
+    let url: string = $derived(publicUrl + page.url.pathname)
     
     const baseImagePath = galleryAssetBaseUrl
 
