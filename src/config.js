@@ -14,7 +14,7 @@ export const galleryAssetBaseUrl = '/' + staticAssetsPrefix
 export const defaultTitle = "ZenDrake, the big Bull-Dragon"
 export const defaultDescription = "An overview of ways to find, contact and find out more about the big Bull-Dragon!"
 
-export const linkToRepo = true
+export const linkToRepo = false
 export const repoUrl = "https://github.com/senexdrake/senex-website"
 export const versionEnvironmentName = "CF_PAGES_COMMIT_SHA"
 
