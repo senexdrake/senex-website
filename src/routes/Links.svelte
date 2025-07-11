@@ -13,10 +13,11 @@
 <section>
     <ul id="big-links">
         {#each buttonLinks as link (link.name)}
+            {@const IconComponent = link.icon}
             <li class="link" class:full-width={link.fullWidth}>
                 <a href="{link.target}" class="button flex-row">
-                    {#if link.icon}
-                        <span class="left link-icon"><link.icon/></span>
+                    {#if IconComponent}
+                        <span class="left link-icon"><IconComponent/></span>
                     {:else}
                         <span class="left"></span>
                     {/if}
