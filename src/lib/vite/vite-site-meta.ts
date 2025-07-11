@@ -5,7 +5,7 @@ import {readFile, writeFile} from "fs/promises";
 import path from "path";
 import xml from "xmlbuilder2"
 import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl, pwaThemeColor, pwaBackgroundColor, libAssetDir } from "../../config"
-import {stripTrailingSlash} from "../util-shared";
+import {mimeFromIcon, stripTrailingSlash} from "../util-shared";
 import {publicUrl} from "../../../helpers"
 
 interface SiteMap {
@@ -16,10 +16,6 @@ interface SiteMap {
         changeFrequency?: "always"|"hourly"|"daily"|"weekly"|"monthly"|"yearly"|"never"
     }>
 }
-
-const fileFormatMimeMapping = new Map(Object.entries({
-    ico: 'image/x-icon'
-}))
 
 function sitemapXml(siteMap: SiteMap): string {
     const namespace = "http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -40,8 +36,7 @@ function sitemapXml(siteMap: SiteMap): string {
 }
 
 function iconMimeType(icon: IconExport) : string {
-    const mime = fileFormatMimeMapping.get(icon.format)
-    return mime ?? `image/${icon.format}`
+    return icon.mime ?? mimeFromIcon(icon)
 }
 
 function iconToImage(icon: IconExport, prefix = '/', maskable = false) : ImageResource {
