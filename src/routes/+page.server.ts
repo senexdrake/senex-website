@@ -1,4 +1,4 @@
-import type {LinkItem, Metadata} from "$model/types";
+import type {LinkItem, Metadata, LinkData} from "$model/types";
 import {resolveLink, toBoolean} from "$lib/util-shared";
 import {allLinks} from "$model/links";
 import {RESOLVE_LINKS} from "$env/static/private";
@@ -12,13 +12,13 @@ const resolveLinks = async (links: LinkItem[]): Promise<Map<string, string>> => 
     }
     console.log("Resolving links...")
     console.log("Parallel:", resolveParallel)
-    const promises: Promise<string>[] = []
+    const promises: Promise<unknown>[] = []
     for (const link of links) {
         if (!link.target.startsWith("http")) continue
 
-        const resolved = resolveLink(link.target).then(resolved =>
+        const resolved = resolveLink(link.target).then(resolved => {
             linkMap.set(link.target, resolved)
-        )
+        })
         promises.push(resolved)
         if (!resolveParallel) await resolved
     }

@@ -1,19 +1,18 @@
 <script lang="ts">
-    import {discordLink} from "$model/links";
     import type {LinkItem} from "$model/types";
+    import {LinkType} from "$model/LinkType";
 
     let { links }: { links: LinkItem[] } = $props()
 
-    //let bigLinks = links.filter(link => link.linkType === LinkType.BUTTON)
-    //let smallLinks = links.filter(link => link.linkType === LinkType.BUTTON_SMALL)
-
+    let buttonLinks = $derived(links.filter(l => l.linkType !== LinkType.SPECIAL))
+    let discordLink = $derived(links.find(l => l.linkType === LinkType.SPECIAL))
 
     const discordName = "@zdrakee"
 </script>
 
 <section>
     <ul id="big-links">
-        {#each links as link (link.name)}
+        {#each buttonLinks as link (link.name)}
             <li class="link" class:full-width={link.fullWidth}>
                 <a href="{link.target}" class="button flex-row">
                     {#if link.icon}
@@ -35,10 +34,13 @@
 <!--            </a>-->
 <!--        {/each}-->
 <!--    </div>-->
-    <div class="text-center" id="discord">
-        Or contact me on <a href={discordLink.target}>{discordLink.name} <span id="discord-icon"><discordLink.icon/></span></a>: <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
-        (please, Discord, give us a good linkable URL...)
-    </div>
+    {#if discordLink}
+        <div class="text-center" id="discord">
+            Or contact me on <a href={discordLink.target}><span id="discord-icon"><discordLink.icon/></span></a>&nbsp;<a href={discordLink.target}>{discordLink.name}</a>:
+            <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
+            (please, Discord, give us a good linkable URL...)
+        </div>
+    {/if}
 </section>
 
 <style lang="scss">

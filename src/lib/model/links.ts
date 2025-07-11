@@ -40,14 +40,13 @@ export const smallLinks: LinkItem[] = [
 ]
 smallLinks.forEach(link => link.linkType = LinkType.BUTTON_SMALL)
 
-export const allLinks: LinkItem[] = [...bigLinks, ...smallLinks].sort((a, b) => a.order - b.order)
-export const allLinksCopy = () => allLinks.map(link => Object.assign({}, link))
-
 export const discordLink: LinkItem = { name: 'Discord', target: '/discord', order: 10000, icon: IconDiscord, linkType: LinkType.SPECIAL }
+
+export const allLinks: LinkItem[] = [...bigLinks, ...smallLinks, discordLink].sort((a, b) => a.order - b.order)
+export const allLinksCopy = () => allLinks.map(link => Object.assign({}, link))
 export const processLinkTarget = (link: LinkItem) => {
     if (link.target.startsWith("/"))
         link.target = addBaseUrl(link.target)
 }
 
 allLinks.forEach(processLinkTarget)
-processLinkTarget(discordLink)
