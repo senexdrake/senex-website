@@ -5,8 +5,8 @@ import {contactEmail} from "$/config"
 // ----- ICONS -----
 import IconX from 'virtual:icons/simple-icons/x'
 import IconTelegram from 'virtual:icons/simple-icons/telegram'
-import IconArt from 'virtual:icons/dashicons/art'
-import IconEmail from 'virtual:icons/dashicons/email-alt'
+import IconArt from 'virtual:icons/mdi/art'
+import IconEmail from 'virtual:icons/mdi/email'
 import IconMastodon from 'virtual:icons/simple-icons/mastodon'
 import IconBluesky from 'virtual:icons/simple-icons/bluesky'
 import IconFuraffinity from 'virtual:icons/local/furaffinity'

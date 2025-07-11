@@ -15,7 +15,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.11.1",
-		"@iconify-json/dashicons": "^1.1.8",
+		"@iconify-json/mdi": "^1.2.3",
 		"@iconify-json/simple-icons": "^1.1.95",
 		"@rollup/plugin-dynamic-import-vars": "^2.0.5",
 		"@sveltejs/adapter-auto": "^6.0.0",
@@ -39,8 +39,8 @@
 		"typescript-eslint": "^8.7.0",
 		"unplugin-icons": "^22.0.0",
 		"vite": "^7.0.0",
-		"yaml": "^2.4.1",
-		"xmlbuilder2": "^3.1.1"
+		"xmlbuilder2": "^3.1.1",
+		"yaml": "^2.4.1"
 	},
 	"type": "module",
 	"dependencies": {
