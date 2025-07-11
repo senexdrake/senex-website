@@ -5,7 +5,7 @@ export interface LinkItem {
     target: string,
     name: string,
     order: number
-    icon?: string|Component,
+    icon?: Component,
     linkType?: LinkType,
     fullWidth?: boolean
 }
