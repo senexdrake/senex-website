@@ -26,13 +26,19 @@ export const resolveLink = async (link: string): Promise<string> => {
     return link
 }
 
-export const toBoolean = (input: unknown): boolean => {
+export const toBoolean = (input: boolean|string|number): boolean => {
     if (typeof input == 'boolean') return input
-    if (input == 1) return true
+    const parsed = typeof input == 'number' ? input : parseInt(input)
+    if (!isNaN(parsed) && parsed != 0) return true
     if (typeof input == 'string') {
-        const inputLower = input.toLowerCase()
-        if (inputLower == 'true') return true
-        if (inputLower == 'yes') return true
+        switch (input.toLowerCase()) {
+            case '1':
+            case 't':
+            case 'true':
+            case 'y':
+            case 'yes':
+                return true
+        }
     }
     return false
 }
