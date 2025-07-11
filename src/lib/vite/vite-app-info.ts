@@ -5,6 +5,7 @@ import {publicUrl} from "../../../helpers"
 import {appVersion, ensurePathExists} from "../util";
 
 export interface AppInfo {
+    timestamp: string,
     version: string,
     publicUrl: string
 }
@@ -39,7 +40,8 @@ export function appInfo(_config?: AppInfoConfig) : Plugin {
 
             await writeFile(appInfoFile, JSON.stringify(<AppInfo>{
                 version: version,
-                publicUrl: publicUrl()
+                publicUrl: publicUrl(),
+                timestamp: new Date().toISOString()
             }))
         }
     }

@@ -5,8 +5,8 @@
 	import type {Snippet} from "svelte";
 	import {page} from "$app/state"
 	import {base} from "$app/paths"
-	import {appVersion} from "$lib/app-info"
-	import {repoUrl, linkToRepo} from "$/config"
+	import {appVersion, buildDate} from "$lib/app-info"
+	import {repoUrl, linkToRepo, showBuildDate} from "$/config"
 
 	let { children }: {
 		children?: Snippet
@@ -19,11 +19,8 @@
 	const currentYear = new Date().getFullYear()
 
 	const maxVersionLength = 8
-
-	let appVersionTrimmed = appVersion.substring(0, maxVersionLength)
-
-	let versionLink = repoUrl + "/tree/" + appVersion
-
+	const versionString = appVersion.substring(0, maxVersionLength)
+	const versionLink = repoUrl + "/tree/" + appVersion
 </script>
 
 <div class="app">
@@ -36,14 +33,17 @@
 
 	<footer>
 		<div class="text-center">
-			© {startYear}-{currentYear} ZenDrake,
-			Version
+			© {startYear}-{currentYear} ZenDrake, Version
 			{#if linkToRepo}
-				<a href={versionLink}>{appVersionTrimmed}</a>
+				<a href={linkToRepo ? versionLink : '#'}>{versionString}</a>
 			{:else}
-				{appVersionTrimmed}
+				{versionString}
 			{/if}
-			- made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>!
+			{#if showBuildDate && buildDate}
+				<br>(built at: {buildDate?.toISOString()})
+			{/if}
+			<br>
+			- made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>! -
 		</div>
 		<div id="legal-footer" class="text-center">
 			<a class="font-weight-bold" href="{base}/legal">Legal stuff</a>
