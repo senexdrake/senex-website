@@ -1,15 +1,14 @@
 import type {Plugin, ResolvedConfig} from "vite";
-import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists, mapAsyncIter} from "../util";
+import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists} from "../util";
 import {mimeFromIcon, useFetch} from "../util-shared";
-import {createReadStream} from "fs";
+import {createReadStream, glob} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
 import type {IconExport, IconMeta, ImageSrc, ProfileBannerExport} from "../model/types";
 import type {FetchedMeta, FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
 import path from "path";
 import {fileNameHash, replaceExtension} from "./asset-handling/util";
-import {copyFile, writeFile, readdir, glob} from "node:fs/promises";
-import fastGlob from "fast-glob";
+import {copyFile, writeFile, readdir} from "node:fs/promises";
 import {
     assetsServerPath,
     defaultImageType, metaMaxHeight, metaMaxWidth,
@@ -21,9 +20,6 @@ import {staticAssetsPrefix} from "../../config"
 import {createWriteStream} from "node:fs";
 import { parse as parseYaml } from "yaml"
 import { Writable } from "node:stream";
-
-// FIXME: Enable Node's version of Glob once it's no longer experimental and drop the dependency on fast-glob
-const useNodeGlob = false
 
 const tmpDir = "./.tmp-asset-handling"
 const assetDir = addTrailingSlash(path.join(tmpDir, "fetched"))
@@ -326,21 +322,18 @@ async function processProfileBanner(rawImage: ProfileBanner, target: string) : P
     }
 }
 
-async function copyFaviconsToFaviconDir(assetPath: string, targetPath: string) : Promise<void> {
-    if (useNodeGlob) {
-        const faviconsIter = glob(addTrailingSlash(assetPath) + 'favicon*')
-        const mapPromise = await mapAsyncIter(faviconsIter, (iconPath) => {
-            const name = path.basename(iconPath)
-            return copyFile(iconPath, path.join(targetPath, name))
+async function copyFaviconsToFaviconDir(assetPath: string, targetPath: string) : Promise<unknown> {
+    const faviconPaths = await new Promise<string[]>((resolve, reject) => {
+        glob(addTrailingSlash(assetPath) + 'favicon*', (err, files) => {
+            if (err) reject(err)
+            resolve(files)
         })
-        await Promise.all(mapPromise)
-    } else {
-        const favicons = await fastGlob(addTrailingSlash(assetPath) + 'favicon*')
-        await Promise.all(favicons.map(iconPath => {
-            const name = path.basename(iconPath)
-            return copyFile(iconPath, path.join(targetPath, name))
-        }))
-    }
+    })
+    console.debug(`Copying ${faviconPaths.length} favicons to ${targetPath}`)
+    return Promise.all(faviconPaths.map(iconPath => {
+        const name = path.basename(iconPath)
+        return copyFile(iconPath, path.join(targetPath, name))
+    }))
 }
 
 async function fetchAssets(sourceUrl: string, assetNames: Array<string>, target: string) {
