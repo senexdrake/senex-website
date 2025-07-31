@@ -58,17 +58,17 @@ async function webmanifest(viteConfig: ResolvedConfig) {
         return validSizes.includes(icon.width)
     })
 
-    const normalIcons = iconCatalogue
+    const normalIcons = Iterator.from(iconCatalogue)
         .filter(icon => icon.name.startsWith("favicon_"))
         .map(icon => {
             return iconToImage(icon)
-        })
+        }).toArray()
 
-    const maskableIcons = iconCatalogue
+    const maskableIcons = Iterator.from(iconCatalogue)
         .filter(icon => icon.name.startsWith("pwa-icon"))
         .map(icon => {
             return iconToImage(icon, galleryAssetBaseUrl, true)
-        })
+        }).toArray()
 
     const icons = [...normalIcons, ...maskableIcons]
 

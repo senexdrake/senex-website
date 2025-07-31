@@ -1,5 +1,4 @@
 import type {PathLike} from "fs";
-import AsyncIterator = NodeJS.AsyncIterator;
 import {access, mkdir, rm} from "fs/promises";
 import {appVersion as appVersionImpl} from "../../helpers"
 import {Chalk} from "chalk";
@@ -47,11 +46,11 @@ export const chalk = new Chalk({
     level: 2
 })
 
-type AsyncIterMapFunction<T, R> = (item: T) => R
-export async function mapAsyncIter<T, R>(asyncIter: AsyncIterator<T>, func: AsyncIterMapFunction<T, R>): Promise<R[]> {
-    const promises: Promise<T>[] = []
+type AsyncIterMapFunction<T, R> = (item: T) => Promise<R>
+export async function mapAsyncIter<T, R>(asyncIter: NodeJS.AsyncIterator<T>, func: AsyncIterMapFunction<T, R>): Promise<R[]> {
+    const promises: Promise<R>[] = []
     for await (const value of asyncIter) {
         promises.push(func(value))
     }
-    return promises
+    return Promise.all(promises)
 }
