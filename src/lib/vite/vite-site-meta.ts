@@ -25,12 +25,13 @@ function sitemapXml(siteMap: SiteMap): string {
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
         'xsi:schemaLocation': `${namespace} ${namespace}/sitemap.xsd`
     })
+    const priorityFormat = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 2 })
     siteMap.urlSet.forEach(us => {
         urlset.ele('url')
             .ele('loc').txt(us.url).up()
             .ele('lastmod').txt(us.lastModified).up()
             .ele('changefreq').txt(us.changeFrequency ?? "weekly").up()
-            .ele('priority').txt((us.priority ?? 0.5).toString())
+            .ele('priority').txt(priorityFormat.format(us.priority ?? 0.5))
     })
     return root.end({format: "xml", prettyPrint: true})
 }
