@@ -5,26 +5,33 @@
 @use "darkmode";
 
 @mixin input-styling {
-  box-sizing: border-box;
-  background-color: var(--color-btn-1);
-  border-style: none;
-  cursor: pointer;
-  width: 100%;
-  background-image: linear-gradient(45deg, var(--color-btn-2) 0%, var(--color-btn-1) 75%);
+  $height: 2rem;
+  height: $height;
+  line-height: $height;
+
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 2px;
   text-decoration: none;
-  display: inline-flex;
-  height: 3rem;
-  line-height: 3rem;
-  padding: 0 1rem;
-  align-items: center;
-  font-size: 1.125em;
-  flex-direction: row-reverse;
-  justify-content: center;
-  border-radius: vars.$btn-border-radius;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid;
+  padding: 0.25em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  touch-action: manipulation;
+
   transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
 
-  color: #fff;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+
+  $bg-opacity: 0.15;
+  color: vars.$color-text-light;
+  background: rgba(vars.$color-theme-1-light, $bg-opacity);
   @include darkmode.whenDark() {
+    background: rgba(vars.$color-theme-1-dark, $bg-opacity);
     color: vars.$color-text-dark;
   }
 }

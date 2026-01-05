@@ -10,8 +10,6 @@
 	--color-bg-page: #{vars.$color-bg-page-light};
 	--color-theme-1: #{vars.$color-theme-1-light};
 	--color-text: #{vars.$color-text-light};
-	--color-btn-1: #{vars.$color-btn-1-light};
-	--color-btn-2: #{vars.$color-btn-2-light};
 	--bg-image: #{vars.$bg-image-light};
 
 	color: var(--color-text);
@@ -26,8 +24,6 @@
 		--color-bg-page: #{vars.$color-bg-page-dark};
 		--color-theme-1: #{vars.$color-theme-1-dark};
 		--color-text: #{vars.$color-text-dark};
-		--color-btn-1: #{vars.$color-btn-1-dark};
-		--color-btn-2: #{vars.$color-btn-2-dark};
 		--bg-image: #{vars.$bg-image-dark};
 	}
 }

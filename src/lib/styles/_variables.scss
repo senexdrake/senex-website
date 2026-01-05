@@ -1,4 +1,7 @@
 // ---- COLOR CONSTANTS ---
+$color-btn-bg-opacity: 0.25;
+$color-btn-hover-bg-opacity: 0.8;
+
 $color-text-light: rgba(0, 0, 0, 1);
 $color-bg-card-light: rgba(245, 251, 255, 0.5);
 $color-bg-0-light: rgb(202, 227, 239);
@@ -6,22 +9,22 @@ $color-bg-1-light: hsl(0, 0%, 100%);
 $color-bg-2-light: hsl(224, 44%, 95%);
 $color-bg-page-light: #71a8c7;
 $color-theme-1-light: #74b3ff;
-$color-btn-1-light: rgba(50, 150, 181, 0.77);
-$color-btn-2-light: rgb(37, 67, 124);
-$color-btn-hover-light: rgb(13, 57, 38);
+$color-btn-bg-light: rgba($color-theme-1-light, $color-btn-bg-opacity);
+$color-btn-hover-light: rgba($color-theme-1-light, $color-btn-hover-bg-opacity);
 $bg-image-light: url('$img/bg-light.svg');
 
 $color-text-dark: rgb(224, 224, 224);
 $color-bg-card-dark: rgba(44, 44, 51, 0.5);
 $color-bg-0-dark: #424242;
-$color-bg-1-dark: #252525;
+$color-bg-1-dark: #5c5a5a;
 $color-bg-2-dark: #676767;
 $color-bg-page-dark: #062a3f;
 $color-theme-1-dark: #4075a6;
-$color-btn-1-dark: rgba(35, 103, 124, 0.77);
-$color-btn-2-dark: rgb(30, 52, 94);
-$color-btn-hover-dark: rgba(48, 217, 139, 1);
+$color-btn-bg-dark: rgba($color-theme-1-dark, $color-btn-bg-opacity);
+$color-btn-hover-dark: rgba($color-btn-bg-dark, $color-btn-hover-bg-opacity);
 $bg-image-dark: url('$img/bg-dark.svg');
+
+
 
 // ---- MISC ----
 $hr-margin: 1rem;
