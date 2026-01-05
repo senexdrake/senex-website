@@ -36,8 +36,9 @@
 <!--        {/each}-->
 <!--    </div>-->
     {#if discordLink}
+        {@const DiscordIcon = discordLink.icon}
         <div class="text-center" id="discord">
-            Or contact me on <a href={discordLink.target} rel="external"><span id="discord-icon"><discordLink.icon/></span></a>&nbsp;<a href={discordLink.target} rel="external">{discordLink.name}</a>:
+            Or contact me on <a href={discordLink.target} rel="external"><span id="discord-icon"><DiscordIcon/></span></a>&nbsp;<a href={discordLink.target} rel="external">{discordLink.name}</a>:
             <span class="font-weight-bold" id="discord-name">{discordName}</span><br>
             (please, Discord, give us a good linkable URL...)
         </div>
