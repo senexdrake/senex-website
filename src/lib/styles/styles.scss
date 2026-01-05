@@ -74,8 +74,11 @@ hr.default {
 
 .button {
 	@include mixins.input-styling;
+	@include mixins.btn-box-shadow(false);
+
 	&:hover {
 		@include mixins.input-styling-hover;
+		@include mixins.btn-box-shadow(true);
 	}
 }
 

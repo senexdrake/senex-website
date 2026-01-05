@@ -1,6 +1,7 @@
 @forward "breakpoints";
 @forward "darkmode";
 
+@use "sass:list";
 @use "variables" as vars;
 @use "darkmode";
 
@@ -17,11 +18,10 @@
   cursor: pointer;
   border: 1px solid;
   padding: 0.25em 0.5em;
-  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
   position: relative;
   touch-action: manipulation;
 
-  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+  transition: all 0.2s;
 
   display: inline-flex;
   flex-direction: row-reverse;
@@ -41,4 +41,15 @@
   @include darkmode.whenDark() {
     background-color: vars.$color-btn-hover-dark;
   }
+}
+
+@mixin btn-box-shadow($invert: false, $shadow-color: null, $depth: 4) {
+  $shadows: ();
+  $multiplier: if($invert, -1, 1);
+
+  @for $i from 1 through $depth {
+    $shadows: list.append($shadows, ($i * $multiplier) * 1px ($i * $multiplier) * 1px 0 0 $shadow-color, comma);
+  }
+
+  box-shadow: $shadows;
 }
