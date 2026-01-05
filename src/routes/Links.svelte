@@ -16,13 +16,14 @@
             {@const IconComponent = link.icon}
             <li class="link" class:full-width={link.fullWidth}>
                 <a href={link.target} rel="external" class="button flex-row">
+                    <span class="left">{link.name}</span>
                     {#if IconComponent}
-                        <span class="left link-icon"><IconComponent/></span>
+                        <span class="right link-icon"><IconComponent/></span>
                     {:else}
-                        <span class="left"></span>
+                        <span class="right"></span>
                     {/if}
-                    <span class="center">{link.name}</span>
-                    <span class="right"></span>
+
+
                 </a>
             </li>
         {/each}
@@ -74,8 +75,9 @@
       align-items: center;
     }
 
-    .left, .right {
-      flex: 1
+    .left {
+      flex: 1;
+
     }
 
     #big-links {
@@ -84,7 +86,6 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-auto-flow: dense;
-        align-items: start;
         gap: 1rem;
 
         @include mixins.breakpoint(vars.$big-links-breakpoint) {
@@ -97,12 +98,11 @@
         .link {
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
         }
 
 
         .link-icon {
-            font-size: 1.3em;
+            font-size: 1.35em;
             height: 100%;
             align-items: center;
             display: flex;

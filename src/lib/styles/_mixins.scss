@@ -10,8 +10,8 @@
   height: $height;
   line-height: $height;
 
-  font-weight: bold;
-  font-size: 1em;
+  font-weight: normal;
+  font-size: 1.05em;
   letter-spacing: 2px;
   text-decoration: none;
   text-transform: uppercase;
@@ -25,7 +25,7 @@
 
   display: inline-flex;
   flex-direction: row-reverse;
-  justify-content: center;
+
 
   $bg-opacity: 0.15;
   color: vars.$color-text-light;
