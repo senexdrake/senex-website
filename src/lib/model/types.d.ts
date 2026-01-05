@@ -4,6 +4,7 @@ import type {Component} from "svelte";
 export interface LinkItem {
     target: string,
     name: string,
+    order?: number,
     icon?: Component,
     linkType?: LinkType,
     fullWidth?: boolean

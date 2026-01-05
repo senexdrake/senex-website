@@ -28,9 +28,9 @@ export const bigLinks: LinkItem[] = [
     { name: 'Itaku', target: '/itaku', icon: IconItaku },
     { name: 'Mastodon', target: '/mastodon', icon: IconMastodon },
 
-    { name: 'Character Refs', target: '/drake-refs', icon: IconArt, fullWidth: false },
     //{ name: "Discord", target: "/discord", order: 10 },
-    { name: "BARQ!", target: "/barq", icon: IconBarq }
+    { name: "BARQ!", target: "/barq", icon: IconBarq },
+    { name: 'Character Refs', target: '/drake-refs', icon: IconArt, fullWidth: false, order: 2000 },
 ]
 bigLinks.forEach(link => link.linkType = LinkType.BUTTON)
 
@@ -39,11 +39,15 @@ export const smallLinks: LinkItem[] = [
     { name: 'E-Mail', target: `mailto:${contactEmail}`, icon: IconEmail },
     //{ name: 'Furry Network', target: '/fn', order: 120 },
 ]
-smallLinks.forEach(link => link.linkType = LinkType.BUTTON_SMALL)
+smallLinks.forEach(link => {
+    link.linkType = LinkType.BUTTON_SMALL
+    link.order = link.order ?? 1000
+})
 
 export const discordLink: LinkItem = { name: 'Discord', target: '/discord', icon: IconDiscord, linkType: LinkType.SPECIAL }
 
 export const allLinks: LinkItem[] = [...bigLinks, ...smallLinks, discordLink]
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
 export const allLinksCopy = () => allLinks.map(link => Object.assign({}, link))
 export const processLinkTarget = (link: LinkItem) => {
     if (link.target.startsWith("/"))

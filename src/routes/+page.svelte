@@ -54,7 +54,7 @@
 	<div id="about-me" class="text-center">
 		{#if profileAuthor}
 			<p id="banner-description">
-				(Original banner image by <a href={profileAuthor.url}>{profileAuthor.name}</a>, edited by me)
+				(Original banner image by <a href={resolve(profileAuthor.url)}>{profileAuthor.name}</a>, edited by me)
 			</p>
 		{/if}
 		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Drake (my sona's name) or ArisenDrake.</p>
