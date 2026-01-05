@@ -46,15 +46,15 @@
         <span class="font-weight-bold">Used Images</span>
         <div id="image-credits">
         {#each imageCredits as imageCredit (imageCredit.name)}
-            <div><a href={imageCredit.link}>{imageCredit.name}</a></div>
-            <div>- original made by <a href={imageCredit.author.url}>{imageCredit.author.name}</a></div>
+            <div><a href={imageCredit.link} rel="external">{imageCredit.name}</a></div>
+            <div>- original made by <a href={imageCredit.author.url} rel="external">{imageCredit.author.name}</a></div>
         {/each}
         </div>
     </div>
     <div class="copyright-section">
         <span class="font-weight-bold">Used Iconsets</span>
         {#each iconCredits as iconCredit (iconCredit.name)}
-            <div><a href={iconCredit.url}>{iconCredit.name}</a></div>
+            <div><a href={iconCredit.url} rel="external">{iconCredit.name}</a></div>
         {/each}
         <br>
         <div>
