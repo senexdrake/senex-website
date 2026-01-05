@@ -7,13 +7,15 @@
 	import {base} from "$app/paths"
 	import {appVersion, buildDate} from "$lib/app-info"
 	import {repoUrl, linkToRepo, showBuildDate} from "$/config"
+	import CardFooter from "$/routes/CardFooter.svelte";
 
 	let { children }: {
 		children?: Snippet
 	} = $props();
 
-	let width = $derived(page.data.width ?? '100%')
-	let maxWidth = $derived(page.data.maxWidth ?? '50rem')
+	let width: string = $derived(page.data.width ?? '100%')
+	let maxWidth: string = $derived(page.data.maxWidth ?? '50rem')
+	let cardFooterMeme: boolean = $derived(page.data.enableCardFooterMeme ?? true)
 
 	const startYear = 2023
 	const currentYear = new Date().getFullYear()
@@ -29,6 +31,9 @@
 
 	<main style="--width: {width}; --max-width: {maxWidth}" id="main">
 		{@render children?.()}
+		{#if cardFooterMeme}
+			<CardFooter />
+		{/if}
 	</main>
 
 	<footer>

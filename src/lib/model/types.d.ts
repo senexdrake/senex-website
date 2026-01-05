@@ -27,7 +27,8 @@ export interface Metadata {
     images?: MetadataImage[],
     cardType?: string,
     width?: string,
-    maxWidth?: string
+    maxWidth?: string,
+    enableCardFooterMeme?: boolean
 }
 
 export interface GalleryMetadata {
