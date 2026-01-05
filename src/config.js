@@ -1,6 +1,8 @@
 export const remoteAssetsDir = "data/remote-assets"
 export const remoteAssetsRelative = './' + remoteAssetsDir
 export const libDir = "./src/lib"
+export const libImageDir = libDir + "/images"
+export const libIconDir = libImageDir + "/icons"
 export const libAssetDir = libDir + "/assets"
 export const dataDir = libDir + "/data/"
 export const appInfoFile = dataDir + "appInfo.json"
