@@ -4,7 +4,7 @@
 	import MetaData from "./MetaData.svelte"
 	import type {Snippet} from "svelte";
 	import {page} from "$app/state"
-	import {base} from "$app/paths"
+	import {resolve} from "$app/paths"
 	import {appVersion, buildDate} from "$lib/app-info"
 	import {repoUrl, linkToRepo, showBuildDate} from "$/config"
 	import CardFooter from "$/routes/CardFooter.svelte";
@@ -51,7 +51,7 @@
 			- made with ♥ and <a href="https://kit.svelte.dev/">SvelteKit</a>! -
 		</div>
 		<div id="legal-footer" class="text-center">
-			<a class="font-weight-bold" href="{base}/legal">Legal stuff</a>
+			<a class="font-weight-bold" href={resolve("/legal")}>Legal stuff</a>
 		</div>
 	</footer>
 </div>

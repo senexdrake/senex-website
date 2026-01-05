@@ -1,11 +1,11 @@
 <script lang="ts">
     import {faviconCatalogue, iconCatalogue} from "$model"
-    import { galleryAssetBaseUrl, defaultTitle, defaultDescription, pwaThemeColor } from "$/config"
+    import { defaultTitle, defaultDescription, pwaThemeColor } from "$/config"
     import {page} from "$app/state"
-    import {base} from "$app/paths"
     import type {IconExport, Metadata, MetadataImage} from "$model/types"
     import {mimeFromIconFormat, stripTrailingSlash} from "$lib/util-shared"
     import {publicUrl} from "$lib/app-info"
+    import {assetPath, galleryAssetPath} from "$lib/url-helper";
 
     let pageData = $derived(page.data as Metadata|undefined)
 
@@ -21,8 +21,6 @@
     ]
 
     let url: string = $derived(publicUrl + page.url.pathname)
-    
-    const baseImagePath = galleryAssetBaseUrl
 
     const defaultImages = iconCatalogue
         .filter(icon => icon.type.includes('profile'))
@@ -32,7 +30,7 @@
                 height: icon.height,
                 width: icon.width,
                 alt: "Drake's Profile",
-                url: stripTrailingSlash(publicUrl) + base + baseImagePath + icon.name,
+                url: stripTrailingSlash(publicUrl) + galleryAssetPath(icon.name),
                 type: "image/" + icon.format
             } as MetadataImage
     })
@@ -49,13 +47,13 @@
 <svelte:head>
     <title>{title}</title>
 
-    <link rel="manifest" href="{base}/app.webmanifest">
+    <link rel="manifest" href={assetPath("app.webmanifest")}>
 
     {#each normalFavIcons as icon (icon.name)}
-        <link rel="icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
+        <link rel="icon" href={assetPath(icon.name)} sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
     {/each}
     {#each appleFavIcon as icon (icon.name)}
-        <link rel="apple-touch-icon" href="{base}/{icon.name}" sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
+        <link rel="apple-touch-icon" href={assetPath(icon.name)} sizes="{icon.width}x{icon.height}" type={iconType(icon)}>
     {/each}
     {#each mastodonLinks as mastodonLink (mastodonLink)}
         <link rel="me" href={mastodonLink}>

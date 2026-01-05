@@ -1,29 +1,33 @@
 <script lang="ts">
-	import {base} from "$app/paths"
 	import Links from "./Links.svelte"
 	import { page } from '$app/state';
 	import {profileBanner} from "$model"
 	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "$model/types.d"
-	import {galleryAssetBaseUrl, linkToProfileBanner} from '$/config'
+	import {linkToProfileBanner} from '$/config'
 	import {validSources} from "$lib/imageHelper"
+	import {assetPath, galleryAssetPath} from "$lib/url-helper";
+	import {SvelteMap} from "svelte/reactivity";
+	import {galleryAssetBaseUrl} from "$/config.js";
 
 	function sourcesByFormat(image: ProfileBannerExport): Map<string, ImageSrc[]> {
-		const ret = new Map<string, ImageSrc[]>
+		const ret = new SvelteMap<string, ImageSrc[]>
 		validSources(image.src).forEach(src => {
 			if (!ret.has(src.format)) ret.set(src.format, [])
 			const sourcesForFormat = ret.get(src.format)
-			sourcesForFormat.push(src)
+			if (sourcesForFormat) {
+				sourcesForFormat.push(src)
+			}
 		})
 		return ret
 	}
 
 	function imageSourceSets(image: ProfileBannerExport): Map<string, string> {
-		const sourceSetByFormat = new Map<string, string>
+		const sourceSetByFormat = new SvelteMap<string, string>
 		sourcesByFormat(image).forEach((value, key) => {
 			let sourceSet = ""
 			value.forEach(src => {
 				if (sourceSet.length !== 0) sourceSet += ', '
-				sourceSet += `${base}${galleryAssetBaseUrl}${src.src} ${src.width}w`
+				sourceSet += `${galleryAssetPath(src.src)} ${src.width}w`
 			})
 			sourceSetByFormat.set(key, sourceSet)
 		})
@@ -33,7 +37,7 @@
 	const profileFallback = profileBanner.src.filter(src => src.format == "png").sort((a, b) => b.width - a.width)[0]
 	const profileIcons = profileBanner
 	const profileAuthor: ImageAuthor|undefined = profileBanner.author
-	const profileLink = linkToProfileBanner ? base + galleryAssetBaseUrl + profileBanner.original.src : undefined
+	const profileLink = linkToProfileBanner ? galleryAssetPath(profileBanner.original.src) : undefined
 </script>
 
 <section id="home">
@@ -44,7 +48,7 @@
 					<source srcset={sourceSet} type="image/{format}">
 				{/each}
 				<img
-						src={base + galleryAssetBaseUrl + profileFallback.src}
+						src={galleryAssetPath(profileFallback.src)}
 						width={profileFallback.width} height={profileFallback.height}
 						alt="Drake profile banner" fetchpriority="high" />
 			</picture>
@@ -54,7 +58,7 @@
 	<div id="about-me" class="text-center">
 		{#if profileAuthor}
 			<p id="banner-description">
-				(Original banner image by <a href={resolve(profileAuthor.url)}>{profileAuthor.name}</a>, edited by me)
+				(Original banner image by <a href={profileAuthor.url}>{profileAuthor.name}</a>, edited by me)
 			</p>
 		{/if}
 		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Drake (my sona's name) or ArisenDrake.</p>
