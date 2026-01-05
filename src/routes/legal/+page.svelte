@@ -36,7 +36,7 @@
 
 </script>
 
-<div class="content">
+<section id="legal" class="content">
     <a href="{base}/" class="button">Back to home</a>
     <hr class="default">
     <h2>Contact</h2>
@@ -70,8 +70,7 @@
 
         </div>
     </div>
-    <hr class="default">
-</div>
+</section>
 
 <style lang="scss">
     #image-credits {
