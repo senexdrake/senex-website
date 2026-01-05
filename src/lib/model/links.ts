@@ -12,7 +12,7 @@ import IconBluesky from 'virtual:icons/simple-icons/bluesky'
 import IconFuraffinity from 'virtual:icons/local/furaffinity'
 import IconSteam from 'virtual:icons/simple-icons/steam'
 import IconItaku from 'virtual:icons/local/itaku'
-import IconBarq from 'virtual:icons/local/barq-transparent'
+import IconBarq from 'virtual:icons/local/barq'
 import IconDiscord from 'virtual:icons/simple-icons/discord'
 import {LinkType} from "$model/LinkType"
 // ----- END ICONS -----
