@@ -1,13 +1,13 @@
 import type {Plugin, ResolvedConfig} from "vite";
-import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists} from "../util";
-import {mimeFromIcon, useFetch} from "../util-shared";
+import {addTrailingSlash, chalk, clearPath, ensurePathExists, pathExists} from "../util.ts";
+import {mimeFromIcon, useFetch} from "../util-shared.ts";
 import {createReadStream, glob} from "fs";
 import type {PngOptions, ResizeOptions} from "sharp";
 import createSharp from 'sharp'
 import type {IconExport, IconMeta, ImageSrc, ProfileBannerExport} from "../model/types";
-import type {FetchedMeta, FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types";
+import type {FetchedMeta, FormatOptions, IconsRaw, IconVariant, ProfileBanner} from "./asset-handling/types.ts";
 import path from "path";
-import {fileNameHash, replaceExtension} from "./asset-handling/util";
+import {fileNameHash, replaceExtension} from "./asset-handling/util.ts";
 import {copyFile, writeFile, readdir} from "node:fs/promises";
 import {
     assetsServerPath,
@@ -15,8 +15,8 @@ import {
     originalMaxDimension,
     originalTransformQuality,
     profileBannerProcessingRules
-} from "./asset-handling/config";
-import {staticAssetsPrefix} from "../../config"
+} from "./asset-handling/config.ts";
+import {staticAssetsPrefix} from "../../config.js"
 import {createWriteStream} from "node:fs";
 import { parse as parseYaml } from "yaml"
 import { Writable } from "node:stream";

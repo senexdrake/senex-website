@@ -4,9 +4,9 @@ import type {DisplayModeType, ImageResource, WebAppManifest} from "web-app-manif
 import {readFile, writeFile} from "fs/promises";
 import path from "path";
 import xml from "xmlbuilder2"
-import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl, pwaThemeColor, pwaBackgroundColor, libAssetDir } from "../../config"
-import {mimeFromIcon, stripTrailingSlash} from "../util-shared";
-import {publicUrl} from "../../../helpers"
+import { imageMetaDir, defaultTitle, defaultDescription, galleryAssetBaseUrl, pwaThemeColor, pwaBackgroundColor, libAssetDir } from "../../config.js"
+import {mimeFromIcon, stripTrailingSlash} from "../util-shared.ts";
+import {publicUrl} from "../../../helpers.js"
 
 interface SiteMap {
     urlSet: Array<{

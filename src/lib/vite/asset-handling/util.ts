@@ -1,10 +1,10 @@
 import crypto from "crypto";
 import type {ImageAuthor} from "../../model/types";
-import {defaultImageType} from "./config";
+import {defaultImageType} from "./config.ts";
 import type {ImageRaw} from "./types";
-import {chalk} from "../../util";
+import {chalk} from "../../util.ts";
 
-export {clearPath, addTrailingSlash, chalk, formatBytes, pathExists} from "../../util";
+export {clearPath, addTrailingSlash, chalk, formatBytes, pathExists} from "../../util.ts";
 
 export function timeout(duration: number): Promise<void> {
     return new Promise(resolve => setTimeout(() => resolve(), duration))

@@ -88,3 +88,12 @@ export const mimeFromIconFormat = (format: string) => {
     console.warn('Unknown icon format', format, '- using fallback', fallback)
     return fallback
 }
+
+interface ErrorWithCode extends Error {
+    code: string
+}
+export const toErrorWithCode = (e: unknown): ErrorWithCode|undefined => {
+    if (e === null || typeof e !== "object") return undefined
+    if (!Object.hasOwn(e, "code")) return undefined
+    return e as ErrorWithCode
+}

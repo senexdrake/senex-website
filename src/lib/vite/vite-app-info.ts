@@ -1,8 +1,8 @@
 import type {Plugin} from "vite";
 import {writeFile} from "fs/promises";
-import {dataDir, appInfoFile} from "../../config"
-import {publicUrl} from "../../../helpers"
-import {appVersion, ensurePathExists} from "../util";
+import {dataDir, appInfoFile} from "../../config.js"
+import {publicUrl} from "../../../helpers.js"
+import {appVersion, ensurePathExists} from "../util.ts";
 
 export interface AppInfo {
     timestamp: string,

@@ -1,9 +1,10 @@
 import type {PathLike} from "fs";
 import {access, mkdir, rm} from "fs/promises";
-import {appVersion as appVersionImpl} from "../../helpers"
+import {appVersion as appVersionImpl} from "../../helpers.js"
 import {Chalk} from "chalk";
+import { toErrorWithCode } from "./util-shared.ts"
 
-export { addTrailingSlash } from "./util-shared"
+export { addTrailingSlash, toErrorWithCode } from "./util-shared.ts"
 
 export async function ensurePathExists(path: PathLike, recursive = true) {
     if (!await pathExists(path)) await mkdir(path, { recursive: recursive })
@@ -13,8 +14,9 @@ export async function pathExists(path: PathLike) : Promise<boolean> {
     try {
         await access(path)
         return true
-    } catch (err) {
-        if (err.code === 'ENOENT') return false
+    } catch (errRaw: unknown) {
+        const err = toErrorWithCode(errRaw)
+        if (err !== undefined && err.code === "ENOENT") return false
         throw err
     }
 }

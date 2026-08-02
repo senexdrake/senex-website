@@ -1,4 +1,4 @@
-import {addTrailingSlash} from "./util";
+import {addTrailingSlash} from "./util.ts";
 import type {ProcessingRule} from "./types";
 
 export const debug = false
