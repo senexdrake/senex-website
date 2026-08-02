@@ -45,7 +45,7 @@
 
 @mixin btn-box-shadow($invert: false, $shadow-color: null, $depth: 4) {
   $shadows: ();
-  $multiplier: if($invert, -1, 1);
+  $multiplier: if(sass($invert): -1; else: 1);
 
   @for $i from 1 through $depth {
     $shadows: list.append($shadows, ($i * $multiplier) * 1px ($i * $multiplier) * 1px 0 0 $shadow-color, comma);

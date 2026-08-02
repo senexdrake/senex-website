@@ -28,13 +28,5 @@ export default defineConfig({
 				)
 			}
 		})
-	],
-	css: {
-		preprocessorOptions: {
-			scss: {
-				// TODO migrate usage of if-functions in SCSS files to new syntax
-				silenceDeprecations: ["if-function"]
-			}
-		}
-	}
+	]
 });
