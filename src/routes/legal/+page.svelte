@@ -2,7 +2,7 @@
     import {resolve} from "$app/paths"
     import {iconMeta, profileBanner} from "#lib/model/index.ts"
     import {contactEmail} from "$/config"
-    import type {ImageAuthor} from "#lib/model/types"
+    import type {ImageAuthor} from "$model/types"
     import {assetPath, galleryAssetPath} from "#lib/url-helper.ts";
 
     interface ImageCredit {
