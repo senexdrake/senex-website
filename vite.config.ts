@@ -6,7 +6,7 @@ import Icons from 'unplugin-icons/vite'
 import { defineConfig } from 'vite';
 import {siteMeta} from "./src/lib/vite/vite-site-meta.ts";
 import {appInfo} from "./src/lib/vite/vite-app-info.ts";
-import {dataDir, remoteAssetsRelative, versionEnvironmentName, libIconDir} from "./src/config.js"
+import {versionEnvironmentName, libIconDir} from "./src/config.js"
 import {assetHandler} from "./src/lib/vite/vite-external-asset-handler.ts";
 import {FileSystemIconLoader} from "unplugin-icons/loaders";
 
@@ -35,16 +35,6 @@ export default defineConfig({
 				precompress: false,
 				strict: true
 			}),
-
-			alias: {
-				$: "src/",
-				$model: "src/lib/model",
-				$icons: "src/lib/icons",
-				$styles: "src/lib/styles",
-				$img: "src/lib/images",
-				$data: dataDir,
-				$remoteAssets: remoteAssetsRelative
-			}
 		}),
 		siteMeta(),
 		Icons({

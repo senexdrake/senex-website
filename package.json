@@ -48,6 +48,7 @@
 		"@parcel/watcher@2.6.0": true
 	},
 	"imports": {
+		"#config": "./src/config.js",
 		"#lib/*": "./src/lib/*"
 	}
 }

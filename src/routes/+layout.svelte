@@ -1,13 +1,13 @@
 <script lang="ts">
-	import '$styles/styles.scss'
+	import '#lib/styles/styles.scss'
 	import Header from './Header.svelte'
 	import MetaData from "./MetaData.svelte"
 	import type {Snippet} from "svelte";
 	import {page} from "$app/state"
 	import {resolve} from "$app/paths"
 	import {appVersion, buildDate} from "#lib/app-info.ts"
-	import {repoUrl, linkToRepo, showBuildDate} from "$/config"
-	import CardFooter from "$/routes/CardFooter.svelte";
+	import {repoUrl, linkToRepo, showBuildDate} from "#config"
+	import CardFooter from "./CardFooter.svelte";
 
 	let { children }: {
 		children?: Snippet
@@ -57,8 +57,8 @@
 </div>
 
 <style lang="scss">
-	@use "$styles/variables" as vars;
-	@use "$styles/mixins";
+	@use "../lib/styles/variables" as vars;
+	@use "../lib/styles/mixins";
 
 	#legal-footer {
 		margin-top: .2rem;

@@ -1,6 +1,6 @@
 import type {AssetPath} from "$app/types"
 import {asset} from "$app/paths";
-import {galleryAssetBaseUrl} from "$/config";
+import {galleryAssetBaseUrl} from "#config";
 
 const stripLeadingSlash = (path: string) => path.replace(/^\/+/, "")
 

@@ -1,6 +1,6 @@
-import type {LinkItem, Metadata, LinkData} from "$model/types";
+import type {LinkItem, Metadata, LinkData} from "#lib/model/types.d.ts";
 import {resolveLink, toBoolean} from "#lib/util-shared.ts";
-import {allLinks} from "$model/links";
+import {allLinks} from "#lib/model/links.ts";
 import {RESOLVE_LINKS} from "$app/env/private";
 
 const resolveParallel = true

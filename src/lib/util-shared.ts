@@ -1,5 +1,5 @@
 import {linkResolverUserAgent} from "./../config.js";
-import type {IconExport} from "$model/types";
+import type {IconExport} from "#lib/model/types.d.ts";
 
 export const addTrailingSlash = (input: string) => input + (input.endsWith('/') ? '' : '/')
 

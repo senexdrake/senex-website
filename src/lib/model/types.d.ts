@@ -1,4 +1,4 @@
-import type {LinkType} from "$model/LinkType";
+import type {LinkType} from "#lib/model/LinkType.ts";
 import type {Component} from "svelte";
 
 export interface LinkItem {

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type {LinkItem} from "$model/types";
-    import {LinkType} from "$model/LinkType";
+    import type {LinkItem} from "#lib/model/types.d.ts";
+    import {LinkType} from "#lib/model/LinkType.ts";
 
     let { links }: { links: LinkItem[] } = $props()
 
@@ -47,8 +47,8 @@
 </section>
 
 <style lang="scss">
-    @use "$styles/variables" as vars;
-    @use "$styles/mixins";
+    @use "../lib/styles/variables" as vars;
+    @use "../lib/styles/mixins";
 
     section {
       width: 100%;

@@ -1,6 +1,6 @@
-import type {LinkItem} from "$model/types"
+import type {LinkItem} from "#lib/model/types.d.ts"
 import {stripTrailingSlash} from "#lib/util-shared.ts"
-import {contactEmail} from "$/config"
+import {contactEmail} from "#config"
 
 // ----- ICONS -----
 import IconX from 'virtual:icons/simple-icons/x'
@@ -14,7 +14,7 @@ import IconSteam from 'virtual:icons/simple-icons/steam'
 import IconItaku from 'virtual:icons/local/itaku'
 import IconBarq from 'virtual:icons/local/barq'
 import IconDiscord from 'virtual:icons/simple-icons/discord'
-import {LinkType} from "$model/LinkType"
+import {LinkType} from "#lib/model/LinkType.ts"
 // ----- END ICONS -----
 
 const shortLinkBase = "https://zdrake.net"

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Links from "./Links.svelte"
 	import { page } from '$app/state';
-	import {profileBanner} from "$model"
-	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "$model/types.d"
-	import {linkToProfileBanner} from '$/config'
+	import {profileBanner} from "#lib/model/index.ts"
+	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "#lib/model/types.d.ts"
+	import {linkToProfileBanner} from '#config'
 	import {validSources} from "#lib/imageHelper.ts"
 	import {galleryAssetPath} from "#lib/url-helper.ts";
 	import {SvelteMap} from "svelte/reactivity";
@@ -74,8 +74,8 @@
 </section>
 
 <style lang="scss">
-	@use "$styles/variables" as vars;
-	@use "$styles/mixins";
+	@use "../lib/styles/variables" as vars;
+	@use "../lib/styles/mixins";
 
 	#banner-description {
 		--text-color: #676767;
