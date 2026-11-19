@@ -41,7 +41,7 @@
 
 <section id="home">
 	<div class="img-format">
-		<a href={profileLink}>
+		<a href={profileLink} rel="external">
 			<picture id="profile-pic">
 				{#each imageSourceSets(profileIcons).entries() as [format, sourceSet] (format)}
 					<source srcset={sourceSet} type="image/{format}">
@@ -57,7 +57,7 @@
 	<div id="about-me" class="text-center">
 		{#if profileAuthor}
 			<p id="banner-description">
-				(Original banner image by <a href={profileAuthor.url}>{profileAuthor.name}</a>, edited by me)
+				(Original banner image by <a href={profileAuthor.url} rel="external">{profileAuthor.name}</a>, edited by me)
 			</p>
 		{/if}
 		<p>Hey, I'm <span class="font-weight-bold">ZenDrake</span>, sometimes also known as Drake (my sona's name) or ArisenDrake.</p>
