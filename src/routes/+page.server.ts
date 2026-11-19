@@ -1,7 +1,7 @@
-import type {LinkItem, Metadata, LinkData} from "$model/types";
-import {resolveLink, toBoolean} from "$lib/util-shared";
-import {allLinks} from "$model/links";
-import {RESOLVE_LINKS} from "$env/static/private";
+import type { LinkItem, Metadata, LinkData } from "$model/types";
+import { resolveLink, toBoolean } from "$lib/util-shared";
+import { allLinks } from "$model/links";
+import { RESOLVE_LINKS } from "$app/env/private";
 
 const resolveParallel = true
 const resolveLinks = async (links: LinkItem[]): Promise<Map<string, string>> => {
@@ -16,25 +16,25 @@ const resolveLinks = async (links: LinkItem[]): Promise<Map<string, string>> => 
     for (const link of links) {
         if (!link.target.startsWith("http")) continue
 
-        const resolved = resolveLink(link.target).then(resolved => {
-            linkMap.set(link.target, resolved)
-        })
-        promises.push(resolved)
-        if (!resolveParallel) await resolved
+        const resolved = resolveLink(link.target).then((resolved) => {
+            linkMap.set(link.target, resolved);
+        });
+
+        promises.push(resolved);
+        if (!resolveParallel) await resolved;
     }
 
-    await Promise.all(promises)
-    return linkMap
-}
+    await Promise.all(promises);
 
-let linkMap: Map<string, string>|undefined = undefined
+    return linkMap;
+};
+
+let linkMap: Map<string, string> | undefined = undefined;
 
 export async function load() {
     if (!linkMap) {
         linkMap = await resolveLinks(allLinks)
     }
 
-    return <Metadata|LinkData>{
-        linkMap: linkMap
-    }
+    return <Metadata | LinkData>({ linkMap });
 }

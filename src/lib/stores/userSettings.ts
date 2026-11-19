@@ -1,17 +1,11 @@
-import { writable } from 'svelte/store'
-import { browser } from '$app/environment'
+import { writable } from 'svelte/store';
+import { browser } from '$app/env';
 
-export interface UserSettings {
-    showNsfw: boolean,
-    allowNsfw: boolean
-}
+export interface UserSettings { showNsfw: boolean; allowNsfw: boolean }
 
-let initialValue: UserSettings = {
-    showNsfw: false,
-    allowNsfw: false
-}
+let initialValue: UserSettings = { showNsfw: false, allowNsfw: false };
+const localStorageKey = 'userSettings';
 
-const localStorageKey = 'userSettings'
 if (browser) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
