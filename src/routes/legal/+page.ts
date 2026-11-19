@@ -1,5 +1,5 @@
-import type {Metadata} from "$model/types"
-import {defaultTitle} from "$/config"
+import type {Metadata} from "#lib/model/types.d.ts"
+import {defaultTitle} from "#config"
 
 export function load() {
     return <Metadata>{

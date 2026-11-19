@@ -1,5 +1,5 @@
-import type {LinkData, Metadata} from "$model/types"
-import {allLinksCopy} from "$model/links";
+import type {LinkData, Metadata} from "#lib/model/types.d.ts"
+import {allLinksCopy} from "#lib/model/links.ts";
 
 
 export async function load({ data }) {

@@ -1,8 +1,8 @@
 <script lang="ts">
     import {resolve} from "$app/paths"
     import {iconMeta, profileBanner} from "#lib/model/index.ts"
-    import {contactEmail} from "$/config"
-    import type {ImageAuthor} from "$model/types"
+    import {contactEmail} from "#config"
+    import type {ImageAuthor} from "#lib/model/types.d.ts"
     import {assetPath, galleryAssetPath} from "#lib/url-helper.ts";
 
     interface ImageCredit {

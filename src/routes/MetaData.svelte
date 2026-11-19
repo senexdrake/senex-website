@@ -1,8 +1,8 @@
 <script lang="ts">
-    import {faviconCatalogue, iconCatalogue} from "$model"
-    import { defaultTitle, defaultDescription, pwaThemeColor } from "$/config"
+    import {faviconCatalogue, iconCatalogue} from "#lib/model/index.ts"
+    import { defaultTitle, defaultDescription, pwaThemeColor } from "#config"
     import {page} from "$app/state"
-    import type {IconExport, Metadata, MetadataImage} from "$model/types"
+    import type {IconExport, Metadata, MetadataImage} from "#lib/model/types.d.ts"
     import {mimeFromIconFormat, stripTrailingSlash} from "#lib/util-shared.ts"
     import {publicUrl} from "#lib/app-info.ts"
     import {assetPath, galleryAssetPath} from "#lib/url-helper.ts";
