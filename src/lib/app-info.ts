@@ -1,5 +1,5 @@
-import appInfoRaw from "$lib/data/appInfo.json"
-import type {AppInfo} from "$lib/vite/vite-app-info";
+import appInfoRaw from "#lib/data/appInfo.json"
+import type {AppInfo} from "#lib/vite/vite-app-info.ts";
 
 const appInfo = appInfoRaw as AppInfo
 

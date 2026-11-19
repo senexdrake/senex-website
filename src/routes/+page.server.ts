@@ -1,5 +1,5 @@
 import type { LinkItem, Metadata, LinkData } from "$model/types";
-import { resolveLink, toBoolean } from "$lib/util-shared";
+import { resolveLink, toBoolean } from "#lib/util-shared.ts";
 import { allLinks } from "$model/links";
 import { RESOLVE_LINKS } from "$app/env/private";
 

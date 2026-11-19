@@ -1,9 +1,9 @@
 <script lang="ts">
     import {resolve} from "$app/paths"
-    import {iconMeta, profileBanner} from "$lib/model"
+    import {iconMeta, profileBanner} from "#lib/model/index.ts"
     import {contactEmail} from "$/config"
-    import type {ImageAuthor} from "$lib/model/types"
-    import {assetPath, galleryAssetPath} from "$lib/url-helper";
+    import type {ImageAuthor} from "#lib/model/types"
+    import {assetPath, galleryAssetPath} from "#lib/url-helper.ts";
 
     interface ImageCredit {
         name: string,

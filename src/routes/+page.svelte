@@ -4,8 +4,8 @@
 	import {profileBanner} from "$model"
 	import type {ImageAuthor, ImageSrc, ProfileBannerExport} from "$model/types.d"
 	import {linkToProfileBanner} from '$/config'
-	import {validSources} from "$lib/imageHelper"
-	import {galleryAssetPath} from "$lib/url-helper";
+	import {validSources} from "#lib/imageHelper.ts"
+	import {galleryAssetPath} from "#lib/url-helper.ts";
 	import {SvelteMap} from "svelte/reactivity";
 
 	function sourcesByFormat(image: ProfileBannerExport): Map<string, ImageSrc[]> {

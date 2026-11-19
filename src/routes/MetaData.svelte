@@ -3,9 +3,9 @@
     import { defaultTitle, defaultDescription, pwaThemeColor } from "$/config"
     import {page} from "$app/state"
     import type {IconExport, Metadata, MetadataImage} from "$model/types"
-    import {mimeFromIconFormat, stripTrailingSlash} from "$lib/util-shared"
-    import {publicUrl} from "$lib/app-info"
-    import {assetPath, galleryAssetPath} from "$lib/url-helper";
+    import {mimeFromIconFormat, stripTrailingSlash} from "#lib/util-shared.ts"
+    import {publicUrl} from "#lib/app-info.ts"
+    import {assetPath, galleryAssetPath} from "#lib/url-helper.ts";
 
     let pageData = $derived(page.data as Metadata|undefined)
 

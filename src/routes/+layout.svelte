@@ -5,7 +5,7 @@
 	import type {Snippet} from "svelte";
 	import {page} from "$app/state"
 	import {resolve} from "$app/paths"
-	import {appVersion, buildDate} from "$lib/app-info"
+	import {appVersion, buildDate} from "#lib/app-info.ts"
 	import {repoUrl, linkToRepo, showBuildDate} from "$/config"
 	import CardFooter from "$/routes/CardFooter.svelte";
 

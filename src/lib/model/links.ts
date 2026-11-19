@@ -1,5 +1,5 @@
 import type {LinkItem} from "$model/types"
-import {stripTrailingSlash} from "$lib/util-shared"
+import {stripTrailingSlash} from "#lib/util-shared.ts"
 import {contactEmail} from "$/config"
 
 // ----- ICONS -----

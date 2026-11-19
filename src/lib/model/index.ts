@@ -1,5 +1,5 @@
-import iconMetaRaw from "$lib/data/gallery/icons.json"
-import profileBannerRaw from "$lib/data/gallery/profileBanner.json"
+import iconMetaRaw from "#lib/data/gallery/icons.json"
+import profileBannerRaw from "#lib/data/gallery/profileBanner.json"
 import type {IconExport, IconMeta, ProfileBannerExport} from "./types";
 
 const iconsSortFunction = (a: IconExport, b: IconExport) => {
