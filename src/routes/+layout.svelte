@@ -45,13 +45,20 @@
 				{versionString}
 			{/if}
 			{#if showBuildDate && buildDate}
-				<br>(built at: {buildDate?.toISOString()})
+				<br />(built at: {buildDate?.toISOString()})
 			{/if}
-			<br>
-			- made with ♥ and <a href="https://kit.svelte.dev/" rel="external">SvelteKit</a>! -
+
+			<br />
+			- made with ♥ and 
+			<a href="https://kit.svelte.dev/" rel="external">SvelteKit</a>
+			! -
 		</div>
 		<div id="legal-footer" class="text-center">
-			<a class="font-weight-bold" href={resolve("/legal")} rel="help privacy-policy">Legal stuff</a>
+			<a
+				class="font-weight-bold"
+				href={resolve('legal')}
+				rel="help privacy-policy"
+			>Legal stuff</a>
 		</div>
 	</footer>
 </div>
