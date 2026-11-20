@@ -43,5 +43,12 @@ export default defineConfig({
 				local: FileSystemIconLoader(libIconDir, (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" '))
 			}
 		})
-	]
+	],
+	css: {
+		preprocessorOptions: {
+			scss: {
+				loadPaths: ['src/lib']
+			}
+		}
+	}
 });

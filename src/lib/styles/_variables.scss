@@ -10,7 +10,8 @@ $color-bg-2-light: hsl(224, 44%, 95%);
 $color-bg-page-light: #71a8c7;
 $color-theme-1-light: #74b3ff;
 $color-btn-bg-light: rgba($color-theme-1-light, $color-btn-bg-opacity);
-$color-btn-hover-light: rgba($color-theme-1-light, $color-btn-hover-bg-opacity * 0.9);
+$_hover-alpha: $color-btn-hover-bg-opacity * 0.9;
+$color-btn-hover-light: rgba($color-theme-1-light, $_hover-alpha);
 $bg-image-light: url('../images/bg-light.svg');
 
 $color-text-dark: rgb(224, 224, 224);
@@ -21,7 +22,8 @@ $color-bg-2-dark: #676767;
 $color-bg-page-dark: #062a3f;
 $color-theme-1-dark: #4075a6;
 $color-btn-bg-dark: rgba($color-theme-1-dark, $color-btn-bg-opacity);
-$color-btn-hover-dark: rgba($color-btn-bg-dark, $color-btn-hover-bg-opacity);
+$_hover-alpha: $color-btn-hover-bg-opacity;
+$color-btn-hover-dark: rgba($color-btn-bg-dark, $_hover-alpha);
 $bg-image-dark: url('../images/bg-dark.svg');
 
 

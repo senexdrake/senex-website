@@ -74,8 +74,8 @@
 </section>
 
 <style lang="scss">
-	@use "../lib/styles/variables" as vars;
-	@use "../lib/styles/mixins";
+	@use "styles/variables" as vars;
+	@use "styles/mixins";
 
 	#banner-description {
 		--text-color: #676767;

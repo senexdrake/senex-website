@@ -57,8 +57,8 @@
 </div>
 
 <style lang="scss">
-	@use "../lib/styles/variables" as vars;
-	@use "../lib/styles/mixins";
+	@use "styles/variables" as vars;
+	@use "styles/mixins";
 
 	#legal-footer {
 		margin-top: .2rem;
